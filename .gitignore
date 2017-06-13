@@ -1,0 +1,13 @@
+dist
+src/Library.Core/bin
+src/Library.Core/obj
+src/Library.Web/bin
+src/Library.Web/obj
+src/Library.Web/web.config
+src/Library.Web/wwwroot/lib
+src/Library.NCIPServer/bin
+src/Library.NCIPServer/obj
+src/Library.NCIPServer/web.config
+src/Library.NCIPServer/wwwroot/lib
+src/Library.Repo/bin
+src/Library.Repo/obj
