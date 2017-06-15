@@ -8,7 +8,7 @@
             "preLaunchTask": "build",
             "program": "${workspaceRoot}/src/Library.Web/bin/Debug/netcoreapp2.0/Library.Web.dll",
             "args": [],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/src/Library.Web",
             "stopAtEntry": false,
             "launchBrowser": {
                 "enabled": true,

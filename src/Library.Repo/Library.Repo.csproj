@@ -8,6 +8,9 @@
     <ProjectReference Include="../Library.Core/Library.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.0-preview1-final"/>
+  </ItemGroup>
 
 
 </Project>
