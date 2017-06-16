@@ -1,12 +1,19 @@
+using System;
 using Library.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Library.Repo
 {
     public class LibraryDbContext: IdentityDbContext<User, Role, int>
     {
+
+        public LibraryDbContext(): base()
+        {}
+
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options): base(options)
         {}
 
@@ -201,4 +208,21 @@ namespace Library.Repo
         
         
     }
+
+    // public class LibraryDbContextFactory: IDesignTimeDbContextFactory<LibraryDbContext> 
+    // {
+    //     public LibraryDbContext CreateDbContext(string[] args){
+    //         var builder = new DbContextOptionsBuilder<LibraryDbContext>();
+    //         return new LibraryDbContext(builder);
+    //     }
+            
+    // }
+
+    public class LibraryDbContextFactory: IDbContextFactory<LibraryDbContext> {
+        public LibraryDbContext Create(string[] args){
+            var builder = new DbContextOptions<LibraryDbContext>();
+            return new LibraryDbContext(builder);
+        }
+            
+    } 
 }

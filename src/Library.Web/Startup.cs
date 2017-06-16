@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
+
 
 namespace Library.Web
 {
@@ -23,6 +26,7 @@ namespace Library.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddDbContext<LibraryDbContext>(options => options.UseSqlite(Configuration.GetSection("DefaultConnection").ToString(), o => o.MigrationsAssembly("Library.Web")));
             // services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(Configuration.GetSection("DefaultConnection").ToString(),, o => o.MigrationsAssembly("Library.Web")));
             services.AddMvc();
@@ -42,6 +46,8 @@ namespace Library.Web
 
             app.UseStaticFiles();
 
+            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -50,4 +56,14 @@ namespace Library.Web
             });
         }
     }
+
+    // public class LibraryDbContextFactory: IDesignTimeDbContextFactory<LibraryDbContext> 
+    // {
+    //     public LibraryDbContext CreateDbContext(string[] args){
+    //         var builder = new DbContextOptionsBuilder<LibraryDbContext>();
+    //         return new LibraryDbContext(builder);
+    //     }
+            
+    // }
+        
 }
