@@ -11,12 +11,8 @@ namespace Library.Repo
     public class LibraryDbContext: IdentityDbContext<User, Role, int>
     {
 
-        public LibraryDbContext(): base()
-        {}
-
-        public LibraryDbContext(DbContextOptions<LibraryDbContext> options): base(options)
-        {}
-
+        public LibraryDbContext(): base(){}
+        public LibraryDbContext(DbContextOptions<LibraryDbContext> options): base(options){}
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -208,21 +204,4 @@ namespace Library.Repo
         
         
     }
-
-    // public class LibraryDbContextFactory: IDesignTimeDbContextFactory<LibraryDbContext> 
-    // {
-    //     public LibraryDbContext CreateDbContext(string[] args){
-    //         var builder = new DbContextOptionsBuilder<LibraryDbContext>();
-    //         return new LibraryDbContext(builder);
-    //     }
-            
-    // }
-
-    public class LibraryDbContextFactory: IDbContextFactory<LibraryDbContext> {
-        public LibraryDbContext Create(string[] args){
-            var builder = new DbContextOptions<LibraryDbContext>();
-            return new LibraryDbContext(builder);
-        }
-            
-    } 
 }

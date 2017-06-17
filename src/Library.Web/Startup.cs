@@ -9,8 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-
-
+using Library.Core.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Library.Web
 {
@@ -25,10 +25,24 @@ namespace Library.Web
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
+            services.AddEntityFrameworkSqlite().AddDbContext<LibraryDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("Library.Web")));
+            // services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("Library.Web")));
+            // services
+            // .AddEntityFrameworkNpgsql()
+            // .AddDbContext<LibraryDbContext>(options => { 
+            //     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("Library.Web"));
+            // });
+            services.AddIdentity<User, Role>()
+            .AddEntityFrameworkStores<LibraryDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddAuthentication(auth => {
+                auth.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                auth.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                auth.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
             
-            services.AddDbContext<LibraryDbContext>(options => options.UseSqlite(Configuration.GetSection("DefaultConnection").ToString(), o => o.MigrationsAssembly("Library.Web")));
-            // services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(Configuration.GetSection("DefaultConnection").ToString(),, o => o.MigrationsAssembly("Library.Web")));
             services.AddMvc();
         }
 
@@ -45,6 +59,7 @@ namespace Library.Web
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             
 
@@ -65,5 +80,12 @@ namespace Library.Web
     //     }
             
     // }
+
+    class LibraryDbContextFactory : IDbContextFactory<LibraryDbContext>
+    {
+        public LibraryDbContext Create(string[] args)
+            => Program.BuildWebHost(args).Services
+            .GetRequiredService<LibraryDbContext>();
+    }
         
 }
