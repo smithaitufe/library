@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Library.Models.PostViewModels {
+namespace Library.Web.Models.PostViewModels {
 
     public class FilterPostViewModel {        
         

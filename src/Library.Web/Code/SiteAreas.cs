@@ -1,4 +1,4 @@
-namespace Library.Code
+namespace Library.Web.Code
 {
     public static class SiteAreas {
         public const string SuperAdministrator = "SuperAdministrator";         

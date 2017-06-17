@@ -1,4 +1,4 @@
-namespace Library.Models.AccountViewModels
+namespace Library.Web.Models.AccountViewModels
 {
     public class RoleViewModel {
         public int Id { get; set; }

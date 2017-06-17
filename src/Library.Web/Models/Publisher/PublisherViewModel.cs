@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Library.Core.Models;
-using Library.Models.BookViewModels;
+using Library.Web.Models.BookViewModels;
 
-namespace Library.Models.PublisherViewModels {
+namespace Library.Web.Models.PublisherViewModels {
     public class PublisherViewModel { 
         public int Id { get; set; }
         [Required]

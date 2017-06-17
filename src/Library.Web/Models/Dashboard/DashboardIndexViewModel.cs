@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Library.Core.Models;
 
-namespace Library.Models.DashboardViewModels
+namespace Library.Web.Models.DashboardViewModels
 {
     public class DashboardIndexViewModel {
         public int TotalMembers { get; set; } = 0;

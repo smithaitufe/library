@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.TermSetViewModels
+namespace Library.Web.Models.TermSetViewModels
 {
     public class TermListingViewModel {
         [Display(Name="Categories")]

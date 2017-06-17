@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Library.Core.Models;
 
-namespace Library.Code
+namespace Library.Web.Code
 {
     public static class Users
     {

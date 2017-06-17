@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Library.Code
+namespace Library.Web.Code
 {
     public static class Roles {
          private static readonly string[] roles = { "Administrator", "Member", "Librarian", "Webmaster", "Account", "SuperAdministrator" };

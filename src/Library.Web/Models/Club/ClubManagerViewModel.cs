@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Library.Models.ClubViewModels
+namespace Library.Web.Models.ClubViewModels
 {
     public class ClubManagerViewModel
     {

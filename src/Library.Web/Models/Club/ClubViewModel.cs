@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Library.Core.Models;
 
-namespace Library.Models.ClubViewModels
+namespace Library.Web.Models.ClubViewModels
 {
     public class ClubViewModel
     {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Library.Core.Models;
 
-namespace Library.Models.StateViewModels
+namespace Library.Web.Models.StateViewModels
 {
     public class StateListingViewModel
     {

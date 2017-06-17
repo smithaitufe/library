@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Library.Core.Models;
-using Library.Models.AuthorViewModels;
+using Library.Web.Models.AuthorViewModels;
 
-namespace Library.Models.BookViewModels {
+namespace Library.Web.Models.BookViewModels {
     public class BookPreviewViewModel {
         public string Title { get; set; }
         public string SubTitle { get; set; }

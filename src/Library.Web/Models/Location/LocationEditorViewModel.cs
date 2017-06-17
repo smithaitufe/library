@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Library.Models.BootstrapModels;
+using Library.Web.Models.BootstrapModels;
 
-namespace Library.Models.LocationViewModels
+namespace Library.Web.Models.LocationViewModels
 {
     public class LocationEditorViewModel
     {

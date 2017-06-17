@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Models.ClubViewModels
+namespace Library.Web.Models.ClubViewModels
 {
     public class JoinClubViewModel
     {

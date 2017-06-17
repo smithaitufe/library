@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Code {
+namespace Library.Web.Code {
     public enum CommentStatus {
         [Display(Name="In Review")]
         InReview = 1,

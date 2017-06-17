@@ -1,4 +1,4 @@
-namespace Library.Models.StatusViewModels
+namespace Library.Web.Models.StatusViewModels
 {
     public class DeleteStatusViewModel {
         public bool Successful { get; set; }

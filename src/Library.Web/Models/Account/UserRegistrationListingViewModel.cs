@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Librille.Code;
+using Library.Web.Code;
 
-namespace Library.Models.AccountViewModels
+namespace Library.Web.Models.AccountViewModels
 {
     public class UserRegistrationListingViewModel {
         public FilterUserRegistration FilterUserRegistrationData { get; set; } = new FilterUserRegistration();

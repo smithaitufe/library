@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.AddressViewModels 
+namespace Library.Web.Models.AddressViewModels 
 {
     public class CreateEditAddressViewModel 
     {        

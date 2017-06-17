@@ -1,4 +1,4 @@
-namespace Library.Models.TermSetViewModels
+namespace Library.Web.Models.TermSetViewModels
 {
     public class TermSetViewModel {
         public int TermSetId { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Library.Models.AddressViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.AccountViewModels {
+namespace Library.Web.Models.AccountViewModels {
     public class EditPatronProfileViewModel {
         [Display(Name="First Name"), Required(ErrorMessage="{0} cannot be empty"), StringLength(50, ErrorMessage="{0} must be between {2} to {1} long", MinimumLength = 2)]        
         public string FirstName { get; set; }

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Library.Code
+namespace Library.Web.Code
 {
     public class SortFilterPageOptions
     {

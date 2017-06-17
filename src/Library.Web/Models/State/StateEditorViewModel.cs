@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Library.Models.BootstrapModels;
+using Library.Web.Models.BootstrapModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.StateViewModels
+namespace Library.Web.Models.StateViewModels
 {
     public class StateEditorViewModel
     {

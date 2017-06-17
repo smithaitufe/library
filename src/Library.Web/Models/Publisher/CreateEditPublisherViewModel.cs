@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Models.PublisherViewModels
+namespace Library.Web.Models.PublisherViewModels
 {
     public class CreateEditPublisherViewModel
     {

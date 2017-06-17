@@ -1,4 +1,4 @@
-namespace Library.Models.BootstrapModels
+namespace Library.Web.Models.BootstrapModels
 {
     public class ModalFooter
     {

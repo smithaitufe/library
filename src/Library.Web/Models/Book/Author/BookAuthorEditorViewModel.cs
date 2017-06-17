@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Library.Core.Models;
 
-namespace Library.Models.BookViewModels
+namespace Library.Web.Models.BookViewModels
 {
     public class BookAuthorEditorViewModel
     {

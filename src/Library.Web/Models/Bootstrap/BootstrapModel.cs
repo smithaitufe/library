@@ -1,6 +1,6 @@
-using Library.Code;
+using Library.Web.Code;
 
-namespace Library.Models.BootstrapModels
+namespace Library.Web.Models.BootstrapModels
 {
     public class BootstrapModel
     {

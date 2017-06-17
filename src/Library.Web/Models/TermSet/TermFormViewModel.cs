@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Models.TermSetViewModels
+namespace Library.Web.Models.TermSetViewModels
 {
     public class TermFormViewModel {
         public int TermSetId { get; set; }

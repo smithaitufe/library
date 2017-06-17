@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Code
+namespace Library.Web.Code
 {
     public class FilterUserRegistration {
         [Display(Name="Start Date")]

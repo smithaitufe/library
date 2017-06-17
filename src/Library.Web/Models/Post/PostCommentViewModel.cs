@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Library.Code;
+using Library.Web.Code;
 
-namespace Library.Models.PostViewModels
+namespace Library.Web.Models.PostViewModels
 {
     public class PostCommentViewModel {
         public int CommenterId { get; set; }

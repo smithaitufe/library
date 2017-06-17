@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.BookViewModels {
+namespace Library.Web.Models.BookViewModels {
     public class BookCatalogueViewModel
     {
         public int CategoryId { get; set; }

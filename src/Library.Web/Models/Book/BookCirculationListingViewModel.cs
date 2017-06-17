@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Library.Core.Models;
 
-namespace Library.Models.BookViewModels
+namespace Library.Web.Models.BookViewModels
 {
     public class BookCirculationListingViewModel {
         [Display(Name="Status")]

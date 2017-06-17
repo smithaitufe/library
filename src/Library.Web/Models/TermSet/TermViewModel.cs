@@ -1,6 +1,6 @@
 using Library.Core.Models;
 
-namespace Library.Models.TermSetViewModels
+namespace Library.Web.Models.TermSetViewModels
 {
     public class TermViewModel {
         public int Id { get; set; }

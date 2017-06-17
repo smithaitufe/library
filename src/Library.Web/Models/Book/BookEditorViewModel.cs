@@ -5,7 +5,7 @@ using Library.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.BookViewModels
+namespace Library.Web.Models.BookViewModels
 {
     public class BookEditorViewModel
     {

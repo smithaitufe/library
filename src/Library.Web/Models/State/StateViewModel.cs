@@ -1,4 +1,4 @@
-namespace Library.Models.StateViewModels
+namespace Library.Web.Models.StateViewModels
 {
     public class StateViewModel
     {

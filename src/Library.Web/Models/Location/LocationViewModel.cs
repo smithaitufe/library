@@ -1,4 +1,4 @@
-namespace Library.Models.LocationViewModels {
+namespace Library.Web.Models.LocationViewModels {
     public class LocationViewModel
     {
        public string Name { get; set; }

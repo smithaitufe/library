@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Code
+namespace Library.Web.Code
 {
     public class SearchBookOptions {
         public string Location { get; set; }

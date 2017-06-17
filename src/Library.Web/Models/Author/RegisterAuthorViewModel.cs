@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Models.AuthorViewModels {
+namespace Library.Web.Models.AuthorViewModels {
     
     public class RegisterAuthorViewModel {
         

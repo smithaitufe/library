@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Library.Core.Models;
-using Library.Models.TermSetViewModels;
+using Library.Web.Models.TermSetViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.BookViewModels
+namespace Library.Web.Models.BookViewModels
 {
     public class BookLocationViewModel
     { 

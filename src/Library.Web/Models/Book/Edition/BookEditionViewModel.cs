@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Models.BookViewModels
+namespace Library.Web.Models.BookViewModels
 {
     public class BookEditionViewModel
     {

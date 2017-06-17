@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace Library.Code
+namespace Library.Web.Code
 {
     public static class Common {
         private static Random random = new Random();

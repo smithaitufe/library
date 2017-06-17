@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Library.Models.AccountViewModels {
+namespace Library.Web.Models.AccountViewModels {
     public class PatronProfileViewModel {
         public string Name { get; set; }
         public string LibraryNo { get; set; }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Library.Core.Models;
 
-namespace Library.Models.AuthorViewModels
+namespace Library.Web.Models.AuthorViewModels
 {
     public class AuthorViewModel
     {

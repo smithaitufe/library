@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Library.Core.Models;
 
-namespace Library.Models.PostViewModels
+namespace Library.Web.Models.PostViewModels
 {
     public class PostViewModel {
         public int Id { get; set; }

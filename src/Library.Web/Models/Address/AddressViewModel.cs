@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.AddressViewModels 
+namespace Library.Web.Models.AddressViewModels 
 {
     public class AddressViewModel 
     {

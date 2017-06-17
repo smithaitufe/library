@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Library.Core.Models;
 
-namespace Library.Models.DashboardViewModels
+namespace Library.Web.Models.DashboardViewModels
 {
     public class AdminDashboardIndexViewModel {
         public int TotalRegistrations { get; set; } = 0;

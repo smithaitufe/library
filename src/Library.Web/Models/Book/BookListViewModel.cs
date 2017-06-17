@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Library.Code;
-using Library.Services;
+using Library.Web.Code;
+using Library.Web.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.BookViewModels
+namespace Library.Web.Models.BookViewModels
 {
     public class BookListViewModel
     {

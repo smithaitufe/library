@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Library.Core.Models;
-using Library.Models.ClubViewModels;
+using Library.Web.Models.ClubViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Library.Models.PostViewModels
+namespace Library.Web.Models.PostViewModels
 {
     public class PostMessageViewModel {
         [DefaultValue(0)]
