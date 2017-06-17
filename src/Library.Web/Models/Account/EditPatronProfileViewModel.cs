@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Library.Models.AddressViewModels;
+using Library.Web.Models.AddressViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Web.Models.AccountViewModels {

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Library.Core.Models;
 using Library.Web.Code;
 
 namespace Library.Web.Models.PostViewModels
@@ -9,6 +10,6 @@ namespace Library.Web.Models.PostViewModels
         public int? ParentId { get; set; }  
         [DataType(DataType.Text)]   
         public string Text { get; set; }        
-        public CommentStatus Status { get; set; }
+        public Term Status { get; set; }
     }
 }

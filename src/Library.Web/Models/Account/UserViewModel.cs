@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Library.Core.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Web.Models.AccountViewModels

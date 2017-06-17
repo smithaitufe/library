@@ -4,7 +4,7 @@ using Library.Web.Models;
 using Library.Web.Models.AuthorViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-
+using Library.Core.Models;
 
 namespace Library.Web.Extensions
 {

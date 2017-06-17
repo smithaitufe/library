@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Library.Core.Models;
-using Library.Data;
-using Library.Extensions;
-using Library.Models;
-using Library.Models.PublisherViewModels;
-using Library.Models.TermSetViewModels;
+// using Library.Data;
+using Library.Web.Extensions;
+using Library.Web.Models;
+using Library.Web.Models.PublisherViewModels;
+using Library.Web.Models.TermSetViewModels;
 using Library.Repo;
 using Microsoft.EntityFrameworkCore;
 

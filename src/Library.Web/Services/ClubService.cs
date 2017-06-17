@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Library.Core.Models;
-using Library.Data;
-using Library.Extensions;
-using Library.Models;
-using Library.Models.ClubViewModels;
+// using Library.Data;
+using Library.Web.Extensions;
+using Library.Web.Models.ClubViewModels;
 using Library.Repo;
 using Microsoft.EntityFrameworkCore;
 

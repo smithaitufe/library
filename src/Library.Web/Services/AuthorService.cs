@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Library.Data;
-using Library.Extensions;
-using Library.Models.AuthorViewModels;
-using Library.Models.TermSetViewModels;
+// using Library.Data;
+using Library.Web.Extensions;
+using Library.Web.Models.AuthorViewModels;
+using Library.Web.Models.TermSetViewModels;
 using Library.Repo;
 
 namespace Library.Web.Services

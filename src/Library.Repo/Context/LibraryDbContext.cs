@@ -10,6 +10,41 @@ namespace Library.Repo
 {
     public class LibraryDbContext: IdentityDbContext<User, Role, int>
     {
+                public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<TermSet> TermSets { get; set; }
+        public DbSet<Term> Terms { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Book> Books { get; set; }
+        // public DbSet<BookImage> BookImages { get; set; }
+        public DbSet<BookAuthor> BookAuthors { get; set; }
+        public DbSet<Variant> Variants { get; set; }
+        public DbSet<VariantPrice> VariantPrices { get; set; }
+        public DbSet<VariantLanguage> VariantLanguages { get; set; }
+        public DbSet<VariantLocation> VariantLocations { get; set; }
+        public DbSet<Volume> Volumes { get; set; }
+        public DbSet<Edition> Editions { get; set; }
+        public DbSet<CheckOut> CheckOuts { get; set; }  
+        public DbSet<CheckOutStatus> CheckOutStatuses { get; set; }  
+        public DbSet<CheckOutState> CheckOutStates { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }    
+        public DbSet<Recall> Recalls { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Club> Clubs { get; set; }
+        public DbSet<ClubGenre> ClubGenres { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<PriceOffer> PriceOffers { get; set; }
+        public DbSet<UserLocation> UserLocations { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<UserAddress> UserAddresses { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<Country> Countries { get; set; }        
+
 
         public LibraryDbContext(): base(){}
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options): base(options){}

@@ -1,3 +1,4 @@
+using Library.Core.Models;
 using Library.Web.Models;
 using Library.Web.Models.PostViewModels;
 
