@@ -17,8 +17,7 @@ namespace Library.Core.Models
         public ICollection<Book> CategoryBooks { get; set; }
         public ICollection<Book> GenreBooks { get; set; }
 
-        public ICollection<Variant> DaysAllowedVariants { get; set; }
-        public ICollection<Variant> LocationVariants { get; set; }
+        public ICollection<Variant> DaysAllowedVariants { get; set; }        
         public ICollection<Variant> FineVariants { get; set; }
         public ICollection<Variant> GrantVariants { get; set; }
         public ICollection<Variant> YearVariants { get; set; }

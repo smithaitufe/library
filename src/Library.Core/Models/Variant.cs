@@ -22,9 +22,7 @@ namespace Library.Core.Models
         public int FineId { get; set; }        
         // Navigation Properties
         [ForeignKey("DaysAllowedId")]
-        public Term DaysAllowed { get; set; }
-        [ForeignKey("LocationId")]
-        public Term Location { get; set; }        
+        public Term DaysAllowed { get; set; }               
         [ForeignKey("CollectionModeId")]
         public Term CollectionMode { get; set; }        
         [ForeignKey("FineId")]
