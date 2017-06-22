@@ -1,0 +1,38 @@
+@model BookAuthorListingViewModel
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="card card-block shadowed">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="card-title float-left">Authors</h2>
+                    <a asp-action="CreateBookAuthors" class="btn btn-success btn-sm float-right">Add Author</a>
+                </div>
+                
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Author</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model.BookAuthors) 
+                        {
+                            <tr>
+                                <td>@item.Author.LastName, @item.Author.FirstName</td>
+                                <td>
+                                    <a asp-action="DeleteBookAuthor" asp-route-id="@item.BookId" asp-route-bookAuthorId="@item.Id" class="btn btn-danger btn-sm">delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            </div>
+
+        </div>
+
+    </div>
+</div>

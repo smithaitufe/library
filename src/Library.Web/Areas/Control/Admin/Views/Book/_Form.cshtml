@@ -1,0 +1,8 @@
+@model CreateEditBookViewModel
+
+<form asp-controller="Book" asp-action="Create">
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = String.Format("{0} Book", @Model.Id == 0 ? "Add" : "Edit") })
+    <div class="modal-body">
+    </div>
+    @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+</form>

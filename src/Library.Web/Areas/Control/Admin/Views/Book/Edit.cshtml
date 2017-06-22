@@ -1,0 +1,103 @@
+@*
+<h3>@Model.Title</h3>
+
+@Html.Partial("Views/Shared/_NavPartial.cshtml")
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="panel"></div>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-panel", AreaLabeledId = "modal-panel-label", Size = ModalSize.Medium })
+
+@section Styles {
+    <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.6/select2-bootstrap.min.css">
+}
+@section Scripts {
+    <script src="~/js/common.js" asp-append-version="true"></script>
+    <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script type="text/javascript">  
+        var loadFromUrl;
+        var panel;
+
+        $(function() {
+            var request;
+            Modal.init("modal-panel");
+            $("#SelectedAuthorIds").select2({
+                theme: "bootstrap"
+            });
+            panel = $("#panel");
+            $(".edit").on("click", function(e) {
+                e.preventDefault();                
+                loadFromUrl = $(this).attr("href");
+                fetchResponse();
+            });
+            $('.modal').on('submit', 'form', function (event) {
+                event.preventDefault();
+                $.ajax({
+                    url: event.currentTarget.action,
+                    method: 'POST',
+                    data: $(this).serialize()
+                }).done(function(response){                    
+                    $(".modal").modal("hide");
+                    fetchResponse();
+                }).fail(function(error){
+                    console.log(error);
+                })                
+            });
+            $("a.delete-book-location").click(function(e){
+                e.preventDefault();
+                alert("adfjdfkjdfkjdfkjd")
+            });
+            $("#panel").on('click','a.delete-book-location', function(e){
+                e.preventDefault();//for prevent default redirect
+                alert("It works");
+            });
+            
+        }); 
+        function fetchResponse() {
+            /*var request;
+            request = $.ajax({ url: loadFromUrl, method: 'GET' })
+            request.done(function(response){
+                console.log("Response received:", response);
+                panel && panel.html(response);
+            });
+            request.fail(function(err)
+            {
+                console.log(err);
+            })*/
+
+            $.ajax({
+                type: 'GET',
+                url: loadFromUrl,
+                cache: false,                
+                success: function (response) { 
+                    console.log(response);
+                    panel && panel.html(response);                    
+                },
+                error: function (e) { 
+                    e.preventDefault(); 
+                    panel.html(response);
+                } 
+            });
+        }
+
+    </script>
+}
+*@
+
+@model BookViewModel
+<div class="card card-block">
+    <div class="row">
+        <div class="col-sm-12 col-md-3 px-0">
+            <img src="@Url.Content(Model.Cover.Path)" width="150">
+        </div>
+        <div class="col-sm-12 col-md-9">
+            <h2 class="mb-0">@Model.Title.ToUpper()</h2>
+            <small>@string.Join(", ", Model.Authors.Select(a => $"{a.FirstName} {a.LastName}").ToList())</small>
+            <div><label>Publisher: </label>@Model.Publisher.Name</div>
+            <div><label>ISBN: </label>@Model.ISBN</div>            
+        </div>
+    </div>
+</div>

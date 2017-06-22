@@ -1,0 +1,63 @@
+@model PatronProfileViewModel
+
+<br>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="content-container">
+            <div class="content">
+                <img src="" alt="" width="250px" height="150px">
+                <!--<label class="custom-file image-upload-control">
+                    <input type="file" id="file" class="custom-file-input" style="border: 0">
+                    <span class="custom-file-control no-border">
+                        
+                    </span>
+                </label>                -->
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        <div class="content-container">
+            <div class="content">
+                <h4>
+                    @Model.Name 
+                    @if(!string.IsNullOrEmpty(Model.LibraryNo)){
+                        <small>@Model.LibraryNo</small>
+                    }
+                </h4>
+                <hr>                               
+                <div class="row">
+                    <div class="col-sm-12 col-md-3"><strong>Phone</strong></div>
+                    <div class="col-sm-12 col-md-9">@Model.PhoneNumber</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-3"><strong>Address</strong></div>
+                    <div class="col-sm-12 col-md-9">
+                        @if(Model.Address != null){
+                            @Model.Address.Line
+                            <br/>@Model.Address.City
+                            <br/>@Model.Address.State.Name                            
+                        }
+                    </div>
+                </div>
+
+                <br /><br/>
+
+
+                <h3>Additional Information</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12 col-md-3"><strong>Roles</strong></div>
+                    <div class="col-sm-12 col-md-9">@string.Join(", ", Model.Roles.Select(r => r).ToList())</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-3"><strong>Posts</strong></div>
+                    <div class="col-sm-12 col-md-9">@Model.NumberOfPosts</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-3"><strong>Comments</strong></div>
+                    <div class="col-sm-12 col-md-9">@Model.NumberOfComments</div>
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>

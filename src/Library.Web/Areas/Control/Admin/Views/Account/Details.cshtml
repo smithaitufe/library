@@ -1,0 +1,44 @@
+@model UserViewModel
+
+<div class="card card-block shadowed">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            
+                <h3>@Model.LastName @Model.FirstName</h3>
+                <small>@Model.InsertedAt.ToString("dd MMMM, yyyy hh:mm tt")</small>
+                
+        </div>        
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-3">
+        <div class="card card-block shadowed">            
+            <h5 class="card-title">Roles</h5> 
+            <div class="card-text">
+                <ul class="list-unstyled">
+                    @foreach(var role in Model.Roles){
+                        <li class="">@role.Name <a asp-action="RemoveUserRole" class="btn btn-sm btn-danger pull-right">delete</a></li>
+                    }
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!--
+<div class="row">
+    <div class="col-sm-12 col-md-3">
+        <div class="content-container shadowed">
+            <div class="content">
+                <h5>Manage</h5>        
+                <hr>
+                <ul class="list-unstyled list-group">
+                    <li>Suspended <span class="float-right pointer"><i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-o"></i></span></li>
+                    <li>Locked <span class="float-right pointer"><i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-o"></i></span></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>-->

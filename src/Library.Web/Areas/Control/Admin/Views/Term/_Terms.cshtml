@@ -1,0 +1,32 @@
+@model TermListingViewModel
+@{
+    var count = 1;
+}
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        <div class="clearfix">
+            <span class="btn btn-primary">Total Items: @Model.Terms.Count</span>
+            <a asp-action="AddEditTerm" asp-controller="Term" asp-route-termSetId="@Model.TermSetId" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal-term"><i class="fa fa-plus"></i> Add</a>
+        </div>
+        <div class="content-container shadowed">
+            <div class="content">
+                @foreach(var term in Model.Terms) {  
+                <div class="clearfix" style="border-bottom: 1px solid #ddd; padding: 2px">
+                    <span class="pull-left btn btn-primary btn-sm">@(count++)</span>
+                    <span style="padding-left: 10px;">@term.Name</span>
+                    <span class="pull-right">
+                       <a asp-action="Delete" asp-controller="Term"  asp-route-id="@term.Id"  data-toggle="modal" data-target="#modal-term" class="btn btn-danger btn-sm">
+                           <!--<i class="fa fa-trash"></i>-->
+                           delete
+                        </a>
+                       <a asp-action="AddEditTerm" asp-controller="Term" asp-route-termSetId="@term.TermSetId" asp-route-termId="@term.Id" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#modal-term">
+                           <!--<i class="fa fa-pencil"></i>-->
+                           edit
+                        </a>
+                    </span>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

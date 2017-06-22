@@ -1,0 +1,62 @@
+    @model IList<BookViewModel>
+
+    @if(!Model.Any()) {
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">No Record</h4>
+        <p class="mb-0">No book(s) was found. Kindly rephrase your search criteria</p>
+    </div>
+    }else{
+
+    <div class="card card-block">
+        <h5 class="card-title">Available Books</h5>
+            <form asp-action="Checkout" asp-controller="Book" method="Post">
+        <table class="table table-bordered" id="books">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Author(s)</th>
+                    <th>ISBN</th>
+                    <th>Format</th>
+                    <th>Genre</th>
+                    <!--<th>Price</th>-->
+                    <th>Languages</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(var i = 0; i < Model.Count(); i++){
+                <tr>
+                    <td>                        
+                        <div class="form-check" style="margin-top: -1rem;">
+                            <label class="form-check-label">
+                                <input class="form-check-input book-item-check" type="checkbox" asp-for="@Model[i].Checked" onchange="showBorrowButton()"> 
+                                <input type="hidden" asp-for="@Model[i].VariantId">
+                                <input type="hidden" asp-for="@Model[i].Id">                                
+                            </label>
+                        </div>
+                    </td>
+                    <td>@Model[i].Title</td>
+                    <td>@Model[i].Authors.First().LastName @Model[i].Authors.First().FirstName</td>
+                    <td>@Model[i].ISBN</td>
+                    <td>@Model[i].Format</td>
+                    <td>@Model[i].Genre.Name</td>                    
+                    @*<td>
+                        <ul>
+                            @foreach(var item in Model[i].Prices){
+                                <li>@item.Price.Name @item.Condition.Name</li>
+                            }
+                        </ul>
+                    </td>*@
+                    <td></td>
+                    <td><a asp-action="GetBookPreview" asp-controller="Book" asp-route-id="@Model[i].VariantId" data-toggle="modal" data-target="#previewBook">preview</a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <button id="submitBooks" class="btn btn-primary" type="submit">Borrow All</button>
+    </form>
+
+    </div>
+
+    }

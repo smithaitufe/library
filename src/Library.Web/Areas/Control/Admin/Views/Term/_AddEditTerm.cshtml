@@ -1,0 +1,19 @@
+@model TermFormViewModel
+
+<form asp-action="AddEditTerm" asp-controller="Term" role="form" id="add-edit-term-form">
+    <div class="modal-body">
+        <div class="form-group">
+            <input type="hidden" asp-for="TermSetId">
+            <input type="hidden" asp-for="TermId">
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="form-control-label"></label>
+            <input asp-for="Name" type="text" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <!--<div class="modal-footer">
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>-->
+    @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+</form>

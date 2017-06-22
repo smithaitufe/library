@@ -1,0 +1,18 @@
+@model ReturnBookViewModel
+<div class="mt-2 white">
+    <h6 class="px-2 py-2 mb-0" style="border-bottom: 1px solid #ddd;"><i class="fa fa-book" style="font-size: 16px"></i> Return Books</h6>
+    <div class="px-3 pb-4">
+        <form asp-action="Return" method="POST">
+            <div class="form-group">
+                <label asp-for="SelectedCheckOutId" class="col-form-label"></label>
+                <span class="form-text"><em>Note: All Returned Books is subject to inspection before comfirmation</em></span>
+                <select asp-for="SelectedCheckOutId" asp-items="@(new SelectList(Model.CheckOutBooks, "Id", "Title"))" class="form-control">
+                    <option value="">Select a Book</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Return</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+@model BookEditionEditorViewModel
+
+<form asp-action="@Model.EditorAttributes.ActionUrl">
+    <div class="card card-block">       
+
+        <div class="card-text">
+            <input type="hidden" asp-for="VariantId">            
+            
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" type="text" class="form-control">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            
+        </div>
+    </div>
+</form>

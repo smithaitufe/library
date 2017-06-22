@@ -1,0 +1,30 @@
+@model IEnumerable<BookViewModel>
+
+@if(Model.Count() < 1){
+    <div class="alert alert-danger">
+        No book(s) for the selected category
+    </div>
+}else{
+ <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Year</th>
+                        <th>Format</th>
+                        <th>Author</th>
+                        <th>Publisher</th>            
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model) {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>@item.Year.Name</td>
+                            <td>@item.Format</td>
+                            <td>@string.Join(", ", item.Authors.OrderBy(a => a.Id).Select(a =>   a.LastName + " " + a.FirstName[0] ))</td>
+                            <td></td>                
+                        </tr>
+                    }
+                </tbody>
+            </table>
+}

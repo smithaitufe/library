@@ -1,0 +1,23 @@
+@model CreateEditPublisherViewModel
+@{
+    ViewBag.Title = "New Publisher";
+}
+
+
+<div class="content-container shadowed">
+    <h2 class="content-header">@(Model.Id == null ? "Add" : "Edit") Publisher</h2>
+    <div class="horizontal-divider"></div>
+    <div class="content">
+    <input type="hidden" asp-for="Id">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="@Html.DisplayNameFor(m=>m.Name)">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary border-radius-0" type="submit">Save</button>
+    </div>
+    
+ </div>
+</div>

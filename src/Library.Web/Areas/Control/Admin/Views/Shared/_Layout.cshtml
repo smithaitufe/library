@@ -1,0 +1,42 @@
+@{
+    Layout = "~/Areas/Control/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    @RenderSection("Styles", required: false)
+}
+
+
+<main class="container-fluid">
+    <div class="row">
+            <nav class="col-sm-2 sidebar-container" style="overflow: hidden; padding: 0 !important;">
+                <div class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a asp-action="Index" asp-controller="Dashboard"><span class="sidebar-icon"><i class="fa fa-bank"></i></span><span class="sidebar-title">Dashboard</span></a></li>
+                        <li><a asp-action="Index" asp-controller="Book"><span class="sidebar-icon"><i class="fa fa-book"></i></span><span class="sidebar-title">Books</span></a></li>
+                        <li><a asp-action="Index" asp-controller="Circulation"><span class="sidebar-icon"><i class="fa fa-book"></i></span><span class="sidebar-title">Circulation</span></a></li>
+                        <li><a asp-action="Index" asp-controller="Author"><span class="sidebar-icon"><i class="fa fa-pencil-square-o"></i></span><span class="sidebar-title">Authors</span></a></li>
+                        <li><a asp-action="Index" asp-controller="Publisher"><span class="sidebar-icon"><i class="fa fa-print"></i></span><span class="sidebar-title">Publishers</span></a></li>                        
+                        <li><a asp-action="Index" asp-controller="Location"><span class="sidebar-icon"><i class="fa fa-print"></i></span><span class="sidebar-title">Locations</span></a></li>
+                        <li><a asp-action="Index" asp-controller="State"><span class="sidebar-icon"><i class="fa fa-print"></i></span><span class="sidebar-title">States</span></a></li>                        
+                        <li><a asp-action="Index" asp-controller="Account"><span class="sidebar-icon"><i class="fa fa-handshake-o"></i></span><span class="sidebar-title">Accounts</span></a></li>
+                        <li class="divider"></li>
+                        <li><a asp-action="Index" asp-controller="Term"><span class="sidebar-icon"><i class="fa fa-gear"></i></span><span class="sidebar-title">Settings</span></a></li>
+                        <li><a href=""><span class="sidebar-icon"><i class="fa fa-user"></i></span><span class="sidebar-title">Profile</span></a></li>
+                        <!--<li>
+                            <form asp-action="LogOut" asp-controller="Home" asp-area="" method="POST">
+                                <div type="submit"><a><span class="sidebar-icon"><i class="fa fa-sign-out"></i></span><span class="sidebar-title">Log out</span></a></div>
+                            </form>
+                        </li>-->
+                    </ul>
+                </div>
+            </nav>
+            <div class="col-sm-10 offset-sm-2 col-md-10 offset-md-2 page-content-container">
+                 @RenderBody()
+            </div>
+    </div>
+</main>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

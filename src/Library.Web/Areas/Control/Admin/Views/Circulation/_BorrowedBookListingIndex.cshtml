@@ -1,0 +1,108 @@
+@model BookCirculationListingViewModel
+@{
+    var options = new System.Text.StringBuilder();    
+    @*var options = new List<string>();*@
+
+}
+@if( Model.Circulations.Count > 0){
+<form asp-action="Index" asp-controller="Circulation" method="POST">
+    <div class="content-container shadowed">
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="text-right pb-1">
+                        <button type="submit" class="btn btn-sm btn-secondary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered" id="book-listing">
+                <thead>                    
+                    <tr>
+                        <th>Patron</th>
+                        <th>Book</th>
+                        <th>Request Date</th>
+                        <th>Days</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>                    
+                    @for(var c = 0; c < Model.Circulations.Count; c++) {
+                        <tr>
+                            <td>@Model.Circulations[c].PatronName</td>
+                            <td>@Model.Circulations[c].BookTitle
+                                <div>
+                                    <small><strong>ISBN: </strong>@Model.Circulations[c].BookISBN</small><br/>
+                                    <small><strong>Format: </strong>@Model.Circulations[c].BookFormat</small>
+                                </div>
+                            </td>
+                            <td>@Model.Circulations[c].RequestDate.ToString("dd-MM-yy")</td>
+                            <td>@Model.Circulations[c].RequestedDays</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table class="table table-sm" style="font-size: 13px">
+                                            <thead>
+                                                <tr>
+                                                    <th>Status</th>
+                                                    <th>Modified By</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach(var state in @Model.Circulations[c].CheckOutStates) {
+                                                    <tr>
+                                                        <td>@state.Status.Name</td>
+                                                        <td>@state.ModifiedBy.LastName</td>
+                                                        <td>@state.InsertedAt.ToString("dd-MM-yy")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                    @foreach(var status in Model.Statuses) {                                                    
+                                        if((@status.Parent != null && @status.Parent.Name.ToLower() == @Model.SearchCirculationsOptions.Status.ToLower()) && @Model.Circulations[c].CheckOutStates.Where(cos => cos.StatusId != @status.Id).Any()){
+                                            options.Append(string.Format("<option value={0}>{1}</option>",@status.Id,@status.Name));                                            
+                                        }
+                                    }                                    
+                                    @if(options.Length > 0){                                     
+                                    <div class="row circulation-options">
+                                        <div class="col-sm-12 col-md-7">                                            
+                                            <select asp-for="Circulations[c].StatusId" class="form-control form-control-sm status-id-form-control">
+                                                <option value="">Choose Status</option>
+                                                @Html.Raw(options.ToString())
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 col-md-5 pl-0"> 
+                                            <input type="hidden" asp-for="Circulations[c].CheckOutId"> 
+                                            <input type="hidden" asp-for="Circulations[c].RequestedDays" class="requested-days">                                                                            
+                                            <input type="hidden" asp-for="Circulations[c].CheckOutStates">
+                                            <select asp-for="Circulations[c].ApprovedDaysId" class="form-control form-control-sm .approved-days-id-form-control dim" disabled>
+                                                <option value="">Choose Days</option>
+                                                @foreach(var days in Model.Days) {
+                                                    <option value="@days.Value">@days.Text</option>
+                                                }
+                                            </select>                                        
+                                        </div>                          
+                                    </div>                             
+                                    }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+
+
+@*if(!@Model.Circulations[c].CheckOutStates.Where(cos => cos.StatusId == int.Parse(@status.Value)).Any() && @Model.Circulations[c].CheckOutStates.Where(cos => cos.Parent.Name == SearchCirculationsOptions.Status).Any()){
+    
+if(@Model.Circulations[c].CheckOutStates.Where(cos => cos.Status.Parent != null &&  cos.Status.Parent.Name.ToLower() == @Model.SearchCirculationsOptions.Status.ToLower()).Any()){
+    <option value="@status.Id">@status.Name</option>
+} 
+
+
+*@
+
+}

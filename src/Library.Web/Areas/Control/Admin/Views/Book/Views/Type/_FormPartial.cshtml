@@ -1,0 +1,64 @@
+@model BookTypeEditorViewModel
+
+<form asp-action="CreateBookType" asp-controller="Book" method="POST">
+    <div class="card card-block">
+        <div class="card-text">
+
+            
+
+            <div class="row form-group">
+                <label asp-for="FormatId" class="col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <select asp-for="FormatId" asp-items="Model.BookFormats" class="form-control">
+                    <option value="">Select Format</option>
+                </select>
+                <span asp-validation-for="FormatId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <label asp-for="Pages" class="col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <input asp-for="Pages" type="text" class="form-control">
+                    <span asp-validation-for="Pages" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <label asp-for="YearId" class="col-form-label col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <select asp-for="YearId" asp-items="Model.Years" class="form-control"></select>
+                    <span asp-validation-for="YearId" class="text-danger"></span> 
+                </div>           
+            </div>
+            <div class="row form-group">
+                <label asp-for="DaysAllowedId" class="col-form-label col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <select asp-for="DaysAllowedId" asp-items="Model.Days" class="form-control"></select>
+                    <span asp-validation-for="DaysAllowedId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <label asp-for="CollectionModeId" class="col-form-label col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <select asp-for="CollectionModeId" asp-items="Model.CollectionModes" class="form-control"></select>
+                    <span asp-validation-for="CollectionModeId" class="text-danger"></span>            
+                </div>
+            </div>
+            <div class="row form-group">
+                <label asp-for="FineId" class="col-form-label col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <select asp-for="FineId" asp-items="Model.Fines" class="form-control"></select>
+                    <span asp-validation-for="FineId" class="text-danger"></span>   
+                </div>         
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+
+
+        </div>
+    </div>
+</form>

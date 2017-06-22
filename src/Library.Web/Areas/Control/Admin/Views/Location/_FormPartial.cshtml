@@ -1,0 +1,22 @@
+@model CreateEditLocationViewModel
+<div class="card card-block">
+    <h2 class="card-title">@Model.FormModel.Caption</h2>
+    <div class="card-text">
+        <form asp-action="@Model.FormModel.ActionUrl" method="POST">
+            <input type="hidden" asp-for="Id">
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input type="text" asp-for="Name"  class="form-control">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code"></label>
+                <input type="text" asp-for="Code" class="form-control">
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>

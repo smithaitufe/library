@@ -1,0 +1,11 @@
+@using System.Security.Claims;
+@if (!User.Identities.Any(u => u.IsAuthenticated))
+{
+    <div style="color: white; font-size: 15px; padding: 10px">Unauthenicated</div>
+}
+else
+{
+    <div style="color: white; font-size: 15px; padding: 10px">Welcome @User.Identities.First(
+      u => u.IsAuthenticated && 
+      u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value</div>
+}

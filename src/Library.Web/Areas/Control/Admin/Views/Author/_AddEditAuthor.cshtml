@@ -1,0 +1,29 @@
+@model RegisterAuthorViewModel
+
+<form asp-action="AddEditAuthor" asp-controller="Author" method="Post">
+    <input asp-for="Id" type="hidden">
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = String.Format("{0} Author", @Model.Id == 0 ? "Add" : "Edit") })
+    <div class="modal-body">
+        <div class="form-group">
+            <label asp-for="LastName" class="form-control-label"></label>
+            <input asp-for="LastName" type="text" class="form-control">
+            <span asp-validation-for="LastName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FirstName" class="form-control-label"></label>
+            <input asp-for="FirstName" type="text" class="form-control">
+            <span asp-validation-for="FirstName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="form-control-label"></label>
+            <input asp-for="Email" type="text" class="form-control">
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="form-control-label"></label>
+            <input asp-for="PhoneNumber" type="text" class="form-control">
+            <span asp-validation-for="PhoneNumber"></span>
+        </div>        
+    </div>
+    @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+</form>

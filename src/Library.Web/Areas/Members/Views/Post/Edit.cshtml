@@ -1,0 +1,51 @@
+@model PostMessageViewModel
+
+<div class="content-container">
+    <form asp-action="Edit" asp-controller="Post" asp-route-id="@Model.Id">
+        <input type="hidden" asp-for="AuthorId">
+        @Html.Partial("_Form")
+        <div class="form-group"><button class="btn btn-secondary" type="submit">Save</button></div>            
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <!-- Script to wire up your TinyMCE editor -->
+    <script type="text/javascript">
+        tinymce.init({
+            selector: 'textarea',
+            menubar: false,
+            statusbar: false,            
+            width: 800,
+            height: 200,
+            setup: function (ed) {
+                ed.on('keyup', function (e) {
+                    var count = CountCharacters();
+                    document.getElementById("characterCount").innerHTML = "Characters: " + count;
+                });
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function(){
+            setTimeout(()=> {
+                var count = CountCharacters();
+                document.getElementById("characterCount").innerHTML = "Characters: " + count;
+            }, 200);
+        })
+        
+        function CountCharacters() {            
+            var body = tinymce.get("Text").getBody();          
+            var content = tinymce.trim(body.innerText || body.textContent);
+            return content.length;
+        };
+        function ValidateCharacterLength() {
+            var max = 3000;
+            var count = CountCharacters();
+            if (count > max) {
+                alert("Maximum " + max + " characters allowed.")
+                return false;
+            }
+            return;
+        }
+
+    </script>
+}

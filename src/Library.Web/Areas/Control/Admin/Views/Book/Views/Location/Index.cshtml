@@ -1,0 +1,44 @@
+@model BookLocationListingViewModel
+
+<div class="card card-block shadowed">
+    
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="float-left">Locations</h3>
+                <a class="btn btn-success float-right" asp-action="CreateBookLocation" asp-controller="Book">Add Location</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Source</th>
+                            <th>Availability</th>
+                            <th></th>                            
+                        </tr>
+                    </thead>
+                    <tbody class="pointer">
+                        @foreach(var item in Model.Locations){
+                            <tr>
+                                <td>@item.Location.Name</td>
+                                <td>@item.Source.Name</td>
+                                <td>@item.Availability.Name</td>
+                                <td>
+                                    <a class="btn btn-danger btn-sm" asp-action="DeleteBookLocation" asp-controller="Book" asp-route-id="@item.Id">delete</a>
+                                    <a class="btn btn-primary btn-sm" asp-action="AddEditBookLocation" asp-controller="Book" asp-route-variantid="@item.VariantId" asp-route-id="@item.Id">edit</a>
+                                </td>                               
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>          
+    
+</div>
+

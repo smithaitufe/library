@@ -1,0 +1,11 @@
+@model DeleteBookAuthorViewModel
+
+<form asp-action="DeleteBookAuthor" asp-controller="Book">
+    <input type="hidden" asp-for="Id">
+
+    <h2>You are about to delete @Model.Author.LastName @Model.Author.FirstName as author of @Model.Book.Title.ToUpper()</h2>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Delete</button>  
+    </div>
+ 
+</form>

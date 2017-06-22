@@ -1,0 +1,113 @@
+@model PostViewModel
+
+<br>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-sm-12"><h5>@Model.Title</h5></div>
+                    <div class="col-sm-12">By @Model.Author.LastName @Model.Author.FirstName on @Model.DateCreated.ToString("dd MMMM, yyyy hh:mm tt")</div>
+                    <div class="col-sm-12"><span>Posted on @Model.Club.Name</span> <span>@Model.Category.Name</span></div>
+                </div>
+            </div>
+        </div>            
+    </div>
+    <div class="card-block">
+        <p>@Html.Raw(Model.Text)</p>
+    </div>
+</div>
+
+
+@Html.Partial("_Comments")
+@*
+@section Styles {
+    <style>
+        body{ 
+            background: #fff !important;
+        }
+    </style>
+}
+*@
+@section Scripts {
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <!-- Script to wire up your TinyMCE editor -->
+    <script type="text/javascript">
+        tinymce.init({
+            selector: '#comment',
+            menubar: false,
+            statusbar: false,            
+            width: 900,
+            height: 150,
+            setup: function (ed) {
+                ed.on('keyup', function (e) {
+                    var count = CountCharacters();
+                    document.getElementById("characterCount").innerHTML = "Characters: " + count;
+                });
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function(){
+            setTimeout(()=> {
+                var count = CountCharacters();
+                document.getElementById("characterCount").innerHTML = "Characters: " + count;
+            }, 200);
+        })        
+        function CountCharacters() {            
+            var body = tinymce.get("Text").getBody();          
+            var content = tinymce.trim(body.innerText || body.textContent);
+            return content.length;
+        };
+        function ValidateCharacterLength() {
+            var max = 3000;
+            var count = CountCharacters();
+            if (count > max) {
+                alert("Maximum " + max + " characters allowed.")
+                return false;
+            }
+            return;
+        }
+        var postCommentContainer = $(".post-comment-container");;
+        $(".post-reply").on("click", function(event){
+            $item = $(this);            
+            $("input[name=PostId").val($item.attr("data-pid"));
+            $("input[name=ParentId").val($item.attr("data-cid") || null);            
+            postCommentContainer.toggleClass("show-post-comment-container");            
+        });
+        $(".close-icon").on("click", function(event){
+            closeCommentForm();
+        })
+        $("#commentForm").on("submit", function(event) {
+            event.preventDefault();            
+            var form = $(this); 
+            var data =  {
+                PostId: $("input[name=PostId]").val(),
+                ParentId: $("input[name=ParentId]").val(),
+                Text: $.trim(tinymce.get('comment').getContent())
+            };
+            var request = null;
+            if(request) request.abort();
+            request = $.ajax({
+                type: "post",                
+                cache: false,
+                url: form.attr("action"),
+                data: JSON.stringify(data), 
+                contentType: "application/json",
+                dataType: "html"                
+            });
+            request.done(function(response){
+                closeCommentForm();
+                window.setTimeout('location.reload()', 3000);                
+            });
+            request.error(function(err){
+                alert("Sorry your comment was not saved. Try again")
+                console.log(err);
+            });
+
+            
+        });
+        function closeCommentForm(){
+            postCommentContainer.fadeOut('slow').toggleClass("show-post-comment-container").fadeIn('slow');
+        }
+    </script>
+}

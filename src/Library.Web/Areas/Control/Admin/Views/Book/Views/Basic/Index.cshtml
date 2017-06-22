@@ -1,0 +1,27 @@
+@model BookViewModel
+
+<div class="card card-block">
+    <div class="row">
+        <div class="col-sm-12 col-md-3 px-0">
+            @if(Model.Cover == null || string.IsNullOrEmpty(Model.Cover.Path))
+            {
+                <img src="@Url.Content("~/images/icons/book-icon.png")" width="150">
+            }
+            else
+            {
+                <img src="@Url.Content(Model.Cover.Path)" width="150">
+            }
+        </div>
+        <div class="col-sm-12 col-md-9">
+            <h2 class="mb-0">@Model.Title.ToUpper()</h2>
+            <small><strong>@string.Join(", ", Model.Authors.Select(a => $"{a.FirstName} {a.LastName}").ToList())</strong></small>
+            <div><label>Publisher:</label> @Model.Publisher.Name</div>
+            <div><label>ISBN:</label> @Model.ISBN</div>            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a asp-action="EditBookBasic" asp-route-id="@Model.Id" class="float-right btn btn-primary">Edit</a>
+        </div>
+    </div>
+</div>

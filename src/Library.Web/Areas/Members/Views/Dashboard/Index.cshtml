@@ -1,0 +1,116 @@
+@model DashboardIndexViewModel
+@*
+    <ul class="dashboard-anchors">
+        <li><a asp-action="borrow" asp-controller="book">
+            <div class="anchor-icon"><img src="~/images/icons/borrow-book.png" alt=""></div>
+            <div class="anchor-title">Borrow a Book</div>
+        </a></li>
+        <li><a asp-action="return" asp-controller="book">
+            <div class="anchor-icon"><img src="~/images/icons/return-book.png" alt=""></div>
+            <div class="anchor-title">Return a Book</div>
+            </a></li>
+        <li><a href="">
+            <div class="anchor-icon"><img src="~/images/icons/catalogue.png" alt=""></div>
+            <div class="anchor-title">Catalogue</div>
+            </a></li>
+        <li><a href="">
+            <div class="anchor-icon"><img src="~/images/icons/book-search.png" alt=""></div>
+            <div class="anchor-title">Search</div>
+            </a></li>
+    </ul>
+
+    <ul class="dashboard-anchors">
+        <li><a href="">
+            <div class="anchor-icon"><img src="~/images/icons/reading-manager.png" alt=""></div>
+            <div class="anchor-title">Reading Manager</div>
+        </a></li>
+        <li><a href="">
+            <div class="anchor-icon"><img src="~/images/icons/reading-club.png" alt=""></div>
+            <div class="anchor-title">Reading Clubs</div>
+            </a></li>
+        <li><a href="">
+            <div class="anchor-icon"><img src="~/images/icons/reading-timetable.png" alt=""></div>
+            <div class="anchor-title">Reading Timetable</div>
+            </a></li>
+        <li><a href="">
+            <div class="anchor-icon"><img src="~/images/icons/multimedia.png" alt=""></div>
+            <div class="anchor-title">Multimedia</div>
+            </a></li>
+    </ul>
+
+*@
+<div class="content-container dashboard-item">
+    <h3 class="dashboard-item-header">Announcements</h3>
+    <div class="row content">
+        <div class="col-sm-12">            
+            @foreach(var announcement in Model.Announcements) {
+                <div class="announcement">
+                    <div class="announcement-title"><a asp-action="Details" asp-controller="Newsroom" asp-route-id="@announcement.Id">@announcement.Title</a></div>
+                    <div class="announcement-introduction">@Html.Raw(@announcement.Introduction)</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="content-container dashboard-item">
+    <h3 class="dashboard-item-header">Current Post</h3>
+    <div class="row content">
+        <div class="col-sm-12">     
+            <div>
+                @foreach(var post in Model.Posts) {
+                    <div class="row mt-2">
+                        <div class="col-sm-3">
+                            <div class="row">
+                                <div class="col-sm-5">@post.Club.Name</div>
+                                <div class="col-sm-7"><div style="border-left: 5px solid blue; padding-left: 10px">@post.Category.Name</div></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                           <a asp-action="Details" asp-controller="Post" asp-route-id="@post.Id">@post.Title</a>
+                           <div>@post.InsertedAt.ToString("d MMM, yy hh:mm tt")</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!--<div class="content-container2">
+    <div class="row">
+        <div class="col-sm-4">
+            <div style="height: 100px; width: 100%; background: black; color: white; padding: 10px;">
+                <div class="pull-left">
+                    <i class="fa fa-users fa-4x"></i>
+                </div>
+                <div class="pull-right text-right">
+                    <h5>Members</h5>
+                    <span style="font-size: 50px;">@Model.TotalMembers</span>
+                </div>
+           </div>
+        </div>
+        <div class="col-sm-4">
+           <div style="height: 100px; width: 100%; background: blue; color: white; padding: 10px;">
+                <div class="pull-left">
+                    <i class="fa fa-book fa-4x"></i>
+                </div>
+                <div class="pull-right text-right">
+                    <h5>Checkouts</h5>
+                    <span style="font-size: 50px;">@Model.TotalBooksBorrowed</span>
+                </div>
+           </div>
+        </div>
+        <div class="col-sm-4">
+            <div style="height: 100px; width: 100%; background: green; color: white; padding: 10px;">
+                <div class="pull-left">
+                    <i class="fa fa-book fa-4x"></i>
+                </div>
+                <div class="pull-right text-right">
+                    <h5>Returned</h5>
+                    <span style="font-size: 50px;">@Model.TotalBooksReturned</span>
+                </div>
+           </div>
+        </div>
+    </div>
+</div>-->

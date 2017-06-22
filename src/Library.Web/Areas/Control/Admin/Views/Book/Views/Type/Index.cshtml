@@ -1,0 +1,51 @@
+@model BookTypeListingViewModel
+
+
+<div class="card card-block">
+    <div class="card-text">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="card-title float-left">Book Types</h2>
+                <a asp-action="CreateBookType" class="float-right btn btn-primary">Add Type</a>
+            </div>
+        </div>
+        <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Format</th>
+            <th>Year</th>
+            <th>Due Days</th>
+            <th>Fine</th>
+            <th>Collection Mode</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.Variants)
+        {
+            <tr>
+                <td>@item.Format.Name</td>
+                <td>@item.Year.Name</td>
+                <td>@item.DaysAllowed.Name</td>
+                <td>@item.Fine.Name</td>
+                <td>@item.CollectionMode.Name</td>                
+            </tr>
+            <tr>
+                <td colspan="5">
+                    
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <a asp-action="EditBookType" asp-route-id="@item.BookId" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Edit</a>
+                        </div>
+                        <div class="col-sm-12 col-md-10 text-right">
+                            <a asp-action="BookLocations" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Locations</a>
+                            <a asp-action="BookVolumes" asp-route-typeid="@item.Id" class="btn btn-success btn-sm">Volumes</a>
+                            <a asp-action="BookEditions" asp-route-typeid="@item.Id" class="btn btn-success btn-sm">Editions</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    </div>
+</div>

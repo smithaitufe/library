@@ -1,0 +1,8 @@
+@using System.Security.Claims
+
+<div class="content-container">
+    <div class="content">
+        Hello
+        <h2>Welcome @User.FindFirst(ClaimTypes.GivenName).Value</h2>
+    </div>
+</div>

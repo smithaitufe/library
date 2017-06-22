@@ -1,0 +1,46 @@
+@model UserRegistrationListingViewModel
+
+
+<div class="content-container">
+    <div class="content">
+        <form asp-action="Registrations" asp-controller="Account" method="Get">
+            <fieldset class="fieldset-with-border">
+                <legend class="legend-with-border">Filter</legend>
+                <div class="form-inline">
+                    <label asp-for="FilterUserRegistrationData.StartDate" class="form-control-label mr-2"></label>
+                    <input type="text" asp-for="FilterUserRegistrationData.StartDate" class="form-control datetimepicker mr-2">
+
+                    <label asp-for="FilterUserRegistrationData.EndDate" class="form-control-label mr-2"></label>
+                    <input type="text" asp-for="FilterUserRegistrationData.EndDate" class="form-control datetimepicker mr-2">
+
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+@Html.Partial("_Registrations", Model)
+    
+
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
+    <script>
+        $(function(){
+            
+            $(".datetimepicker").datetimepicker({                    
+                    format: 'm-d-y'
+            });
+
+            $(".check-all").on("click", function(){
+                $(".check-approved").prop("checked", $(this).prop("checked"));
+            });
+            $(".check-approved").on("click", function(){
+                if(!$(this).prop("checked")){
+                    $(".check-all").prop("checked", false)
+                }
+            })
+        });
+    </script>
+}

@@ -1,0 +1,127 @@
+@model CreateEditBookViewModel
+
+<div class="row">
+    <div class="col-sm-9">
+        <div class="row">
+            <div class="col-sm-3 form-group">
+                <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control">
+                    <option value="">Select Book Category</option>
+                </select>
+            </div>
+            <div class="col-sm-3 form-group">
+                <select asp-for="FormatId" asp-items="Model.BookFormats" class="form-control">
+                    <option value="">Select Formats</option>
+                </select>
+            </div>
+            <div class="col-sm-3 form-group">
+                <select asp-for="GenreId" asp-items="Model.Genres" class="form-control">
+                    <option value="">Select Genre</option>
+                </select>
+            </div>
+            <div class="col-sm-3 form-group">
+                <select asp-for="LanguageId" asp-items="Model.Languages" class="form-control">
+                    <option value="">Select Language</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-group">
+                <label asp-for="Title"></label>
+                <input type="text" asp-for="Title" class="form-control" placeholder="Book Title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-group">
+                <label asp-for="SubTitle"></label>
+                <input type="text" asp-for="SubTitle" class="form-control" placeholder="Book Sub Title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 form-group">
+                <label asp-for="ISBN"></label>
+                <input type="text" asp-for="ISBN" class="form-control">
+            </div>    
+            <div class="col-sm-2 form-group">
+                <label asp-for="Pages"></label>
+                <input type="text" asp-for="Pages" class="form-control">
+            </div>        
+            <div class="col-sm-5 form-group">
+                <label asp-for="PublisherId"></label>
+                <select asp-for="PublisherId" asp-items="Model.Publishers" class="form-control">
+                    <option value="">Select a publisher</option>
+                </select>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                <span asp-validation-for="PublisherId" class="text-danger"></span>
+            </div>
+            <div class="col-sm-1 form-group">
+                <label asp-for="YearId"></label>
+                <select asp-for="YearId" asp-items="Model.Years" class="form-control" style="width: 100px"></select>
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="col-sm-2 form-group">
+                <label asp-for="PriceId"></label>
+                <select asp-for="PriceId" asp-items="Model.Prices" class="form-control"></select>
+            </div>
+            <div class="col-sm-2 form-group">
+                <label asp-for="ConditionId"></label>
+                <select asp-for="ConditionId" asp-items="Model.Conditions" class="form-control"></select>
+            </div>
+            <div class="col-sm-2 form-group">
+                <label asp-for="GrantId"></label>
+                <select asp-for="GrantId" asp-items="Model.Grants" class="form-control"></select>
+            </div>
+            <!--<div class="col-sm-2 form-group">
+                <label asp-for="LocationId"></label>
+                <select asp-for="LocationId" asp-items="Model.Locations" class="form-control"></select>
+            </div>-->
+            <div class="col-sm-2 form-group">
+                <label asp-for="AvailabilityId"></label>
+                <select asp-for="AvailabilityId" asp-items="Model.Availabilities" class="form-control"></select>
+            </div>
+            <div class="col-sm-2 form-group">
+                <label asp-for="CollectionModeId"></label>
+                <select asp-for="CollectionModeId" asp-items="Model.CollectionModes" class="form-control"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 form-group">
+                <label asp-for="SourceId"></label>
+                <select asp-for="SourceId" asp-items="Model.BookSources" class="form-control"></select>
+            </div>
+             <div class="col-sm-4 form-group">
+                <label asp-for="FineId"></label>
+                <select asp-for="FineId" asp-items="Model.Fines" class="form-control"></select>
+            </div>
+             <div class="col-sm-4 form-group">
+                <label asp-for="DaysAllowedId"></label>
+                <select asp-for="DaysAllowedId" asp-items="Model.Days" class="form-control"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-group">
+                <label asp-for="Authors"></label>
+                <select asp-for="SelectedAuthorIds" asp-items="Model.Authors" class="form-control" multiple="multiple" aria-multiline="false">
+                    <option value="">Select Author(s)</option>
+                </select>
+                <span asp-validation-for="SelectedAuthorIds" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-3">
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <label class="custom-file image-upload-control">
+                    <input type="file" id="file" class="custom-file-input" onchange="Common.FileBrowsed(this, '#preview')">
+                    <span class="custom-file-control no-border">
+                        <img src="" alt="" width=250 id="preview">
+                    </span>
+                </label>
+                <span asp-validation-for="Image" class="text-danger"></span>
+                <span asp-validation-for="ImageExtension" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>

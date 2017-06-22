@@ -1,0 +1,78 @@
+@model EditPatronProfileViewModel
+<br>
+<form asp-action="Edit" method="POST">
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <div class="content-container shadowed">
+            <div class="content">
+                <label class="custom-file image-upload-control">
+                    <input type="file" id="file" class="custom-file-input" style="border: 0">
+                    <span class="custom-file-control no-border">
+                        <img src="" alt="" width="250px" height="150px">
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-5">
+            <div class="content-container shadowed">
+                <h5 class="content-header">General Information</h5>
+                <div class="horizontal-divider"></div>
+                <div class="content">
+
+                    <div class="form-group">
+                        <label asp-for="LastName" class="form-control-label"></label>
+                        <input asp-for="LastName" type="text" class="form-control">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="form-control-label"></label>
+                        <input asp-for="FirstName" type="text" class="form-control">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    
+                </div>           
+            </div>
+            
+            <div class="content-container shadowed">
+                <h5 class="content-header">Address</h5>
+                <div class="horizontal-divider"></div>
+                <div class="content">
+                    <div class="form-group">
+                        <label asp-for="Address.Line" class="form-control-label"></label>
+                        <input asp-for="Address.Line" type="text" class="form-control">
+                        <span asp-validation-for="Address.Line" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address.City" class="form-control-label"></label>
+                        <input asp-for="Address.City" type="text" class="form-control">
+                        <span asp-validation-for="Address.City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address.StateId" class="form-control-label"></label>
+                        <select asp-for="Address.StateId" asp-items="Model.Address.States" class="form-control">
+                            <option value="">Select State</option>
+                        </select>
+                        <span asp-validation-for="Address.StateId" class="text-danger"></span>
+                    </div>                
+                </div>
+            </div>
+    </div>      
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <button type="submit" class="btn btn-secondary">Save</button>
+    </div>
+</div>
+</form>
+
+
+@section Styles {
+    <style>
+        .form-group{
+            /*border: 1px solid #ccc !important;*/
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+    </style>
+}

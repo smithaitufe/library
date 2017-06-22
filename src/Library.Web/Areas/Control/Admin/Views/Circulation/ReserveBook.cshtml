@@ -1,0 +1,216 @@
+@model ReserveBookFormViewModel
+
+
+@*
+ @ViewBag.SerialNo
+        <div>@ViewBag.SerialNo2</div>
+*@
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        
+        <div class="content-container shadowed">
+    <div class="content">
+       
+        <h3 style="font-weight: bold">Book Reservation</h3>
+        <hr>
+        <form asp-action="ReserveBook" method="POST">
+            <!--<div class="form-group">
+                <div class="col-sm-12 col-md-6">
+                    <label asp-for="LibraryNo" class="form-control-label"></label>
+                    <input asp-for="LibraryNo" type="text" class="form-control" onkeypress="return isNumberKey(event)">
+                    <div id="LibraryNoResult"></div>
+                    <span class="text-danger" asp-validation-for="LibraryNo"></span>
+                </div>
+            </div>-->
+             <div class="row form-group">
+                <div class="col-sm-12">
+                <label asp-for="LibraryNo">Patron Library No</label>
+                <div class="input-group">
+                    <input asp-for="LibraryNo" type="text" class="form-control"><span type="button" class="btn btn-primary pointer input-group-addons" id="search-patron">Search Patron</span>
+                </div>
+                <span class="text-danger" asp-validation-for="LibraryNo"></span>
+                <div id="LibraryNoResult"></div>
+                </div>
+            </div>
+            <!--<div class="row form-group">
+                <div class="col-sm-12 col-md-5">
+                    <label asp-for="LocationId" class="form-control-label"></label>
+                    <select asp-for="LocationId" asp-items="Model.Locations" class="form-control">
+                        <option value="">Select Location</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="LocationId">Location was not selected</span>
+                </div>
+            </div>-->
+            <div class="row form-group">
+                <div class="col-sm-12">
+                <label asp-for="SerialNo"></label>
+                <div class="input-group">
+                    <input asp-for="SerialNo" type="text" class="form-control"><span type="button" class="btn btn-primary pointer input-group-addons" id="search-book" data-url="@Html.Raw(Url.Action("GetBookBySerialNo","Circulation"))">Get Book</span>
+                </div>
+                <span class="text-danger" asp-validation-for="SerialNo"></span>
+                <div id="SerialNoResult"></div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-12 col-md-6">
+                    <label asp-for="NumberOfDaysId" class="form-control-label"></label>
+                    <select asp-for="NumberOfDaysId" asp-items="Model.Days" class="form-control">
+                        <option value="">Select Number of Days</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="ReasonId">Choose the basis for reserving book</span>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label asp-for="ReasonId" class="form-control-label"></label>
+                    <select asp-for="ReasonId" asp-items="Model.Reasons" class="form-control">
+                        <option value="">Select Basis</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="ReasonId">Choose the basis for reserving book</span>
+                </div>
+            </div>
+           
+            <div class="row form-group">
+                <div class="col-sm-12"><button type="submit" class="btn btn-secondary pointer" onclick="return checkInputs(this);"><i class="fa fa-save"></i> Reserve Book</button></div>
+            </div>
+        </form>
+    </div>
+</div>
+    </div>
+
+</div>
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action", AreaLabeledId = "modal-action-label", Size = ModalSize.Medium })
+
+
+@section Scripts {
+    
+    <script>
+
+        $(function(){    
+            if($("#LibraryNo").val().length > 0) fetchPatron();                  
+            $("#LibraryNo").on('keyup blur', function (e) {
+                //fetchPatron();
+            });
+            $("#search-patron").click(function(event){
+                if($("#LibraryNo").val().length == 0) return;
+                fetchPatron();
+            })
+            $("#LocationId").change(function(event) {
+                $("#SerialNo").prop("disabled", true)
+                if($(this).val().length > 0){
+                    $("#SerialNo").prop("disabled", false)                    
+                }
+            });
+           $("body").on("submit", "form", function(event){
+                event.preventDefault();
+                var $this = $(this);
+                setTimeout(() => {
+                    alert("submitting")
+                    //$this.submit(); 
+                    }, 3000);
+            });
+            $("body").on("click", "#search-book", function(event){
+                var url = $(this).attr("data-url");
+                console.log(url);
+                var searchResult = $("#SerialNoResult");
+                $.ajax({
+                    url: `${url}?serialNo=${$("#SerialNo").val()}`,
+                    method: "POST"
+                }).done(function(response){
+                    if(response["successful"]){
+                        let book = response["book"];
+                        searchResult.html(`<span style="color: green">${book["title"]}</span>`)
+                    }else{
+                        searchResult.html(`<span class="text-danger">${response["message"]}</span>`)
+                    }
+                }).fail(function(err){
+
+                })
+            });
+           
+            
+        })
+        function checkInputs(button)
+        {
+            var libraryNo = $("#LibraryNoResult");
+            var serialNo = $("#SerialNoResult"); 
+            var errors = "";
+            var valid = true;
+            if(libraryNo.hasClass("text-danger") || libraryNo.html().length == 0) {
+               errors += "<li>Library No is not valid. Use a valid one</li>" ;      
+               valid = false;          
+            }
+            if(serialNo.hasClass("text-danger") || serialNo.html().length == 0){
+                errors += "<li>The Serial No for the book to be reserved is not valid</li>" ;      
+                valid = false; 
+            }
+            let modalBody =  `<div class="modal-body"><div class="modal-header">
+                                <h4 class="modal-title">Errors</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>`;
+                modalBody += '<div class="content-container"><ul class="text-danger">' 
+                modalBody += errors 
+                modalBody += '</ul></div></div>';
+            if(!valid){
+            $(".modal").find(".modal-content").html(modalBody);
+            $(".modal").modal("show");
+            }
+            
+            return valid;
+        }
+        function isNumberKey(evt)
+        {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function fetchPatron() {
+            var request;
+            var libraryNo="";
+            var length = 0;
+            var libraryNoResult = $("#LibraryNoResult");  
+            var $this =  $("#LibraryNo");            
+            var libraryNo = $this.val();
+            length = libraryNo.length;            
+            switch (true) {
+                default:
+                    if(length == 6){                                
+                        libraryNoResult.html('<span class="text-success">Please wait ...</span>')
+                        setTimeout(function(){
+                            request = $.ajax({
+                                url: "/Admin/Circulation/GetPatronByNo?no=08138238095",
+                                method: "POST"
+                            });
+                            request.done(function(response){
+                                if(response["successful"]){
+                                    let patron  = response["patron"];
+                                    libraryNoResult.html(`<span class="text-success">${patron["lastName"]} ${patron["firstName"]}</span>`);
+                                }
+                            });
+                            request.fail(function(err){
+                                console.log(err);
+                            })
+                        }, 2000)
+                    }else if(length < 6 || length > 6){
+                        libraryNoResult.html('<span class="text-danger">Invalid Library No</span>')
+                        if(request) request.abort();
+                    }                            
+                break;
+            }
+            
+        }
+
+        function fetchBook() {
+            
+        }
+    </script>
+}
+
+@section Styles {
+    <style>
+        .field-validation-valid{
+            display: none;
+        }
+    </style>
+}

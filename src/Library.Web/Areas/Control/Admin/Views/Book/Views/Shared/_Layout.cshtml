@@ -1,0 +1,44 @@
+@{
+    Layout = "~/Areas/Control/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="nav nav-pills pb-0 mb-0">
+    <li>
+        <a class="nav-link" asp-action="BookBasic" asp-controller="Book">
+            <span></span>
+            <span>Basic</span>
+        </a>
+    </li>
+    <li>
+        <a  class="nav-link" asp-action="BookTypes" asp-controller="Book">
+            <span></span>
+            <span>Types</span>
+        </a>
+    </li>
+    <li>
+        <a  class="nav-link" asp-action="BookAuthors" asp-controller="Book">
+            <span></span>
+            <span>Authors</span>
+        </a>
+    </li>                
+    
+    <li>
+        <a  class="nav-link" asp-action="BookPrices" asp-controller="Book">
+            <span></span>
+            <span>Price</span>
+        </a>
+    </li>
+
+</ul>
+<hr>
+@RenderBody()
+
+@section Styles
+{
+    @RenderSection("Styles", required: false)
+}
+
+@section Scripts
+{
+    @RenderSection("Scripts", required: false)
+}

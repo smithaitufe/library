@@ -1,0 +1,19 @@
+@model PostCommentViewModel
+<div class="post-comment-container">
+    <div class="post-comment-header">
+        <span class="pull-left">Post Reply</span>
+        <span class="pull-right close-icon"><i class="fa fa-caret-down"></i></span>
+    </div>
+    <div class="post-comment-form">
+        <form id="commentForm" asp-action="Create" asp-controller="Comment">
+            <input type="hidden" name="PostId">
+            <input type="hidden" name="ParentId">
+            <div class="form-group">
+                <textarea id="comment" name="Text"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Reply</button>
+            </div>
+        </form>
+    </div>
+</div>

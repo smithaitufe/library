@@ -1,0 +1,64 @@
+@model UserListingViewModel
+@{
+    int count = 1;
+}
+<div class="row">
+    <div class="col-sm-12 col-md-7">
+        <div class="card card-block shadowed">
+               <form asp-action="Index" asp-controller="Account">
+            <h5 class="card-title">Filter By Role</h5>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">            
+                        <div class="form-group">                    
+                            <select asp-for="Role" asp-items="@(new SelectList(Model.Roles, "Name", "Name"))" class="form-control">
+                                <option value="">All</option>
+                            </select>
+                        </div>                
+                </div>
+                <div class="col-sm-12 col-md-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+
+
+<br>
+        
+            <div class="card card-block shadowed">              
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="pull-left">Users</h3>
+                        <a asp-action="Create" class="btn btn-primary pull-right">Add User</a>
+                    </div>
+                </div>        
+                <div>
+                    <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model.Users) {
+                            <tr>
+                                <td>@(count++)</td>
+                                <td>@item.UserName</td>
+                                <td>@item.Email</td>
+                                <td>
+                                    <a asp-action="Details" asp-controller="Account" asp-route-id="@item.UserId" class="btn btn-primary btn-sm">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+               
+            </div>
+        </div>
+    </div>

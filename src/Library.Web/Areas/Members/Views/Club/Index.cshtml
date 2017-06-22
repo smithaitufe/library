@@ -1,0 +1,59 @@
+@model IEnumerable<ClubViewModel>
+@{
+
+}
+
+ <!--
+     <div class="row">
+    <div class="col-sm-12">
+        <h3 class="pull-left">My Clubs</h3>
+        <div class="btn-group pull-right">
+           <a id="joinClubModal" data-toggle="modal" asp-controller="Club" asp-action="Join" data-target="#modal-action-club" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Join Club
+            </a>
+        </div>
+    </div>
+</div>
+-->
+<div class="row">
+    <div class="col-sm-7">
+        <div class="py-2 mt-4" style="background: #fff;">
+            <div class="px-2 py-2 clearfix" style="border-bottom: 1px solid #ddd">
+                <h5 class="pull-left">Memberships</h5>
+                <a id="joinClub" data-toggle="modal" data-target="#modal-action-club" class="btn btn-sm btn-secondary pull-right" asp-controller="Club" asp-action="Join">Join Club</a>
+            </div>
+            <div class="px-2 pt-2">                
+                <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Club</th>
+                    <th>Genres</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model){
+                <tr>
+                    <td><a asp-action="Details" asp-controller="Club" asp-route-id="@item.Id">@item.Name</a></td>
+                    <td>@item.GenresNameJoined</td>
+                </tr>
+                }  
+            </tbody>
+        </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-club", AreaLabeledId = "modal-action-club-label", Size = ModalSize.Medium })
+
+@section Scripts {
+    <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script type="text/javascript">         
+        document.addEventListener("DOMContentLoaded", function() {
+             $("#joinClub").on("click", function(e){
+                 e.preventDefault();
+                $(".modal").find(".modal-content").load($(this).attr("href")).modal("toggle");            
+            })           
+        })
+    </script>
+}

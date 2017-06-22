@@ -1,0 +1,34 @@
+@inject IOptions<Library> Library
+@{
+    var library = Library.Value;
+    ViewData["Title"] = library.ApplicationTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@RenderSection("Styles", required: false)
+@RenderSection("Scripts", required: false)
+<header>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">@library.ApplicationTitle</a>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" asp-action="Index" asp-controller="Home">
+                <span class="nav-link-icon"><i class="fa fa-sign-in"></i></span>
+                <span class="nav-link-title">Login</span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+</header>
+
+@RenderBody()
+
+
+
+
+

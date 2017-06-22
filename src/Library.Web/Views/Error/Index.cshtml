@@ -1,0 +1,45 @@
+@inject IOptions<Library> library;
+@model int
+@{
+    var code = Model;
+    var message = "";
+    switch (code) {
+        case 400:
+            message = "Bad request: The request cannot be fulfilled";
+            break;
+        case 403:
+            message = "Your request is forbidden";
+            break;
+        case 404:
+            message = "The page you requesting has either moved or does not exist";
+            break;
+        case 500:
+            message = "We are unable to finish processing your request at this moment. Kindly try again";
+            break;
+    }
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 mx-md-auto">
+            <h1 class="text-center">@library.Value.ApplicationTitle</h1>
+            <br>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Error @Model</h2>
+                </div>
+                <div class="card-block">
+                    <h4>@message</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        body{
+            padding-top: 20px !important;
+        }
+    </style>
+}

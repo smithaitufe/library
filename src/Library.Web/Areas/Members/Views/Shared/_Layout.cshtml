@@ -1,0 +1,70 @@
+@inject Microsoft.Extensions.Options.IOptions<Library> Library
+@{
+    var library = Library.Value;
+    ViewData["Title"] = library.ApplicationTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {    
+    <style>
+        .footer {
+
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            line-height: 60px; /* Vertically center the text there */
+            background-color: #f5f5f5;
+            margin-top:10px !important;
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+}
+<header>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">@library.ApplicationTitle</a>
+      <div class="collapse navbar-collapse" id="navbarCollapse">        
+        @await Html.PartialAsync("_LoginPartial")
+      </div>
+    </nav>
+</header>
+
+<main class="container-fluid">
+    <div class="row">
+        <nav class="col-sm-2 sidebar-container" style="overflow: hidden; padding: 0 !important;">
+            <div class="sidebar">
+                <ul class="sidebar-nav">
+                    <li><a asp-action="Index" asp-controller="Dashboard"><span class="sidebar-icon"><i class="fa fa-bank"></i></span><span class="sidebar-title">Dashboard</span></a></li>
+                    <li><a asp-action="Index" asp-controller="Book"><span class="sidebar-icon"><i class="fa fa-book"></i></span><span class="sidebar-title">Books</span></a></li>
+                    <li><a asp-action="Index" asp-controller="Post"><span class="sidebar-icon"><i class="fa fa-book"></i></span><span class="sidebar-title">Threads</span></a></li>
+                    <li><a asp-action="Index" asp-controller="Club"><span class="sidebar-icon"><i class="fa fa-pencil-square-o"></i></span><span class="sidebar-title">Clubs</span></a></li>
+                    <li><a asp-action="Index" asp-controller="Account"><span class="sidebar-icon"><i class="fa fa-print"></i></span><span class="sidebar-title">Profile</span></a></li>                         
+                    <li>
+                        <form asp-action="Logout" asp-controller="Home" asp-area="" method="POST" id="logOutForm">
+                            <a href="#" onclick="document.getElementById('logOutForm').submit();">
+                                <span class="sidebar-icon"><i class="fa fa-sign-out"></i></span><span class="sidebar-title">Log out</span>
+                            </a>
+                        </form>
+                    </li>                        
+                </ul>
+            </div>
+        </nav>
+        <div class="col-sm-10 offset-sm-2 col-md-10 offset-md-2 page-content-container">
+                @RenderBody()
+        </div>
+    </div>
+</main>
+
+<br><br><br><br>
+<footer class="footer">
+    <div class="container">
+    <span class="text-muted">@Html.Raw(library.CopyrightDescription)</span>
+    </div>
+</footer>
+
+@section Scripts{
+    @RenderSection("Scripts", required: false)
+}

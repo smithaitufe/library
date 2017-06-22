@@ -14,12 +14,14 @@ namespace Library.Web.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.0-preview1-24937");
 
             modelBuilder.Entity("Library.Core.Models.Address", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("City");
 
@@ -36,13 +38,45 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("Library.Core.Models.Announcement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<DateTime>("ExpiresAt");
+
+                    b.Property<DateTime>("InsertedAt");
+
+                    b.Property<string>("Introduction");
+
+                    b.Property<DateTime>("ReleaseAt");
+
+                    b.Property<string>("Text")
+                        .IsRequired();
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Announcements");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Author", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -65,13 +99,14 @@ namespace Library.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Author");
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Book", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("CategoryId");
 
@@ -115,13 +150,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Book");
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("Library.Core.Models.BookAuthor", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("AuthorId");
 
@@ -138,13 +174,14 @@ namespace Library.Web.Migrations
                     b.HasIndex("BookId", "AuthorId")
                         .IsUnique();
 
-                    b.ToTable("BookAuthor");
+                    b.ToTable("BookAuthors");
                 });
 
             modelBuilder.Entity("Library.Core.Models.CheckOut", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int?>("ApprovedDaysId");
 
@@ -176,13 +213,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("CheckOut");
+                    b.ToTable("CheckOuts");
                 });
 
             modelBuilder.Entity("Library.Core.Models.CheckOutState", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("CheckOutId");
 
@@ -202,13 +240,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("CheckOutState");
+                    b.ToTable("CheckOutStates");
                 });
 
             modelBuilder.Entity("Library.Core.Models.CheckOutStatus", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -229,13 +268,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("CheckOutStatus");
+                    b.ToTable("CheckOutStatuses");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Club", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -247,13 +287,14 @@ namespace Library.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Club");
+                    b.ToTable("Clubs");
                 });
 
             modelBuilder.Entity("Library.Core.Models.ClubGenre", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("ClubId");
 
@@ -269,13 +310,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("ClubGenre");
+                    b.ToTable("ClubGenres");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("CommenterId");
 
@@ -302,13 +344,41 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Library.Core.Models.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<string>("Abbreviation")
+                        .HasMaxLength(5);
+
+                    b.Property<string>("Icon");
+
+                    b.Property<DateTime>("InsertedAt");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(70);
+
+                    b.Property<string>("TelephoneCode")
+                        .HasMaxLength(10);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Edition", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -323,13 +393,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("Edition");
+                    b.ToTable("Editions");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Image", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("AbsolutePath");
 
@@ -345,13 +416,14 @@ namespace Library.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Inventory", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("Checkout");
 
@@ -371,13 +443,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("Inventory");
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Location", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("Code");
 
@@ -389,13 +462,37 @@ namespace Library.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location");
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("Library.Core.Models.Member", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<int>("ClubId");
+
+                    b.Property<DateTime>("InsertedAt");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClubId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Post", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("AuthorId");
 
@@ -427,13 +524,37 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("ClubId");
 
-                    b.ToTable("Post");
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Library.Core.Models.PriceOffer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<int>("BookId");
+
+                    b.Property<DateTime>("InsertedAt");
+
+                    b.Property<decimal>("NewPrice");
+
+                    b.Property<string>("PromotionalText");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("PriceOffers");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Publisher", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -445,13 +566,14 @@ namespace Library.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publisher");
+                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Recall", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("CheckOutId");
 
@@ -469,13 +591,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("RecalledByUserId");
 
-                    b.ToTable("Recall");
+                    b.ToTable("Recalls");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Reservation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<bool>("Active");
 
@@ -499,7 +622,35 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("ReservedByUserId");
 
-                    b.ToTable("Reservation");
+                    b.ToTable("Reservations");
+                });
+
+            modelBuilder.Entity("Library.Core.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<int>("BookId");
+
+                    b.Property<string>("Comment")
+                        .IsRequired();
+
+                    b.Property<DateTime>("InsertedAt");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int>("Stars");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Role", b =>
@@ -525,10 +676,35 @@ namespace Library.Web.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("Library.Core.Models.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<string>("Abbreviation")
+                        .HasMaxLength(10);
+
+                    b.Property<int>("CountryId");
+
+                    b.Property<DateTime>("InsertedAt");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("States");
+                });
+
             modelBuilder.Entity("Library.Core.Models.Term", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -544,13 +720,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("TermSetId");
 
-                    b.ToTable("Term");
+                    b.ToTable("Terms");
                 });
 
             modelBuilder.Entity("Library.Core.Models.TermSet", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -562,7 +739,7 @@ namespace Library.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TermSet");
+                    b.ToTable("TermSets");
                 });
 
             modelBuilder.Entity("Library.Core.Models.User", b =>
@@ -649,13 +826,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("UserAddress");
+                    b.ToTable("UserAddresses");
                 });
 
             modelBuilder.Entity("Library.Core.Models.UserLocation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<bool>("Active");
 
@@ -673,13 +851,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLocation");
+                    b.ToTable("UserLocations");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Variant", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("BookId");
 
@@ -717,13 +896,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("YearId");
 
-                    b.ToTable("Variant");
+                    b.ToTable("Variants");
                 });
 
             modelBuilder.Entity("Library.Core.Models.VariantLanguage", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("BookVariantId");
 
@@ -741,13 +921,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("VariantLanguage");
+                    b.ToTable("VariantLanguages");
                 });
 
             modelBuilder.Entity("Library.Core.Models.VariantLocation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("AvailabilityId");
 
@@ -776,13 +957,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("VariantLocation");
+                    b.ToTable("VariantLocations");
                 });
 
             modelBuilder.Entity("Library.Core.Models.VariantPrice", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int>("ConditionId");
 
@@ -802,13 +984,14 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("VariantPrice");
+                    b.ToTable("VariantPrices");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Volume", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -824,7 +1007,7 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("Volume");
+                    b.ToTable("Volumes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>
@@ -919,6 +1102,14 @@ namespace Library.Web.Migrations
                     b.HasOne("Library.Core.Models.Term", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Library.Core.Models.Announcement", b =>
+                {
+                    b.HasOne("Library.Core.Models.Term", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1058,6 +1249,19 @@ namespace Library.Web.Migrations
                         .HasForeignKey("VariantId");
                 });
 
+            modelBuilder.Entity("Library.Core.Models.Member", b =>
+                {
+                    b.HasOne("Library.Core.Models.Club", "Club")
+                        .WithMany()
+                        .HasForeignKey("ClubId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Library.Core.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Library.Core.Models.Post", b =>
                 {
                     b.HasOne("Library.Core.Models.User", "Author")
@@ -1073,6 +1277,14 @@ namespace Library.Web.Migrations
                     b.HasOne("Library.Core.Models.Club", "Club")
                         .WithMany("Posts")
                         .HasForeignKey("ClubId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Library.Core.Models.PriceOffer", b =>
+                {
+                    b.HasOne("Library.Core.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1101,6 +1313,14 @@ namespace Library.Web.Migrations
                     b.HasOne("Library.Core.Models.User", "ReservedBy")
                         .WithMany("ReservationBookings")
                         .HasForeignKey("ReservedByUserId");
+                });
+
+            modelBuilder.Entity("Library.Core.Models.Review", b =>
+                {
+                    b.HasOne("Library.Core.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Library.Core.Models.Term", b =>

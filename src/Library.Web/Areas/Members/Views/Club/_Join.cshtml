@@ -1,0 +1,20 @@
+@model JoinClubViewModel
+
+<form asp-controller="Club" asp-action="Join" method="Post">
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Join Club" })
+    <div class="modal-body">
+        <input type="hidden" asp-for="UserId">
+        <div class="row">
+            <div class="col-sm-12 form-group">
+                <label asp-for="ClubId"></label>
+                <select asp-for="ClubId" class="form-control">
+                    <option value="">Select a club</option>
+                    @foreach(var club in Model.Clubs){
+                        <option value="@club.Id">@club.Name @(string.IsNullOrEmpty(club.GenresNameJoined) ? null : "(" + club.GenresNameJoined + ")")</option>
+                    }
+                </select>
+            </div>            
+        </div>
+    </div>
+    @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+</form>

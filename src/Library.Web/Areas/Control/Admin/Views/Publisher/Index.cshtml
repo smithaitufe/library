@@ -1,0 +1,36 @@
+@model PublisherListingViewModel
+
+<div class="card shadowed">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="float-left">Publishers</h2>
+                <a class="float-right btn btn-primary" asp-action="Create">Add</a>
+            </div>
+        </div>
+                <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th></th>                    
+                </tr>
+            </thead>
+            <tbody>
+                @for(var i = 0; i < Model.Publishers.Count; i++){
+                    <tr>
+                        <td>@(i+1)</td>
+                        <td>@Model.Publishers[i].Name</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@Model.Publishers[i].Id" class="btn btn-danger btn-sm"><i class="material-icons small">clear</i></a>
+                            <a asp-action="Edit" asp-route-id="@Model.Publishers[i].Id" class="btn btn-primary btn-sm"><i class="material-icons small">mode_edit</i></a>
+                            <a asp-action="Edit" asp-route-id="" class="btn btn-primary btn-sm"><i class="material-icons small">info</i></a>
+                            
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

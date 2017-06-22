@@ -1,0 +1,62 @@
+@model AuthorListingViewModel
+
+@{
+
+}
+<br>
+<!--<a id="createAuthorModal" data-toggle="modal" asp-controller="Author" asp-action="AddEditAuthor" data-target="#modal-author" class="btn btn-primary" style="background-color: #ccc !important; border-color: #ccc !important; ">
+        <i class="glyphicon glyphicon-plus"></i>  Add Author
+    </a>-->
+
+
+
+<div class="content-container shadowed">
+    <div class="content">
+        <div class="row">
+    <div class="col-sm-12">
+        <h3 class="pull-left">Authors</h3>
+        <a asp-action="Create" class="pull-right btn btn-primary">Add Author</a>
+    </div>
+</div>
+<br>
+        <table class="table table-bordered">
+            <thead>
+                <tr>                    
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Books</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.Authors) {
+                    <tr>                        
+                        <td>@item.LastName @item.FirstName</td>
+                        <td>@item.Email</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.Books.Count()</td>
+                        <td>
+                        <!--<a asp-action="AddEditAuthor" asp-route-id="@item.Id" data-target="#modal-author" data-toggle="modal">Edit</a> |-->
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm"><i class="material-icons small">edit</i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm"><i class="material-icons small">info</i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="material-icons small">delete</i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-author", AreaLabeledId = "modal-author-label", Size = ModalSize.Medium })
+
+@section scripts {
+    <script src="~/js/author-index.js" asp-append-version="true"></script>
+    <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script>
+        $(function(){
+             Modal.init("modal-author");             
+        });        
+    </script>        
+}

@@ -1,0 +1,104 @@
+@model BookCatalogueViewModel
+
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+            <h4 class="pl-2 mt-2">categories</h4>
+            <select asp-for="CategoryId" class="form-control">
+                @foreach(var category in Model.Categories) {
+                    <option value="@category.Value" data-url='@Html.Raw(Url.Action("GetBooksByCategory", "Book", new { categoryId = category.Value}))'>@category.Text</option>
+                }
+            </select>
+        </div>
+            </div>
+            <div class="col-sm-12">
+                <div id="filteration">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-8">
+        <div id="categoryBooks" class="px-2 py-2 mt-5"  style="background-color: white;">
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="col-sm-3">
+        <h4 class="pl-2 mt-2">categories</h4>
+        <div style="height: 500px; overflow-y: scroll">
+            <ul class="list-group book-categories">
+            @foreach(var category in Model.Categories) {
+                <li class="list-group-item" data-id="@category.Value" data-url='@Html.Raw(Url.Action("GetBooksByCategory", "Book", new { categoryId = category.Value}))'>@category.Text</li>
+            }    
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-9 pt-3">
+        <br/>    
+        <div id="categoryBooks" class="px-2 py-2"  style="background-color: white;">
+           
+        </div>
+    </div>
+</div>
+*@
+
+@*
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form-inline" asp-action="Catalogue" asp-controller="Book" method="get">
+
+            <label asp-for="CategoryId" class="mr-5"></label>
+            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control mr-5"></select>
+
+            <label asp-for="GenreId" class="control-label mr-5"></label>
+            <select asp-for="GenreId" asp-items="Model.Genres" class="form-control mr-5"></select>
+            <button class="btn btn-primary" type="submit">Search</button>
+       </form>
+   </div>
+</div>
+<div  style="padding-top: 2em">
+</div>
+*@
+
+@section Scripts {
+    <script>
+        $(function(){
+            $(".list-group-item").click(function(){
+                $(".list-group-item").css({"background": "#fff", "color": "inherit"});
+                $(".list-group-item").removeClass("selected-category");
+                $item = $(this);                
+                $item.addClass("selected-category");   
+                $item.css({"background": "#64b5f6", "color": "#fff"});  
+                console.log($item.attr("data-url"));
+                var request;
+                if(request){ request.abort(); }
+                request = $.ajax({
+                    url: $item.attr("data-url"),
+                    type: 'get'
+                });
+                request.done(function(response){                    
+                    $("#categoryBooks").html(response);
+                });
+            })
+
+            $("#CategoryId").on("change", function(){                
+                $item = $(this);    
+                var url = $(this).find(":selected").attr("data-url");
+                var request;
+                if(request){ request.abort(); }
+                request = $.ajax({
+                    url: url,
+                    method: 'get',
+                    cache: false,
+                });
+                request.done(function(response){   
+                    console.log(response);
+                    $("#categoryBooks").html(response);
+                });
+            })
+        })
+    </script>
+}

@@ -103,7 +103,9 @@ namespace Library.Web.Services
         
         public IQueryable<Book> GetAllBooks()
         {
-            return Books;
+            var books =  from b in Books 
+            select b;
+            return books;
         }
         public IQueryable<Book> GetBookById(int id)
         {

@@ -1,0 +1,38 @@
+@model BookPreviewViewModel
+<div class="row">
+    <div class="col-sm-12">
+
+
+<form asp-controller="Book" asp-action="Create">
+    <div class="modal-body">  
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">@Model.Title</h2>
+                @string.Join(", ", Model.Authors.Select(a => a.LastName + " " + a.FirstName[0]).ToList())
+            </div>
+            <div class="card-block">
+                <div class="card-img-block">
+                    <img src="@Model.Cover.Path" alt="" width ="150" height="150">
+                </div>
+                <div><strong>Publisher: </strong>@Model.Publisher.Name</div>
+                <div><strong>ISBN: </strong>@Model.ISBN</div>
+                <div><strong>Genre: </strong>@Model.Genre.Name</div>
+                <div><strong>Year: </strong>@Model.Year.Name</div>
+                
+                <hr>
+               <h5>Sources</h5>
+                        <!--@foreach(var item in Model.Sources){
+                            @item.Name <br/>                        
+                        }-->
+                @string.Join(", ", Model.Sources.Select(l => l.Name).ToList()) 
+                <hr>
+                <h5>Locations</h5>
+                
+                @string.Join(", ", Model.Locations.Select(l => l.Name).ToList())
+            </div>
+        </div>
+    </div>     
+</form>
+
+    </div>
+</div>
