@@ -28,7 +28,7 @@ namespace Library.Web.Models.BookViewModels
         [Required(ErrorMessage = "The publisher is required")]
         public int PublisherId { get; set; }
         [Display(Name = "Is series")]
-        public bool IsSeries { get; set; } = false;
+        public bool Series { get; set; } = false;
         [Display(Name = "No of books in series")]
         public int? NoInSeries { get; set; } = 0;
         [Display(Name = "Year")]

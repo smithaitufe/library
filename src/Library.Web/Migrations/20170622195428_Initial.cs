@@ -91,7 +91,6 @@ namespace Library.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AbsolutePath = table.Column<string>(nullable: true),
                     ContentType = table.Column<string>(nullable: true),
                     Extension = table.Column<string>(nullable: true),
                     InsertedAt = table.Column<DateTime>(nullable: false),
@@ -441,10 +440,9 @@ namespace Library.Web.Migrations
                     GenreId = table.Column<int>(nullable: false),
                     ISBN = table.Column<string>(maxLength: 30, nullable: false),
                     InsertedAt = table.Column<DateTime>(nullable: false),
-                    IsSeries = table.Column<bool>(nullable: false),
                     NoInSeries = table.Column<int>(nullable: true),
                     PublisherId = table.Column<int>(nullable: false),
-                    SerialNo = table.Column<string>(nullable: true),
+                    Series = table.Column<bool>(nullable: false),
                     SubTitle = table.Column<string>(maxLength: 255, nullable: true),
                     Title = table.Column<string>(maxLength: 255, nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true)
@@ -897,10 +895,8 @@ namespace Library.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Checkout = table.Column<int>(nullable: false),
                     InsertedAt = table.Column<DateTime>(nullable: false),
                     LocationId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
                     VariantId = table.Column<int>(nullable: false)
                 },
@@ -959,6 +955,7 @@ namespace Library.Web.Migrations
                     AvailabilityId = table.Column<int>(nullable: false),
                     InsertedAt = table.Column<DateTime>(nullable: false),
                     LocationId = table.Column<int>(nullable: false),
+                    Out = table.Column<bool>(nullable: false),
                     SerialNo = table.Column<string>(maxLength: 20, nullable: true),
                     SourceId = table.Column<int>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true),

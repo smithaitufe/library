@@ -123,13 +123,11 @@ namespace Library.Web.Migrations
 
                     b.Property<DateTime>("InsertedAt");
 
-                    b.Property<bool>("IsSeries");
-
                     b.Property<int?>("NoInSeries");
 
                     b.Property<int>("PublisherId");
 
-                    b.Property<string>("SerialNo");
+                    b.Property<bool>("Series");
 
                     b.Property<string>("SubTitle")
                         .HasMaxLength(255);
@@ -402,8 +400,6 @@ namespace Library.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-                    b.Property<string>("AbsolutePath");
-
                     b.Property<string>("ContentType");
 
                     b.Property<string>("Extension");
@@ -425,13 +421,9 @@ namespace Library.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-                    b.Property<int>("Checkout");
-
                     b.Property<DateTime>("InsertedAt");
 
                     b.Property<int>("LocationId");
-
-                    b.Property<int>("Quantity");
 
                     b.Property<DateTime?>("UpdatedAt");
 
@@ -935,6 +927,8 @@ namespace Library.Web.Migrations
                     b.Property<DateTime>("InsertedAt");
 
                     b.Property<int>("LocationId");
+
+                    b.Property<bool>("Out");
 
                     b.Property<string>("SerialNo")
                         .HasMaxLength(20);

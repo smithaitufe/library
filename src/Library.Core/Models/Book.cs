@@ -12,8 +12,7 @@ namespace Library.Core.Models
         [MaxLength(255)]
         public string SubTitle { get; set; }
         [MaxLength(255)]
-        public string Description { get; set; }
-        public string SerialNo { get; set; }        
+        public string Description { get; set; }          
         [Required]
         [MaxLength(30)]
         public string ISBN { get; set; }
@@ -26,7 +25,7 @@ namespace Library.Core.Models
         [Required]
         [ForeignKey("Publisher")]        
         public int PublisherId { get; set; }
-        public bool IsSeries { get; set; } = false;
+        public bool Series { get; set; } = false;
         public int? NoInSeries { get; set; }
         public Image Cover { get; set; }
 

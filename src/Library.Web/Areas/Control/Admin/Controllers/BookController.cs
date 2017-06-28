@@ -28,9 +28,9 @@ namespace Library.Web.Areas.Control.Admin.Controllers
     [Route("Admin/Book")]
     public class BookController: Controller
     {
-        LibraryDbContext _context;
-        IHostingEnvironment _environment;
-        ImageUploadSettings _imageUploadSettings;
+        private readonly LibraryDbContext _context;
+        private readonly IHostingEnvironment _environment;
+        private readonly ImageUploadSettings _imageUploadSettings;
         private readonly BookService bookService ;
         private readonly TermService termService;
         private readonly PublisherService publisherService;
@@ -41,12 +41,9 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             _environment = environment;
             _imageUploadSettings = imageUploadSettings.Value;
             _mapper = mapper;
-
             bookService = new BookService(context);
             termService = new TermService(context);
-            publisherService  = new PublisherService(context);
-
-            
+            publisherService  = new PublisherService(context);            
         }
         [HttpGet("")]
         public IActionResult Index(SortFilterPageOptions sortFilterPageOptions, SearchBookOptions searchOptions) 
@@ -56,8 +53,7 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             // model.Locations = _context.Locations.OrderBy(t=>t.Name).MapToSelectList().ToList();
             // return View("~/Areas/Control/Admin/Views/Book/Index.cshtml", model);              
 
-            var books = bookService.GetAllBooks().ToList().OrderBy(b=> b.Title).OrderByDescending(b=>b.InsertedAt).ToList();
-            
+            var books = bookService.GetAllBooks().ToList().OrderBy(b=> b.Title).OrderByDescending(b=>b.InsertedAt).ToList();            
             var bookListing = new BookListingViewModel(books, searchOptions, sortFilterPageOptions);            
             return View(bookListing);
         }
@@ -78,25 +74,34 @@ namespace Library.Web.Areas.Control.Admin.Controllers
                 PopulateDropdowns(model);            
                 return View(model);
             }
-            var book = model.MapToBook();                
-            book.Cover = imageService.SaveToDirectory(model.Image).Result;
+
+            var book = model.MapToBook();   
+            var cover = await imageService.SaveToDirectory(model.Image);             
+            book.Cover = cover;
             _context.Books.Add(book);
             await _context.SaveChangesAsync();  
-            model.Id = book.Id;                                           
+            
             var variant = model.MapToVariant();
-            _context.Variants.Add(variant);   
+            variant.BookId = book.Id;
+            _context.Variants.Add(variant);
+            await _context.SaveChangesAsync();
+
             var volume = new Volume 
             { 
                 VariantId = variant.Id, 
                 Name = model.Volume
             };
             _context.Volumes.Add(volume);
+            await _context.SaveChangesAsync();
+
             var edition = new Edition 
             { 
                 VariantId = variant.Id, 
                 Name = model.Edition
             };
-            _context.Editions.Add(edition);   
+            _context.Editions.Add(edition); 
+            await _context.SaveChangesAsync();
+
             var variantPrice = new VariantPrice 
             { 
                 VariantId = variant.Id, 
@@ -104,20 +109,28 @@ namespace Library.Web.Areas.Control.Admin.Controllers
                 PriceId = model.PriceId
             };
             _context.VariantPrices.Add(variantPrice);
+            await _context.SaveChangesAsync();
+
             var variantLanguage = new VariantLanguage 
             { 
                 VariantId = variant.Id, 
                 LanguageId = model.LanguageId
             };
             _context.VariantLanguages.Add(variantLanguage);
+            await _context.SaveChangesAsync();
+
             if(model.SelectedAuthorIds.Any()) {
                 foreach (var authorId in model.SelectedAuthorIds) {
                     int.TryParse(authorId, out int id);
                     var bookAuthor = new BookAuthor { AuthorId = id, BookId = book.Id };
-                    _context.BookAuthors.Add(bookAuthor);                        
+                    _context.BookAuthors.Add(bookAuthor);  
+                    await _context.SaveChangesAsync();                      
                 }
-            } 
-            await _context.SaveChangesAsync();                                                
+            }
+
+
+            // Add the location            
+
             return RedirectToAction(nameof(BookController.Index));
             
         }

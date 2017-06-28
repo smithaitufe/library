@@ -9,7 +9,7 @@ using System;
 namespace Library.Web.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20170618214736_Initial")]
+    [Migration("20170622195428_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,13 +124,11 @@ namespace Library.Web.Migrations
 
                     b.Property<DateTime>("InsertedAt");
 
-                    b.Property<bool>("IsSeries");
-
                     b.Property<int?>("NoInSeries");
 
                     b.Property<int>("PublisherId");
 
-                    b.Property<string>("SerialNo");
+                    b.Property<bool>("Series");
 
                     b.Property<string>("SubTitle")
                         .HasMaxLength(255);
@@ -403,8 +401,6 @@ namespace Library.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-                    b.Property<string>("AbsolutePath");
-
                     b.Property<string>("ContentType");
 
                     b.Property<string>("Extension");
@@ -426,13 +422,9 @@ namespace Library.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-                    b.Property<int>("Checkout");
-
                     b.Property<DateTime>("InsertedAt");
 
                     b.Property<int>("LocationId");
-
-                    b.Property<int>("Quantity");
 
                     b.Property<DateTime?>("UpdatedAt");
 
@@ -936,6 +928,8 @@ namespace Library.Web.Migrations
                     b.Property<DateTime>("InsertedAt");
 
                     b.Property<int>("LocationId");
+
+                    b.Property<bool>("Out");
 
                     b.Property<string>("SerialNo")
                         .HasMaxLength(20);

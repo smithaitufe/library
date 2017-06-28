@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Library.Web.Code;
 using Library.Core.Models;
-// using Library.Data;
 using Library.Repo;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,18 +40,20 @@ namespace Library.Web.Services
             var image = new Image();
             var path = _imageUploadSettings.BookLocation;            
             var uploads = Path.Combine(_environment.WebRootPath, path.Substring(1));
+
             if (file.Length > 0)
             {
                 if(!Directory.Exists(uploads)){
                     Directory.CreateDirectory(uploads);
                 }
+
                 var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                 using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
                 {
                     await file.CopyToAsync(fileStream);
-                    var absolutePath = Path.Combine(uploads, file.FileName);
+                    
                     path = Path.Combine(path, file.FileName);                    
-                    image = new Image { Path = path, AbsolutePath = absolutePath, Extension = Path.GetExtension(file.FileName) };
+                    image = new Image { Path = path, Extension = Path.GetExtension(file.FileName) };
                     _context.Images.Add(image);
                     await _context.SaveChangesAsync();
                     return image;
@@ -60,20 +61,7 @@ namespace Library.Web.Services
             }
             return image;            
         }
-        // public ICollection<Image> GetImagesByBookId(int id)
-        // {
-        //     var bimages = _context.BookImages.ToList();
-        //     var images = _context.BookImages
-        //     .Include(bi => bi.Book)
-        //     .Where(bi => bi.BookId == id)
-        //     .Select(bi => bi.Image).ToList();
-        //     return images;
-        // }
-        // public async void DeleteImage(int id) {
-        //     var image = _context.Images.Find(id);
-        //     File.Delete()
-        //     _context.Images.Remove(image);
-        // }
+
 
     }
 }

@@ -14,6 +14,7 @@ namespace Library.Core.Models
         public int SourceId { get; set; }  
         [MaxLength(20)]       
         public string SerialNo { get; set; } 
+        public bool Out { get; set; } = false;        
         public bool Visible { get; set; } = true;
 
 

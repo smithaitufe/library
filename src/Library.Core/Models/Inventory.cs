@@ -7,10 +7,7 @@ namespace Library.Core.Models
         [Required]
         public int LocationId { get; set; }
         [Required]
-        public int VariantId { get; set; }
-        [Required]
-        public int Quantity{ get; set; } = 0 ;
-        public int Checkout { get; set; } = 0;
+        public int VariantId { get; set; }      
 
         [ForeignKey("LocationId")]
         public Term Location { get; set; }
