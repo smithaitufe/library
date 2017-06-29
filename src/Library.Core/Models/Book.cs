@@ -12,10 +12,7 @@ namespace Library.Core.Models
         [MaxLength(255)]
         public string SubTitle { get; set; }
         [MaxLength(255)]
-        public string Description { get; set; }          
-        [Required]
-        [MaxLength(30)]
-        public string ISBN { get; set; }
+        public string Description { get; set; }        
         [Required]
         [ForeignKey("Genre")]
         public int GenreId { get; set; }        

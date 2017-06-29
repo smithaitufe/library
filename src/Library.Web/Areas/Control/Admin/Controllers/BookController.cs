@@ -80,43 +80,18 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             book.Cover = cover;
             _context.Books.Add(book);
             await _context.SaveChangesAsync();  
-            
+                        
             var variant = model.MapToVariant();
             variant.BookId = book.Id;
             _context.Variants.Add(variant);
             await _context.SaveChangesAsync();
-
-            var volume = new Volume 
-            { 
-                VariantId = variant.Id, 
-                Name = model.Volume
-            };
-            _context.Volumes.Add(volume);
-            await _context.SaveChangesAsync();
-
-            var edition = new Edition 
-            { 
-                VariantId = variant.Id, 
-                Name = model.Edition
-            };
-            _context.Editions.Add(edition); 
-            await _context.SaveChangesAsync();
-
             var variantPrice = new VariantPrice 
             { 
                 VariantId = variant.Id, 
                 ConditionId = model.ConditionId,  
                 PriceId = model.PriceId
             };
-            _context.VariantPrices.Add(variantPrice);
-            await _context.SaveChangesAsync();
-
-            var variantLanguage = new VariantLanguage 
-            { 
-                VariantId = variant.Id, 
-                LanguageId = model.LanguageId
-            };
-            _context.VariantLanguages.Add(variantLanguage);
+            _context.VariantPrices.Add(variantPrice);                        
             await _context.SaveChangesAsync();
 
             if(model.SelectedAuthorIds.Any()) {
@@ -140,7 +115,7 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             var book = bookService.GetBookByVariantId(id).MapToBookViewModel().SingleOrDefault();
             return View(book);
         }
-        [HttpGet("Edit/{id}")]
+        [HttpGet("Edit/{id:int}")]
         public IActionResult Edit(int id) 
         {            
             var imageService = new ImageService(_context);
@@ -149,6 +124,35 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             book.SelectedAuthorIds = bookService.GetBookAuthors(id).Select( a => a.Id.ToString()).ToArray<string>();            
             PopulateDropdowns(book);
             return View(book);
+        }
+        [HttpPost("Edit/{id:int}")]
+        public async Task<IActionResult> Edit(int id, BookEditorViewModel model) 
+        {
+            if(ModelState.IsValid){
+                if(model.Image.Length > 0){
+                    var imageService = new ImageService(_context, _environment, _imageUploadSettings);
+                    var image = imageService.SaveToDirectory(model.Image).Result;
+                }
+                var bookService = new BookService(_context);
+                var book = model.MapToBook();
+                _context.Books.Add(book);
+                await _context.SaveChangesAsync();  
+                model.Id = book.Id;                                           
+                _context.Variants.Add(model.MapToVariant());                               
+                if(model.SelectedAuthorIds.Any()) {                  
+                    foreach (var authorId in model.SelectedAuthorIds)
+                    {
+                        var bookAuthor = new BookAuthor { AuthorId = int.Parse(authorId), BookId = book.Id };
+                        _context.BookAuthors.Add(bookAuthor);                        
+                    }
+                } 
+                await _context.SaveChangesAsync();                                                
+                
+                           
+                return RedirectToAction(nameof(BookController.Index));                
+            }
+            PopulateDropdowns(model);
+            return View(model);            
         }
         [HttpGet("{id:int}/Basic")]
         public async Task<IActionResult> BookBasic(int id)
@@ -163,7 +167,7 @@ namespace Library.Web.Areas.Control.Admin.Controllers
                 Id = book.Id,
                 Title = book.Title,
                 SubTitle = book.SubTitle,
-                ISBN = book.ISBN,
+                // ISBN = book.ISBN,
                 Category = book.Category,
                 Publisher = book.Publisher,
                 Authors = book.AuthorsLink.Select(al => al.Author).ToList(), 
@@ -189,7 +193,7 @@ namespace Library.Web.Areas.Control.Admin.Controllers
                 GenreId = book.GenreId,                
                 Title = book.Title,
                 SubTitle = book.SubTitle,
-                ISBN = book.ISBN,
+                // ISBN = book.ISBN,
                 CategoryId = book.CategoryId,
                 PublisherId = book.PublisherId,                 
                 Cover = book.Cover,
@@ -412,195 +416,195 @@ namespace Library.Web.Areas.Control.Admin.Controllers
         }
         
 
-        [HttpGet("{id}/Types/{typeId:int}/Editions")]
-        public async Task<IActionResult> BookEditions(int id, int typeId) 
-        {
-            var variant = await GetVariant(id, typeId);
+        // [HttpGet("{id}/Types/{typeId:int}/Editions")]
+        // public async Task<IActionResult> BookEditions(int id, int typeId) 
+        // {
+        //     var variant = await GetVariant(id, typeId);
 
-            var model = new BookEditionListingViewModel();
-            model.Variant = variant;
-            model.Editions = variant.Editions.ToList();
-            return View("Views/Edition/Index", model);
-        }
+        //     var model = new BookEditionListingViewModel();
+        //     model.Variant = variant;
+        //     model.Editions = variant.Editions.ToList();
+        //     return View("Views/Edition/Index", model);
+        // }
 
-        [HttpGet("{id:int}/Types/{typeId:int}/Editions/Create")]
-        public async Task<IActionResult> CreateBookEdition(int id, int typeId) 
-        {
-            var variant = await GetVariant(id, typeId);            
-            if(variant == null)
-            {
-                return NotFound();
-            }
-            var model = new BookEditionEditorViewModel() 
-            { 
-                VariantId = variant.Id, 
-                Variant = variant, 
-                EditorAttributes = new EditorAttributes { ActionUrl = "CreateBookEdition", Caption = "Create Book Edition"} 
-            };            
-            return View("Views/Edition/Create", model);
-        }
-        [HttpPost("{id:int}/Types/{typeId:int}/Editions/Create")]
-        public async Task<IActionResult> CreateBookEdition(int id, int typeId, BookEditionEditorViewModel model) 
-        {
-            var variant = await GetVariant(id, typeId);
-            if(variant == null)
-            {
-                return NotFound();
-            }
+        // [HttpGet("{id:int}/Types/{typeId:int}/Editions/Create")]
+        // public async Task<IActionResult> CreateBookEdition(int id, int typeId) 
+        // {
+        //     var variant = await GetVariant(id, typeId);            
+        //     if(variant == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     var model = new BookEditionEditorViewModel() 
+        //     { 
+        //         VariantId = variant.Id, 
+        //         Variant = variant, 
+        //         EditorAttributes = new EditorAttributes { ActionUrl = "CreateBookEdition", Caption = "Create Book Edition"} 
+        //     };            
+        //     return View("Views/Edition/Create", model);
+        // }
+        // [HttpPost("{id:int}/Types/{typeId:int}/Editions/Create")]
+        // public async Task<IActionResult> CreateBookEdition(int id, int typeId, BookEditionEditorViewModel model) 
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     if(variant == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            if(!ModelState.IsValid)
-            {
-                model.Variant = variant;
-                model.EditorAttributes = new EditorAttributes { ActionUrl = "CreateBookEdition", Caption = "Create Book Edition"};
-                return View("Views/Edition/Create", model);
-            }
+        //     if(!ModelState.IsValid)
+        //     {
+        //         model.Variant = variant;
+        //         model.EditorAttributes = new EditorAttributes { ActionUrl = "CreateBookEdition", Caption = "Create Book Edition"};
+        //         return View("Views/Edition/Create", model);
+        //     }
 
-            var edition = _mapper.Map<BookEditionEditorViewModel, Edition>(model, opts => opts.BeforeMap((s,d) => { s.Id = null; } ));
-            _context.Editions.Add(edition);
-            await _context.SaveChangesAsync();
+        //     var edition = _mapper.Map<BookEditionEditorViewModel, Edition>(model, opts => opts.BeforeMap((s,d) => { s.Id = null; } ));
+        //     _context.Editions.Add(edition);
+        //     await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(BookController.BookEditions));            
-        }
+        //     return RedirectToAction(nameof(BookController.BookEditions));            
+        // }
 
-        [HttpGet("{id:int}/Types/{typeId:int}/Editions/{editionId:int}/Edit")]
-        public async Task<IActionResult> EditBookEdition(int id, int typeId, int editionId) 
-        {
-            var variant = await GetVariant(id, typeId);
-            if(variant == null)
-            {
-                return NotFound();
-            }
-            var edition = variant.Editions.Where(e=>e.Id == editionId).SingleOrDefault();
-            if(edition == null)
-            {
-                return NotFound();
-            }
-            var model = _mapper.Map<Edition, BookEditionEditorViewModel>(edition);
-            model.EditorAttributes = new EditorAttributes { ActionUrl = "EditBookEdition"};                      
-            return View("Views/Edition/Edit", model);
-        }
+        // [HttpGet("{id:int}/Types/{typeId:int}/Editions/{editionId:int}/Edit")]
+        // public async Task<IActionResult> EditBookEdition(int id, int typeId, int editionId) 
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     if(variant == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     var edition = variant.Editions.Where(e=>e.Id == editionId).SingleOrDefault();
+        //     if(edition == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     var model = _mapper.Map<Edition, BookEditionEditorViewModel>(edition);
+        //     model.EditorAttributes = new EditorAttributes { ActionUrl = "EditBookEdition"};                      
+        //     return View("Views/Edition/Edit", model);
+        // }
 
-        [HttpPost("{id:int}/Types/{typeId:int}/Editions/{editionId:int}/Edit")]
-        public async Task<IActionResult> EditBookEdition(int id, int typeId, int editionId, BookEditionEditorViewModel model) 
-        {
-            var variant =  await GetVariant(id, typeId);
-            if(variant == null)
-            {
-                return NotFound();
-            }
+        // [HttpPost("{id:int}/Types/{typeId:int}/Editions/{editionId:int}/Edit")]
+        // public async Task<IActionResult> EditBookEdition(int id, int typeId, int editionId, BookEditionEditorViewModel model) 
+        // {
+        //     var variant =  await GetVariant(id, typeId);
+        //     if(variant == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            if(!ModelState.IsValid)
-            {
-                model.Variant = variant;
-                model.EditorAttributes = new EditorAttributes { ActionUrl = "EditBookEdition"};
-                return View("Views/Edition/Edit", model);
-            }
-            var edition = _context.Set<Edition>().SingleOrDefault(e=>e.Id == editionId);
-            // edition = _mapper.Map<BookEditionEditorViewModel, Edition>(model, opts=>opts.AfterMap((s,d)=> {
-            //     d.UpdatedAt = DateTime.Now;
-            //     d.Id = editionId;
-            // }));
-            // _context.Editions.Attach(edition);
-            edition.Name = model.Name;
-            edition.UpdatedAt = DateTime.Now;
-            _context.Entry(edition).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+        //     if(!ModelState.IsValid)
+        //     {
+        //         model.Variant = variant;
+        //         model.EditorAttributes = new EditorAttributes { ActionUrl = "EditBookEdition"};
+        //         return View("Views/Edition/Edit", model);
+        //     }
+        //     var edition = _context.Set<Edition>().SingleOrDefault(e=>e.Id == editionId);
+        //     // edition = _mapper.Map<BookEditionEditorViewModel, Edition>(model, opts=>opts.AfterMap((s,d)=> {
+        //     //     d.UpdatedAt = DateTime.Now;
+        //     //     d.Id = editionId;
+        //     // }));
+        //     // _context.Editions.Attach(edition);
+        //     edition.Name = model.Name;
+        //     edition.UpdatedAt = DateTime.Now;
+        //     _context.Entry(edition).State = EntityState.Modified;
+        //     await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(BookController.BookEditions));            
-        }
-        [HttpGet("{id:int}/Types/{typeId:int}/Volumes")]
-        public async Task<IActionResult> BookVolumes(int id, int typeId)
-        {
-            var variant = await GetVariant(id, typeId);
-            var model = new BookVolumeListingViewModel();
-            model.Variant = variant;
-            model.Volumes = variant.Volumes.ToList();
-            return View("Views/Volume/Index", model);
-        }
+        //     return RedirectToAction(nameof(BookController.BookEditions));            
+        // }
+        // [HttpGet("{id:int}/Types/{typeId:int}/Volumes")]
+        // public async Task<IActionResult> BookVolumes(int id, int typeId)
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     var model = new BookVolumeListingViewModel();
+        //     model.Variant = variant;
+        //     model.Volumes = variant.Volumes.ToList();
+        //     return View("Views/Volume/Index", model);
+        // }
 
-        [HttpGet("{id:int}/Types/{typeId:int}/Volumes/Create")]
-        public async Task<IActionResult> CreateBookVolume(int id, int typeId)
-        {
-            var variant = await GetVariant(id, typeId);
-            if(variant == null)
-            {
-                return NotFound();
-            }
-            var model = new BookVolumeEditorViewModel() 
-            { 
-                VariantId = variant.Id, 
-                Variant = variant, 
-                EditorAttributes = new EditorAttributes { ActionUrl = "CreateBookVolume", Caption = "Create Volume"} 
-            };            
-            return View("Views/Volume/Create", model);
-        }
+        // [HttpGet("{id:int}/Types/{typeId:int}/Volumes/Create")]
+        // public async Task<IActionResult> CreateBookVolume(int id, int typeId)
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     if(variant == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     var model = new BookVolumeEditorViewModel() 
+        //     { 
+        //         VariantId = variant.Id, 
+        //         Variant = variant, 
+        //         EditorAttributes = new EditorAttributes { ActionUrl = "CreateBookVolume", Caption = "Create Volume"} 
+        //     };            
+        //     return View("Views/Volume/Create", model);
+        // }
         
-        [HttpPost("{id:int}/Types/{typeId:int}/Volumes/Create")]
-        public async Task<IActionResult> CreateBookVolume(int id, int typeId, BookVolumeEditorViewModel model)
-        {
-            var variant = await GetVariant(id, typeId);
-            if(variant == null)
-            {
-                return NotFound();
-            }
+        // [HttpPost("{id:int}/Types/{typeId:int}/Volumes/Create")]
+        // public async Task<IActionResult> CreateBookVolume(int id, int typeId, BookVolumeEditorViewModel model)
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     if(variant == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            if(!ModelState.IsValid)
-            {
-                model.Variant = variant;
-                model.VariantId = variant.Id;
-                return View("Views/Volume/Create", model);
-            }
+        //     if(!ModelState.IsValid)
+        //     {
+        //         model.Variant = variant;
+        //         model.VariantId = variant.Id;
+        //         return View("Views/Volume/Create", model);
+        //     }
 
-            var volume = _mapper.Map<BookVolumeEditorViewModel, Volume>(model, opts => opts.BeforeMap((s,d) => { s.Id = null; }));
-            _context.Volumes.Add(volume);
-            await _context.SaveChangesAsync();
+        //     var volume = _mapper.Map<BookVolumeEditorViewModel, Volume>(model, opts => opts.BeforeMap((s,d) => { s.Id = null; }));
+        //     _context.Volumes.Add(volume);
+        //     await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(BookController.BookVolumes));            
-        }
+        //     return RedirectToAction(nameof(BookController.BookVolumes));            
+        // }
 
-        [HttpGet("{id:int}/Types/{typeId:int}/Volumes/{volumeId:int}/Edit")]
-        public async Task<IActionResult> EditBookVolume(int id, int typeId, int volumeId) 
-        {
-            var variant = await GetVariant(id, typeId);
-            if(variant == null)
-            {
-                return NotFound();
-            }
-            var volume = variant.Volumes.Where(v=>v.Id == volumeId).SingleOrDefault();
-            if(volume == null)
-            {
-                return NotFound();
-            }
+        // [HttpGet("{id:int}/Types/{typeId:int}/Volumes/{volumeId:int}/Edit")]
+        // public async Task<IActionResult> EditBookVolume(int id, int typeId, int volumeId) 
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     if(variant == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     var volume = variant.Volumes.Where(v=>v.Id == volumeId).SingleOrDefault();
+        //     if(volume == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            var model = _mapper.Map<Volume, BookVolumeEditorViewModel>(volume);
-            model.EditorAttributes = new EditorAttributes { ActionUrl = "EditBookVolume", Caption = "Edit Volume"};                      
-            return View("Views/Volume/Edit", model);
-        }
-        [HttpPost("{id:int}/Types/{typeId:int}/Volumes/{volumeId:int}/Edit")]
-        public async Task<IActionResult> EditBookVolume(int id, int typeId, int volumeId, BookVolumeEditorViewModel model) 
-        {
-            var variant = await GetVariant(id, typeId);
-            if(variant == null)
-            {
-                return NotFound();
-            }
+        //     var model = _mapper.Map<Volume, BookVolumeEditorViewModel>(volume);
+        //     model.EditorAttributes = new EditorAttributes { ActionUrl = "EditBookVolume", Caption = "Edit Volume"};                      
+        //     return View("Views/Volume/Edit", model);
+        // }
+        // [HttpPost("{id:int}/Types/{typeId:int}/Volumes/{volumeId:int}/Edit")]
+        // public async Task<IActionResult> EditBookVolume(int id, int typeId, int volumeId, BookVolumeEditorViewModel model) 
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     if(variant == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            if(!ModelState.IsValid)
-            {
-                model.Variant = variant;                
-                return View("Views/Volume/Edit", model);
-            }
+        //     if(!ModelState.IsValid)
+        //     {
+        //         model.Variant = variant;                
+        //         return View("Views/Volume/Edit", model);
+        //     }
 
-            //var volume = _mapper.Map<BookVolumeEditorViewModel, Volume>(model, opts=>opts.BeforeMap((s,d)=> s.Id = volumeId));
-            // _context.Volumes.Attach(volume);
+        //     //var volume = _mapper.Map<BookVolumeEditorViewModel, Volume>(model, opts=>opts.BeforeMap((s,d)=> s.Id = volumeId));
+        //     // _context.Volumes.Attach(volume);
 
-            var volume = _context.Set<Volume>().SingleOrDefault(v=>v.Id == volumeId);
-            volume.Name = model.Name;
-            volume.UpdatedAt = DateTime.Now;            
-            _context.Entry(volume).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(BookController.BookVolumes));            
-        }
+        //     var volume = _context.Set<Volume>().SingleOrDefault(v=>v.Id == volumeId);
+        //     volume.Name = model.Name;
+        //     volume.UpdatedAt = DateTime.Now;            
+        //     _context.Entry(volume).State = EntityState.Modified;
+        //     await _context.SaveChangesAsync();
+        //     return RedirectToAction(nameof(BookController.BookVolumes));            
+        // }
         
         [HttpPost("{id}/DeleteBookLocation")]
         public IActionResult DeleteBookLocation(int id) 
@@ -611,39 +615,9 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             return Json(new StatusViewModel{ Successful = true });
         }
         
-        [HttpPost("Edit")]
-        public async Task<IActionResult> Edit(int id, BookEditorViewModel model) 
-        {
-            if(ModelState.IsValid){
-                if(model.Image.Length > 0){
-                    var imageService = new ImageService(_context, _environment, _imageUploadSettings);
-                    var image = imageService.SaveToDirectory(model.Image).Result;
-                }
-                var bookService = new BookService(_context);
-                var book = model.MapToBook();
-                _context.Books.Add(book);
-                await _context.SaveChangesAsync();  
-                model.Id = book.Id;                                           
-                _context.Variants.Add(model.MapToVariant());                
-                _context.Volumes.Add(model.MapToVolume());
-                _context.Editions.Add(model.MapToEdition());                
-                if(model.SelectedAuthorIds.Any()) {                  
-                    foreach (var authorId in model.SelectedAuthorIds)
-                    {
-                        var bookAuthor = new BookAuthor { AuthorId = int.Parse(authorId), BookId = book.Id };
-                        _context.BookAuthors.Add(bookAuthor);                        
-                    }
-                } 
-                await _context.SaveChangesAsync();                                                
-                
-                           
-                return RedirectToAction(nameof(BookController.Index));                
-            }
-            PopulateDropdowns(model);
-            return View(model);            
-        }
-        private void PopulateDropdowns(BookEditorViewModel model) {
-            
+
+        private void PopulateDropdowns(BookEditorViewModel model) 
+        {            
             var authorService = new AuthorService(_context);
             
             model.BookFormats = termService.GetTermsBySet("book-format").OrderBy(t=>t.Name).MapToSelectList();

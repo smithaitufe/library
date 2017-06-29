@@ -67,11 +67,7 @@ namespace Library.Web
                 cfg.CreateMap<LocationEditorViewModel, Location>();
                 cfg.CreateMap<Location, LocationEditorViewModel>();
                 cfg.CreateMap<StateEditorViewModel, State>();
-                cfg.CreateMap<State, StateEditorViewModel>();
-                cfg.CreateMap<Edition, BookEditionEditorViewModel>();
-                cfg.CreateMap<BookEditionEditorViewModel, Edition>();
-                cfg.CreateMap<Volume, BookVolumeEditorViewModel>();
-                cfg.CreateMap<BookVolumeEditorViewModel, Volume>();      
+                cfg.CreateMap<State, StateEditorViewModel>();                   
                 cfg.CreateMap<VariantLocation, BookLocationEditorViewModel>();             
                 cfg.CreateMap<BookLocationEditorViewModel, VariantLocation>();
                 cfg.CreateMap<VariantLocation, BookLocationEditorViewModel>();             

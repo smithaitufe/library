@@ -10,22 +10,18 @@ namespace Library.Repo
 {
     public class LibraryDbContext: IdentityDbContext<User, Role, int>
     {
-                public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
         public DbSet<TermSet> TermSets { get; set; }
         public DbSet<Term> Terms { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Author> Authors { get; set; }
-        public DbSet<Book> Books { get; set; }
-        // public DbSet<BookImage> BookImages { get; set; }
+        public DbSet<Book> Books { get; set; }        
         public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<Variant> Variants { get; set; }
-        public DbSet<VariantPrice> VariantPrices { get; set; }
-        public DbSet<VariantLanguage> VariantLanguages { get; set; }
+        public DbSet<VariantPrice> VariantPrices { get; set; }        
         public DbSet<VariantLocation> VariantLocations { get; set; }
-        public DbSet<Volume> Volumes { get; set; }
-        public DbSet<Edition> Editions { get; set; }
         public DbSet<CheckOut> CheckOuts { get; set; }  
         public DbSet<CheckOutStatus> CheckOutStatuses { get; set; }  
         public DbSet<CheckOutState> CheckOutStates { get; set; }

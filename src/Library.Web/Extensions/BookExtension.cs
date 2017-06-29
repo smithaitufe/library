@@ -17,15 +17,13 @@ namespace Library.Web.Extensions
             {
                 Id = model.Id,
                 Title = model.Title,
-                SubTitle = model.SubTitle,
-                ISBN = model.ISBN,
+                SubTitle = model.SubTitle,                
                 Description = model.Description,
                 Series = model.Series,
                 NoInSeries = model.NoInSeries,
                 CategoryId = model.CategoryId,
                 GenreId = model.GenreId,
                 PublisherId = model.PublisherId
-
             };
             return book;
         }
@@ -40,14 +38,17 @@ namespace Library.Web.Extensions
                 DaysAllowedId = model.DaysAllowedId,
                 FineId = model.FineId,
                 YearId = model.YearId,
-                Pages = model.Pages
+                Pages = model.Pages,
+
+                ISBN = model.ISBN,
+                Edition = model.Edition,
+                Volume = model.Volume,
+                LanguageId = model.LanguageId,
             };
             return variant;
-        }
-        public static Volume MapToVolume(this BookEditorViewModel model) => new Volume { VariantId = (int)model.VariantId, Name = model.Volume };
-        public static Edition MapToEdition(this BookEditorViewModel model) => new Edition { VariantId = (int)model.VariantId, Name = model.Edition };
+        }       
+        
         public static VariantPrice MapToVariantPrice(this BookEditorViewModel model) => new VariantPrice { VariantId = (int)model.VariantId, PriceId = model.PriceId, ConditionId = model.ConditionId };
-        public static VariantLanguage MapToVariantLanguage(this BookEditorViewModel model) => new VariantLanguage { VariantId = (int)model.VariantId, LanguageId = model.LanguageId };
         public static VariantLocation MapToVariantLocation(this BookEditorViewModel model) => new VariantLocation { VariantId = (int)model.VariantId, LocationId = model.LocationId, AvailabilityId = model.AvailabilityId, SourceId = model.SourceId };
         public static IQueryable<BookLocationViewModel> MapToVariantLocationViewModel(this IQueryable<VariantLocation> variantLocation) {
             var query = variantLocation.Select(vl => new BookLocationViewModel {
@@ -68,10 +69,10 @@ namespace Library.Web.Extensions
                 book => new BookViewModel
                 {
                     Title = book.Title,
-                    ISBN = book.ISBN,
                     Description = book.Description,
                     GenreId = book.GenreId,
                     Genre = book.Genre,
+                    // ISBN = book.ISBN,
                     CategoryId = book.CategoryId,
                     Authors = book.AuthorsLink.Select(al => al.Author).ToList()
                 }
@@ -82,10 +83,8 @@ namespace Library.Web.Extensions
             return variants.Select(v => new BookViewModel
                 {
                     Id = v.Book.Id,
-                    VariantId = v.Id,
                     Title = v.Book.Title,
-                    SubTitle = v.Book.SubTitle,
-                    ISBN = v.Book.ISBN,
+                    SubTitle = v.Book.SubTitle,                    
                     Description = v.Book.Description,
                     GenreId = v.Book.GenreId,
                     Genre = v.Book.Genre,
@@ -94,6 +93,8 @@ namespace Library.Web.Extensions
                     CategoryId = v.Book.CategoryId,
                     Category = v.Book.Category,
                     Cover = v.Book.Cover,
+                    VariantId = v.Id,
+                    ISBN = v.ISBN,
                     YearId = v.YearId,
                     Year = v.Year,
                     GrantId = v.GrantId,
@@ -106,8 +107,8 @@ namespace Library.Web.Extensions
                     DaysAllowedId = v.DaysAllowedId,
                     DaysAllowed = v.DaysAllowed,
                     Format = v.Format.Name,
-                    Volumes = v.Volumes,
-                    Editions = v.Editions,
+                    Volume = v.Volume,
+                    Edition = v.Edition,
                     Locations = v.VariantLocations.ToList(),
                     Sources = v.VariantLocations.Select(vl => vl.Source).ToList()
                 });
@@ -118,13 +119,13 @@ namespace Library.Web.Extensions
             {
                 Title = v.Book.Title,
                 SubTitle = v.Book.SubTitle,
-                ISBN = v.Book.ISBN,
                 Description = v.Book.Description,
                 Genre = v.Book.Genre,
                 Authors = v.Book.AuthorsLink.Select(al => al.Author).MapToAuthorViewModel().ToList(),
                 Category = v.Book.Category,
                 Cover = v.Book.Cover,
                 Publisher = v.Book.Publisher,
+                ISBN = v.ISBN,
                 Year = v.Year,
                 Fine = v.Fine,                
                 DaysAllowed = v.DaysAllowed,
@@ -149,7 +150,7 @@ namespace Library.Web.Extensions
                        BookVariantId = co.Variant.Id,
                        Title = co.Variant.Book.Title,
                        Genre = co.Variant.Book.Genre,
-                       ISBN = co.Variant.Book.ISBN,
+                       ISBN = co.Variant.ISBN,
                        Format = co.Variant.Format.Name,
                        Authors = co.Variant.Book.AuthorsLink.Select(al => al.Author).ToList(),
                        Patron = co.Patron,
@@ -163,31 +164,25 @@ namespace Library.Web.Extensions
         {
             var result = new BookEditorViewModel
             {
-                VariantId = model.Id,
-                Pages = model.Pages,
-                FormatId = model.FormatId,
-                // SerialNo = model.SerialNo,
                 Id = model.Book.Id,
                 Title = model.Book.Title,
                 SubTitle = model.Book.SubTitle,
-                ISBN = model.Book.ISBN,
                 Description = model.Book.Description,
-                // LocationId = model.LocationId,
-                CollectionModeId = model.CollectionModeId,
+                GenreId = model.Book.GenreId,
                 Series = model.Book.Series,
                 NoInSeries = model.Book.NoInSeries,
-                // PriceId = model.PriceId,
-                // ConditionId = model.ConditionId,
-                // LanguageId = model.Book.LanguageId,
-                // SourceId = model.SourceId,
-                CategoryId = model.Book.CategoryId,
-                // AvailabilityId = model.AvailabilityId,
+                CategoryId = model.Book.CategoryId,                
+                PublisherId = model.Book.PublisherId,
+
+                VariantId = model.Id,
+                Pages = model.Pages,
+                FormatId = model.FormatId,
+                ISBN = model.ISBN,                
+                CollectionModeId = model.CollectionModeId,                
                 GrantId = model.GrantId,
                 DaysAllowedId = model.DaysAllowedId,
-                FineId = model.FineId,
-                GenreId = model.Book.GenreId,
-                YearId = model.YearId,
-                PublisherId = model.Book.PublisherId
+                FineId = model.FineId,                
+                YearId = model.YearId                
             };
             return result;
         }
@@ -200,7 +195,7 @@ namespace Library.Web.Extensions
                 VariantId = v.Id,
                 Title = v.Book.Title,
                 SubTitle = v.Book.SubTitle,
-                ISBN = v.Book.ISBN,
+                ISBN = v.ISBN,
                 Description = v.Book.Description,
                 GenreId = v.Book.GenreId,
                 Genre = v.Book.Genre,
@@ -219,8 +214,8 @@ namespace Library.Web.Extensions
                 DaysAllowed = v.DaysAllowed,
                 Locations = v.VariantLocations.ToList(),
                 Format = v.Format.Name,
-                Volumes = v.Volumes,
-                Editions = v.Editions
+                Volume = v.Volume,
+                Edition = v.Edition
             };
         }
 
@@ -281,7 +276,7 @@ namespace Library.Web.Extensions
                 RequestedDays = co.RequestedDays.Name,
                 ApprovedDays = co.ApprovedDays.Name,
                 BookTitle = co.Variant.Book.Title,
-                BookISBN = co.Variant.Book.ISBN,
+                BookISBN = co.Variant.ISBN,
                 BookFormat = co.Variant.Format.Name,
                 PatronName = $"{co.Patron.LastName}, {co.Patron.FirstName}",
                 PatronUserName = co.Patron.UserName,

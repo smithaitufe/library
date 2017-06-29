@@ -74,16 +74,11 @@ namespace Library.Web.Models.BookViewModels
         public Term Condition { get; set; }
         public Image Image { get; set; }
         
-        public ICollection<VariantPrice> Prices { get; set; }
-        public ICollection<VariantLanguage> Languages { get; set; }
+        public ICollection<VariantPrice> Prices { get; set; }        
         public ICollection<VariantLocation> Locations { get; set; }
         public ICollection<Term> Sources { get; set; }
         public ICollection<Publisher> Publishers { get; set; }
-        public ICollection<Author> Authors { get; set; }
-
-
-        public ICollection<Volume> Volumes { get; set; }
-        public ICollection<Edition> Editions { get; set; }
+        public ICollection<Author> Authors { get; set; }        
         public Publisher Publisher { get; set; }
 
     }

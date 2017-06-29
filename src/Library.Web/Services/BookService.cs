@@ -40,8 +40,6 @@ namespace Library.Web.Services
             .Include(v => v.VariantLocations)
             .ThenInclude(vl => vl.Location)
             .Include(v => v.Grant)
-            .Include(v => v.Volumes)
-            .Include(v => v.Editions)
             .Include(v => v.Book)
             .ThenInclude(b => b.Genre)
             .Include(v => v.Book)
@@ -50,8 +48,7 @@ namespace Library.Web.Services
             .Include(v => v.PricesLink)
             .ThenInclude( pl => pl.Price)
             .Include(v => v.PricesLink)
-            .ThenInclude( pl => pl.Condition)
-            .Include(v => v.Languages);
+            .ThenInclude( pl => pl.Condition);
         
         private IQueryable<CheckOut> CheckOuts => context.CheckOuts
                 .Include(co => co.Patron)
@@ -77,11 +74,7 @@ namespace Library.Web.Services
                 .ThenInclude(l => l.Location)
                 .Include(co => co.Variant)
                 .ThenInclude(v => v.Grant)
-                .Include(co => co.Variant)
-                .ThenInclude(v => v.Volumes)
-                .Include(co => co.Variant)
-                .ThenInclude(v => v.Editions)
-                .Include(co => co.Variant)
+                .Include(co => co.Variant)                
                 .ThenInclude(v => v.Book)
                 .ThenInclude(b => b.Genre)
                 .Include(co => co.Variant)
@@ -96,9 +89,7 @@ namespace Library.Web.Services
                 .ThenInclude( pl => pl.Price)
                 .Include(co => co.Variant)
                 .ThenInclude(v => v.PricesLink)
-                .ThenInclude( pl => pl.Condition)
-                .Include(co => co.Variant)
-                .ThenInclude(v => v.Languages);
+                .ThenInclude( pl => pl.Condition);
 
         
         public IQueryable<Book> GetAllBooks()

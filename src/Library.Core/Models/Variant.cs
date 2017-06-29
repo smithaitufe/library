@@ -9,6 +9,15 @@ namespace Library.Core.Models
         [Required]
         public int BookId { get; set; }
         [Required]
+        [MaxLength(30)]
+        public string ISBN { get; set; }
+        [StringLength(50)]
+        public string Edition { get; set; }
+        [StringLength(50)]
+        public string Volume { get; set; }
+        [ForeignKey("Language")]
+        public int LanguageId { get; set; }        
+        [Required]
         public int Pages { get; set; }
         [Required]
         public int FormatId { get; set; }      
@@ -17,15 +26,16 @@ namespace Library.Core.Models
         [Required]
         public int YearId { get; set; }
         [Required]
+        [ForeignKey("DaysAllowed")]
         public int DaysAllowedId { get; set; }
+        [ForeignKey("CollectionMode")]
         public int CollectionModeId { get; set; }
+        [ForeignKey("Fine")]
         public int FineId { get; set; }        
         // Navigation Properties
-        [ForeignKey("DaysAllowedId")]
+        public Term Language { get; set; }
         public Term DaysAllowed { get; set; }               
-        [ForeignKey("CollectionModeId")]
         public Term CollectionMode { get; set; }        
-        [ForeignKey("FineId")]
         public Term Fine { get; set; }
         [ForeignKey("GrantId")]
         public Term Grant { get; set; }
@@ -35,13 +45,9 @@ namespace Library.Core.Models
         public Term Format { get; set; }
         [ForeignKey("BookId")]
         public Book Book { get; set; }        
-        public ICollection<CheckOut> CheckOuts { get; set; }
-        public ICollection<Edition> Editions { get; set; }
-        public ICollection<Volume> Volumes { get; set; }      
-        public ICollection<VariantPrice> PricesLink { get; set; }  
-        public ICollection<VariantLanguage> Languages { get; set; }
-        public ICollection<VariantLocation> VariantLocations { get; set; }
-        
+        public ICollection<CheckOut> CheckOuts { get; set; }           
+        public ICollection<VariantPrice> PricesLink { get; set; }          
+        public ICollection<VariantLocation> VariantLocations { get; set; }        
         public ICollection<Inventory> Inventories { get; set; }
     }
 }

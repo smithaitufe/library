@@ -57,9 +57,7 @@ namespace Library.NCIPServer.Controllers
                     xml = GetXMLFromObject(lookupItem);
 
                     var variant = await _context.Variants
-                    .Include(v => v.Book)
-                    .Include(v=>v.Editions)
-                    .Include(v=>v.Volumes)
+                    .Include(v => v.Book)                    
                     .Where(e => e.Id == int.Parse(lookupItem.ItemId.ItemIdentifierValue))
                     .SingleOrDefaultAsync();
 
