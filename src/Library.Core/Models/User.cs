@@ -1,17 +1,16 @@
-﻿// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
+
 
 namespace Library.Core.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class User : IdentityUser<int>
+    // public class User : IdentityUser<long, IdentityUserClaim<long>, UserRole, IdentityUserLogin<long>, IdentityUserToken<long>>
+    public class User : IdentityUser<long>
     {
         public string LibraryNo { get; set; }
         [Required]
@@ -37,7 +36,7 @@ namespace Library.Core.Models
         public ICollection<Reservation> ReservationBookings { get; set; }
 
         public ICollection<CheckOutState> CheckOutStates { get; set; }
-        public ICollection<Recall> RecalledBooks { get; set; }
-        
+        public ICollection<Recall> RecalledBooks { get; set; }    
+        public IList<UserRole> Roles { get; set; } =  new List<UserRole>();    
     }
 }

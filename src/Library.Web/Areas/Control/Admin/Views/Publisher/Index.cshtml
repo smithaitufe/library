@@ -1,36 +1,91 @@
 @model PublisherListingViewModel
+<div class="row">
+    <div class="col-md-6">
 
-<div class="card shadowed">
-    <div class="card-block">
-        <div class="row">
-            <div class="col-sm-12">
-                <h2 class="float-left">Publishers</h2>
-                <a class="float-right btn btn-primary" asp-action="Create">Add</a>
-            </div>
-        </div>
-                <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th></th>                    
-                </tr>
-            </thead>
-            <tbody>
-                @for(var i = 0; i < Model.Publishers.Count; i++){
+
+<div class="card">  
+    <div class="card-header pb-0 pt-2">
+        <h2 class="float-left">Publishers</h2>
+        <a class="float-right btn btn-primary" asp-action="Create">Add</a>
+    </div>    
+    <div class="card-block pb-0">
+        
+        
+        @*
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>@(i+1)</td>
-                        <td>@Model.Publishers[i].Name</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@Model.Publishers[i].Id" class="btn btn-danger btn-sm"><i class="material-icons small">clear</i></a>
-                            <a asp-action="Edit" asp-route-id="@Model.Publishers[i].Id" class="btn btn-primary btn-sm"><i class="material-icons small">mode_edit</i></a>
-                            <a asp-action="Edit" asp-route-id="" class="btn btn-primary btn-sm"><i class="material-icons small">info</i></a>
-                            
-                        </td>
                         
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Location</th>
+                        <th></th>                    
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    
+                        @for(var i = 0; i < Model.Publishers.Count; i++){
+                            <tr>
+                                <td>@(i+1)</td>
+                                <td>@Model.Publishers[i].Name</td>
+                                <td>@Model.Publishers[i].PhoneNumber</td>
+                                <td>
+                                    @(Model.Publishers[i].Address != null ? Model.Publishers[i].Address.Country.Name : "")
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@Model.Publishers[i].Id" class="btn btn-danger btn-sm"><i class="material-icons small">clear</i></a>
+                                    <a asp-action="Edit" asp-route-id="@Model.Publishers[i].Id" class="btn btn-primary btn-sm"><i class="material-icons small">mode_edit</i></a>
+                                    <a asp-action="Edit" asp-route-id="" class="btn btn-primary btn-sm"><i class="material-icons small">info</i></a>                            
+                                </td>
+                                
+                            </tr>
+                        }
+                        
+                    @foreach(var item in Model.Publishers)
+                    {
+                        <tr>
+                            
+                            <td>@item.Name</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>                           
+                                @if(item.Address != null && item.Address.Country != null)
+                                {
+                                    @item.Address.Country.Name
+                                }                                                   
+                            </td>
+                            <td>
+                                <!--<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="material-icons small">clear</i></a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm"><i class="material-icons small">mode_edit</i></a>
+                                <a asp-action="Edit" asp-route-id="" class="btn btn-primary btn-sm"><i class="material-icons small">info</i></a>                            -->
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        *@
+
+        
+            @foreach(var item in Model.Publishers)
+            {
+                <div>
+                    <h5>@item.Name</h5>
+                    <address>
+                        <small>
+                            @item.PhoneNumber
+                            @if(item.Address != null && item.Address.Country != null)
+                            {
+                            <span>@(item.PhoneNumber != null && item.PhoneNumber.Length > 0 ? "," : "") </span>@item.Address.Country.Name
+                            } 
+                        
+                        </small>                        
+                    </address>
+                    <hr>
+                </div>
+            }
+        
+    </div>
+</div>
+
     </div>
 </div>

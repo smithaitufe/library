@@ -1,11 +1,15 @@
 @model BookEditorViewModel
 
+
+
+
 <form asp-action="Create" enctype="multipart/form-data" method="POST">
     <div class="card">
         <div class="card-block mb-0 pb-0">
             <div class="row">
                 <div class="col-sm-12 col-md-3 pr-0 form-group">
-                    <select asp-for="GenreId" asp-items="Model.Genres" class="form-control">
+                    <label asp-for="GenreId"></label>
+                    <select asp-for="GenreId" asp-items="Model.Genres" class="form-control form-control-sm">
                             <option value="">Select Genre</option>
                         </select>
                     <span asp-validation-for="GenreId" class="text-danger"></span>
@@ -41,7 +45,7 @@
         </div>
     </div>
 
-
+hi
 
     <div class="row">
        <div class="col-sm-12 col-md-6">
@@ -49,14 +53,14 @@
                 <div class="card-block">
                     <h4 class="card-title">Basic Information</h4>
                     <div class="card-text">
-                        <div class="row form-group">
+                        <div class="row form-group mb-0">
                             <label asp-for="Title" class="col-sm-12 col-md-4"></label>
                             <div class="col-sm-12 col-md-8">
-                                <input asp-for="Title" type="text" class="form-control" placeholder="@Html.DisplayNameFor(f=>f.Title)">
+                                <input asp-for="Title" type="text" class="form-control form-control-sm" placeholder="@Html.DisplayNameFor(f=>f.Title)">
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="row form-group">
+                        </div>                        
+                        <div class="row form-group mb-0">
                             <label asp-for="SubTitle" class="col-sm-12 col-md-4"></label>
                             <div class="col-sm-12 col-md-8">
                                 <input asp-for="SubTitle" type="text" class="form-control" placeholder="@Html.DisplayNameFor(f=>f.SubTitle)">

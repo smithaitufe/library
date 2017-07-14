@@ -102,7 +102,7 @@ namespace Library.Web.Areas.Control.Admin.Controllers
         }
         public IActionResult GetBookBySerialNo(string serialNo) {
             var book = bookService.GetAllVariants()
-            .Where(v => v.VariantLocations.Where(vl => vl.SerialNo.Equals(serialNo)).Any())
+            .Where(v => v.VariantCopies.Where(vl => vl.SerialNo.Equals(serialNo)).Any())
             .Select(v => v.Book).SingleOrDefault();
             if(book == null) return Json(new {successful = false, message= $"No book with {serialNo} was found"});
             return Json(new {successful= true, book = book});

@@ -1,28 +1,32 @@
-@model CreateEditAuthorViewModel
-<div class="content-container shadowed">
-    <div class="content">
-        <h2>@(Model.Id != null ? "Edit" : "Add") Author</h2>
-        <input asp-for="Id" type="hidden">
-        <div class="form-group">
-            <label asp-for="LastName" class="form-control-label"></label>
-            <input asp-for="LastName" type="text" class="form-control">
-            <span asp-validation-for="LastName" class="text-danger"></span>
+@model AuthorEditorViewModel
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="card">    
+            <h2 class="card-header bg-primary">@(Model.Id != null ? "Edit" : "New") Author</h2>
+            <div class="card-block">
+                <input asp-for="Id" type="hidden">
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-control-label"></label>
+                    <input asp-for="LastName" type="text" class="form-control">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="form-control-label"></label>
+                    <input asp-for="FirstName" type="text" class="form-control">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="form-control-label"></label>
+                    <input asp-for="Email" type="text" class="form-control">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="form-control-label"></label>
+                    <input asp-for="PhoneNumber" type="text" class="form-control">
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>     
+                <div class="form-group"><button type="submit" class="btn btn-primary">Save</button></div>              
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="FirstName" class="form-control-label"></label>
-            <input asp-for="FirstName" type="text" class="form-control">
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Email" class="form-control-label"></label>
-            <input asp-for="Email" type="text" class="form-control">
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PhoneNumber" class="form-control-label"></label>
-            <input asp-for="PhoneNumber" type="text" class="form-control">
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>     
-        <div class="form-group"><button type="submit" class="btn btn-primary">Save</button></div>              
     </div>
 </div>

@@ -10,7 +10,7 @@ namespace Library.Web.Models.PostViewModels
     public class PostMessageViewModel {
         [DefaultValue(0)]
         public int? Id { get; set; }
-        public int AuthorId { get; set; }
+        public long AuthorId { get; set; }
         [Required]
         [Display(Name="Club")]
         public int ClubId { get; set; }        

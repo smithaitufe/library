@@ -8,8 +8,19 @@ namespace Library.Web.Models.BookViewModels
     {
         public int? Id { get; set; }
         public int BookId { get; set; }
-        [Required(ErrorMessage = "Please specify the numbe of pages of this book")]
+
+        [Required(ErrorMessage = "Specify the ISBN of this book")]
+        public string ISBN { get; set; }
+        [StringLength(20, ErrorMessage = "Maximum characters allowed for edition is ${0}")]
+        public string Edition { get; set; }
+        // [Required(ErrorMessage = "Book Volume is required")]
+        [StringLength(20, ErrorMessage = "Maximum characters allowed for volume is ${0}")]
+        public string Volume { get; set; }
+        [Required(ErrorMessage = "Please specify the number of pages of this book")]
         public int Pages { get; set; }
+        [Display(Name = "Language")]
+        [Required(ErrorMessage = "Select a language for this book")]
+        public int LanguageId { get; set; }
         [Display(Name = "Book Format")]
         public int FormatId { get; set; }        
         [Display(Name = "Sale Grant")]
@@ -29,7 +40,7 @@ namespace Library.Web.Models.BookViewModels
         public int FineId { get; set; }
 
 
-
+        public ICollection<SelectListItem> Languages { get; set; }
         public ICollection<SelectListItem> BookFormats { get; set; }
         public ICollection<SelectListItem> Days { get; set; }
         public ICollection<SelectListItem> CollectionModes { get; set; }

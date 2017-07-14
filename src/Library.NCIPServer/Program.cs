@@ -24,6 +24,7 @@ namespace Library.NCIPServer
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseUrls(urls)
+                .UseSetting("DesignTime", "true")
                 .Build();
         }
     }

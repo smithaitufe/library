@@ -5,7 +5,7 @@ namespace Library.Web.Models.AccountViewModels
 {
     public class UserRegistrationViewModel {
         [Display(Name="Id")]
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         [Display(Name="First Name")]
         public string FirstName { get; set; }
         [Display(Name="Last Name")]

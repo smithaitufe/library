@@ -11,34 +11,45 @@ namespace Library.Web.Extensions
 {
     public static class PublisherExtension {
 
-        public static Publisher MapToPublisher(this RegisterPublisherViewModel model) {
-            return new Publisher {
-                Name = model.Name
+
+        public static Publisher MapToPublisher(this PublisherEditorViewModel model) {
+            return new Publisher 
+            { 
+                Name = model.Name,
+                PhoneNumber = model.PhoneNumber,
+                Address = new Address {
+                    Line = model.Address.Line,
+                    City = model.Address.City,
+                    StateId = model.Address.StateId,
+                    CountryId = model.Address.CountryId
+                }              
             };
+            
         }
-        public static Publisher MapToPublisher(this CreateEditPublisherViewModel model) {
-            var publisher = new Publisher { Name = model.Name };
-            if(model.Id.HasValue) publisher.Id = model.Id.Value;
-            return publisher;
+        public static IQueryable<PublisherEditorViewModel> MapToPublisherEditorViewModel(this IQueryable<Publisher> query) {
+            return query.Select( 
+                p => new PublisherEditorViewModel 
+                { 
+                    Id = p.Id, 
+                    Name = p.Name 
+                });            
         }
-        public static IQueryable<CreateEditPublisherViewModel> MapToCreateEditPublisherViewModel(this IQueryable<Publisher> query) {
-            return query
-            .Include( p => p.Books)
-            .Select( p => new CreateEditPublisherViewModel { Id = p.Id, Name = p.Name } );            
-        }
-        public static CreateEditPublisherViewModel MapToCreateEditPublisherViewModel(this Publisher publisher) {
-            return new CreateEditPublisherViewModel { Id = publisher.Id, Name = publisher.Name };       
+        public static PublisherEditorViewModel MapToPublisherEditorViewModel(this Publisher publisher) {
+            return new PublisherEditorViewModel 
+            { 
+                Id = publisher.Id, 
+                Name = publisher.Name 
+            };       
         }
         public static IQueryable<PublisherViewModel> MapToPublisherViewModel(this IQueryable<Publisher> query) {
-            return query
-            .Include( p => p.Books)
-            .Select(
+            return query.Select(
                 p => new PublisherViewModel {
                     Id = p.Id,
                     Name = p.Name,
+                    PhoneNumber = p.PhoneNumber,
+                    Address = p.Address,
                     Books = p.Books.ToList()                    
-                }
-            );            
+                });            
         }
         public static IQueryable<SelectListItem> MapToSelectList(this IQueryable<Publisher> publishers) {
             return publishers.Select(t=> new SelectListItem { Value = t.Id.ToString(), Text = t.Name});

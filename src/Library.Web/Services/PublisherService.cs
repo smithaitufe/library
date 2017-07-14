@@ -16,7 +16,12 @@ namespace Library.Web.Services
         public PublisherService(LibraryDbContext context){
             _context = context;
         }
-        private IQueryable<Publisher> Publishers => _context.Publishers.Include(p => p.Books);
+        private IQueryable<Publisher> Publishers => _context.Publishers
+        .Include(p=>p.Address)
+        .ThenInclude(a => a.Country)
+        .Include(p=>p.Address)
+        .ThenInclude(a => a.State)
+        .Include(p => p.Books);
         
         public IQueryable<Publisher> GetAllPublishers() {
             return Publishers;          

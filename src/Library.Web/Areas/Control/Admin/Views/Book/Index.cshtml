@@ -1,27 +1,14 @@
 @model BookListingViewModel
 
-<div class="card card-block shadowed">
-    
-        <div class="row">
-            <div class="col-sm-12">
-                <h2 class="float-left">Books</h2>
-                @*
-                <div class="pull-left ml-2">
-                    <select asp-for="LocationId" asp-items="@Model.Locations" class="form-control-sm form-control mt-1">
-                        <option value="">Select Location</option>
-                    </select>
-                </div>
-                *@
-                <a class="float-right btn btn-primary" asp-action="Create" asp-controller="Book">Add Book</a>
-            </div>
-        </div>
-    
-</div>
-
-
-<div class="card card-block shadowed">
-    <div class="card-text">
-        
+<div class="card">
+    <div class="card-header pt-2 pb-0">
+        <h2 class="float-left">Books</h2>
+        <a class="float-right btn btn-primary" asp-action="Create" asp-controller="Book">Add Book</a>
+    </div>
+        <div class="card-block"> 
+@if(Model.Books.Count > 0)    
+{
+       
         <form id="sort-filter-form" class="form-horizontal">
              <div class="row form-group">                
                 <div class="col-sm-12 col-md-3">
@@ -39,79 +26,40 @@
         </form>
         <hr>
        
-       @*
-            <table class="table table-bordered">
-                <thead>
-                    <tr>            
-                        <th>Title</th>
-                        <th>Author(s)</th>
-                        <th>ISBN</th>
-                        <th>Format</th>
-                        <th>Genre</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var item in Model.Books) {
-                        <tr>                        
-                            <td>@item.Title</td>
-                            <td>@string.Join(", ", item.Authors.OrderBy(a => a.Id).Select(a =>   a.LastName + " " + a.FirstName[0] )) </td>
-                            <td>@item.ISBN</td>
-                            <td>@item.Format</td>
-                            <td>@item.Genre.Name</td>                      
-                            <td>
-                                <div class="btn-group">
-                                    <a asp-action="Details" asp-controller="Book" asp-route-id="@item.VariantId" class="btn btn-primary btn-sm"><i class="fa fa-info"></i> Details</a>
-                                    <a asp-action="Edit" asp-controller="Book" asp-route-id="@item.VariantId" class="btn btn-secondary btn-sm"><i class="fa fa-pencil"></i> Edit</a>
-                                </div>                            
-                            </td>
-                        </tr>
-                    }
-                    
-                </tbody>
-            </table>
-        *@
-    
-    @*
+
         @foreach(var item in Model.Books) {
             <div class="row">
-                <div class="col-sm-12">
-                    <h5>@item.Title</h5>
-                    <div>by @string.Join(", ", item.Authors.OrderBy(a => a.Id).Select(a =>   a.LastName + " " + a.FirstName[0] ))</div>
-                    <small>@item.Format</small>
-                    <div class="pull-right">
-                        <div class="btn-group">
-                                <a asp-action="Details" asp-controller="Book" asp-route-id="@item.VariantId" class="btn btn-primary btn-sm"><i class="fa fa-info"></i> Details</a>
-                                <a asp-action="BookBasic" asp-controller="Book" asp-route-id="@item.VariantId" class="btn btn-secondary btn-sm"><i class="fa fa-pencil"></i> Edit</a>
-                        </div>  
+                <div class="col-sm-12 col-md-1">
+                    <img src="@Url.Content(@item.Cover.Path)" alt="@item.Title" title="@item.Title" style="width: 80px; height: 80px">
+                </div>
+                <div class="col-sm-12 col-md-11">                     
+                    <div class="row">
+                        <h4 class="col-sm-12">@item.Title</h4>
+                    </div>
+                     <div class="row">
+                        <div class="col-sm-12 col-md-10">
+                            by @string.Join(", ", item.AuthorsLink.Select(al => al.Author.LastName + " " + al.Author.FirstName[0]).ToList())
+                        </div>                    
+                        <div class="col-sm-12 col-md-2">
+                            <div class="btn-group">
+                                <a asp-action="BookBasic" asp-controller="Book" asp-route-id="@item.Id" class="btn btn-primary btn-sm">details</a>
+                            </div>  
+                        </div>
                     </div>
                 </div>
+                                                
             </div>
-        <hr>
-        }
-        *@
-
-
-        @foreach(var item in Model.Books) {
-            <div class="row">
-                <div class="col-sm-12">
-                    <h4>@item.Title</h4>
-                </div>                                    
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-md-10">
-                    by @string.Join(", ", item.AuthorsLink.Select(al => al.Author.LastName + " " + al.Author.FirstName[0]).ToList())
-                </div>                    
-                <div class="col-sm-12 col-md-2">
-                    <div class="btn-group">
-                            <a asp-action="BookBasic" asp-controller="Book" asp-route-id="@item.Id" class="btn btn-primary btn-sm">details</a>
-                    </div>  
-                </div>
-            </div>
+            
             
         <hr>
         }
-    </div>
+   
+}
+else
+{
+    <h3>No book has been entered</h3>
+}
+ </div>
 </div>
 
 

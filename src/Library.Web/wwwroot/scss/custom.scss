@@ -61,7 +61,9 @@ legend.legend-with-border {
 }
 
 .material-icons.small {
-    font-size: 1.112em;
+    // font-size: 1.112em;
+    font-size: inherit !important;
+    line-height: inherit !important;
 }
 
 body {

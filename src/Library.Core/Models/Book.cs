@@ -5,13 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Library.Core.Models
 {
     public class Book: BaseEntity
-    {        
+    {  
+        public Book () {
+            BookAuthors = new HashSet<BookAuthor>();
+            Variants = new HashSet<Variant>();
+        }      
         [Required]
         [MaxLength(255)]
         public string Title { get; set; }
         [MaxLength(255)]
         public string SubTitle { get; set; }
-        [MaxLength(255)]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }        
         [Required]
         [ForeignKey("Genre")]
@@ -25,14 +29,12 @@ namespace Library.Core.Models
         public bool Series { get; set; } = false;
         public int? NoInSeries { get; set; }
         public Image Cover { get; set; }
-
-
         // Navigation Properties        
         public Term Genre { get; set; }        
         public Term Category { get; set; }
         public Publisher Publisher { get; set; }
         public ICollection<Variant> Variants { get; set; }
-        public ICollection<BookAuthor> AuthorsLink { get; set; }
+        public ICollection<BookAuthor> BookAuthors { get; set; }
         
 
     }

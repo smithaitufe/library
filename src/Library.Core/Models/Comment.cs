@@ -7,7 +7,7 @@ namespace Library.Core.Models
     {  
         [Required]
         [ForeignKey("Commenter")]
-        public int CommenterId { get; set; }
+        public long CommenterId { get; set; }
         [Required]   
         [ForeignKey("Post")]  
         public int PostId { get; set; }

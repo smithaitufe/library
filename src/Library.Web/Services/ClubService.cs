@@ -21,7 +21,7 @@ namespace Library.Web.Services
             .ThenInclude(c => c.Genre);             
         }
         public IQueryable<Club> GetMemberClub(int userId, int clubId) {
-            var query = context.Members
+            var query = context.ClubMembers
             .Include(m => m.Club)
             .ThenInclude(c => c.GenresLink)
             .ThenInclude(cl => cl.Genre)
@@ -32,7 +32,7 @@ namespace Library.Web.Services
 
 
         public IQueryable<Club> GetMemberClubs(int userId) {
-            return context.Members
+            return context.ClubMembers
             .Include(m => m.Club)
             .ThenInclude(c => c.GenresLink)
             .ThenInclude(cl => cl.Genre)

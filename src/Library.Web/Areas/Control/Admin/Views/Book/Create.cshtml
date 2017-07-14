@@ -212,11 +212,27 @@
 
 *@
 
-@Html.Partial("_FormPartial")
-@section Styles {
+@Html.Partial("_BookFormPartial") 
+@section Styles 
+{
     <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.6/select2-bootstrap.min.css">
+    <style>
+        .card-block 
+        {
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+        }
+        .card-header
+        {
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+            font-size: 1.2em;
+        }
+    </style>
 }
-@section Scripts {
+
+@section Scripts 
+{
     <script src="~/js/common.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {

@@ -14,10 +14,13 @@
 
                 <table class="table table-bordered">
                     <thead>
-                        <tr>
+                        <tr>                            
                             <th>Location</th>
-                            <th>Source</th>
+                            <th>Serial No</th>
+                            <th>Source</th>                            
                             <th>Availability</th>
+                            <th>Visible</th>
+                            <th>Out</th>
                             <th></th>                            
                         </tr>
                     </thead>
@@ -25,8 +28,11 @@
                         @foreach(var item in Model.Locations){
                             <tr>
                                 <td>@item.Location.Name</td>
+                                <td>@item.SerialNo</td>
                                 <td>@item.Source.Name</td>
                                 <td>@item.Availability.Name</td>
+                                <td>@(item.Visible ? "Yes" : "No")</td>
+                                <td>@(item.Out ? "Yes" : "No")</td>
                                 <td>
                                     <a class="btn btn-danger btn-sm" asp-action="DeleteBookLocation" asp-controller="Book" asp-route-id="@item.Id">delete</a>
                                     <a class="btn btn-primary btn-sm" asp-action="AddEditBookLocation" asp-controller="Book" asp-route-variantid="@item.VariantId" asp-route-id="@item.Id">edit</a>

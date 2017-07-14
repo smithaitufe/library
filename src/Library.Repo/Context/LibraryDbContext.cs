@@ -1,15 +1,21 @@
 using System;
-using Library.Core.Models;
-using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Library.Core.Models;
+
 
 namespace Library.Repo
 {
-    public class LibraryDbContext: IdentityDbContext<User, Role, int>
+    // public class LibraryDbContext: IdentityDbContext<User,Role,long, IdentityUserClaim<long>, IdentityUserRole<long>, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>
+    public class LibraryDbContext: IdentityDbContext<User, Role,long>
     {
+        public LibraryDbContext(DbContextOptions<LibraryDbContext> options): base(options)
+        {            
+        }
+
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<TermSet> TermSets { get; set; }
         public DbSet<Term> Terms { get; set; }
@@ -21,7 +27,7 @@ namespace Library.Repo
         public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<Variant> Variants { get; set; }
         public DbSet<VariantPrice> VariantPrices { get; set; }        
-        public DbSet<VariantLocation> VariantLocations { get; set; }
+        public DbSet<VariantCopy> VariantCopies { get; set; }
         public DbSet<CheckOut> CheckOuts { get; set; }  
         public DbSet<CheckOutStatus> CheckOutStatuses { get; set; }  
         public DbSet<CheckOutState> CheckOutStates { get; set; }
@@ -33,7 +39,7 @@ namespace Library.Repo
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Club> Clubs { get; set; }
         public DbSet<ClubGenre> ClubGenres { get; set; }
-        public DbSet<Member> Members { get; set; }
+        public DbSet<ClubMember> ClubMembers { get; set; }
         public DbSet<PriceOffer> PriceOffers { get; set; }
         public DbSet<UserLocation> UserLocations { get; set; }
         public DbSet<Address> Addresses { get; set; }
@@ -42,21 +48,47 @@ namespace Library.Repo
         public DbSet<Country> Countries { get; set; }        
 
 
-        public LibraryDbContext(): base(){}
-        public LibraryDbContext(DbContextOptions<LibraryDbContext> options): base(options){}
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
-            // builder.Entity<Book>().HasMany(b => b.Genre).WithOne(b => b.Book).WillCascadeOnDelete(false);
+            builder.Entity<UserAddress>().HasKey(x => new { x.UserId, x.AddressId });
+            builder.Entity<BookAuthor>().HasIndex(x => new { x.BookId, x.AuthorId }).IsUnique(true);
             
-            // foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            // {
-            //     relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            // }
+            builder.Entity<Role>(i =>
+            {
+                i.ToTable("Roles");
+                i.HasKey(x => x.Id);                
+            });
+            builder.Entity<User>(i => {
+                i.ToTable("Users");
+                i.HasKey(x => x.Id);
+            });
+            builder.Entity<IdentityUserRole<long>>(i =>
+            {
+                i.ToTable("UserRoles");
+                i.HasKey(x => new { x.RoleId, x.UserId });
+            });
+            builder.Entity<IdentityUserLogin<long>>(i =>
+            {
+                i.ToTable("UserLogins");
+                i.HasIndex(x => new { x.ProviderKey, x.LoginProvider });
+            });
+            builder.Entity<IdentityRoleClaim<long>>(i =>
+            {
+                i.ToTable("RoleClaims");
+                i.HasKey(x => x.Id);
+            });
+            builder.Entity<IdentityUserClaim<long>>(i =>
+            {
+                i.ToTable("UserClaims");
+                i.HasKey(x => x.Id);
+            });
+            builder.Entity<IdentityUserToken<long>>(i => {
+                i.ToTable("UserTokens");
+                i.HasKey(x => x.UserId);
+            });
 
             builder.Entity<Term>()
             .HasMany(t => t.GenreBooks)
@@ -118,10 +150,10 @@ namespace Library.Repo
             .HasForeignKey(t => t.PostId)
             .OnDelete(DeleteBehavior.Restrict);               
 
-            builder.Entity<Variant>()
+            builder.Entity<VariantCopy>()
             .HasMany(t => t.CheckOuts)
-            .WithOne(t => t.Variant)
-            .HasForeignKey(t => t.VariantId)
+            .WithOne(t => t.VariantCopy)
+            .HasForeignKey(t => t.VariantCopyId)
             .OnDelete(DeleteBehavior.Restrict);  
         
             builder.Entity<Variant>()
@@ -143,19 +175,19 @@ namespace Library.Repo
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Location>()
-            .HasMany(u => u.VariantLocations)
+            .HasMany(u => u.VariantCopies)
             .WithOne(u=> u.Location)
             .HasForeignKey( u => u.LocationId)           
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Term>()
-            .HasMany(u => u.AvailabilityVariantLocations)
+            .HasMany(u => u.AvailabilityVariantCopies)
             .WithOne(u=> u.Availability)
             .HasForeignKey( u => u.AvailabilityId)           
             .OnDelete(DeleteBehavior.Restrict);  
 
             builder.Entity<Term>()
-            .HasMany(u => u.SourceVariantLocations)
+            .HasMany(u => u.SourceVariantCopies)
             .WithOne(u=> u.Source)
             .HasForeignKey( u => u.SourceId)           
             .OnDelete(DeleteBehavior.Restrict);       
@@ -167,13 +199,13 @@ namespace Library.Repo
             .OnDelete(DeleteBehavior.Restrict);  
 
             builder.Entity<Variant>()
-            .HasMany(t => t.VariantLocations)
+            .HasMany(t => t.VariantCopies)
             .WithOne(t=> t.Variant)
             .HasForeignKey(t => t.VariantId)           
             .OnDelete(DeleteBehavior.Restrict); 
 
             builder.Entity<Variant>()
-            .HasMany(t => t.PricesLink)
+            .HasMany(t => t.VariantPrices)
             .WithOne(t=> t.Variant)
             .HasForeignKey(t => t.VariantId)           
             .OnDelete(DeleteBehavior.Restrict); 
@@ -191,48 +223,9 @@ namespace Library.Repo
 
             builder.Entity<CheckOut>().HasMany(c=>c.RecalledBooks)
             .WithOne(c=>c.CheckOut).HasForeignKey(c=>c.CheckOutId)
-            .OnDelete(DeleteBehavior.Restrict);        
-
-
-
-            builder.Entity<UserAddress>().HasKey(x => new { x.UserId, x.AddressId });
-            builder.Entity<BookAuthor>().HasIndex(x => new { x.BookId, x.AuthorId }).IsUnique(true);            
-            builder.Entity<Variant>().HasMany(bv => bv.CheckOuts).WithOne(co => co.Variant);
-            builder.Entity<User>(i => {
-                i.ToTable("Users");
-                i.HasKey(x => x.Id);
-            });
-            builder.Entity<Role>(i =>
-            {
-                i.ToTable("Roles");
-                i.HasKey(x => x.Id);
-            });
-            builder.Entity<IdentityUserRole<int>>(i =>
-            {
-                i.ToTable("UserRoles");
-                i.HasKey(x => new { x.RoleId, x.UserId });
-            });
-            builder.Entity<IdentityUserLogin<int>>(i =>
-            {
-                i.ToTable("UserLogins");
-                i.HasIndex(x => new { x.ProviderKey, x.LoginProvider });
-            });
-            builder.Entity<IdentityRoleClaim<int>>(i =>
-            {
-                i.ToTable("RoleClaims");
-                i.HasKey(x => x.Id);
-            });
-            builder.Entity<IdentityUserClaim<int>>(i =>
-            {
-                i.ToTable("UserClaims");
-                i.HasKey(x => x.Id);
-            });
-            builder.Entity<IdentityUserToken<int>>(i => {
-                i.ToTable("UserTokens");
-                i.HasKey(x => x.UserId);
-            });
+            .OnDelete(DeleteBehavior.Restrict);                   
+            
         }
-        
-        
+       
     }
 }

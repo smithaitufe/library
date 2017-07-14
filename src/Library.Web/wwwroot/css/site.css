@@ -8333,13 +8333,17 @@ legend.legend-with-border {
   border-bottom: none; }
 
 .material-icons.small {
-  font-size: 1.112em; }
+  font-size: inherit !important;
+  line-height: inherit !important; 
+}
 
 body {
   background-color: #FAFAFA;
-  font-family: "Droid Sans", Arial, Roboto, "Helvetica Nueue", "Open Sans" !important;
-  font-size: 12pt;
-  color: #464a4c;
+  font-family: 'Helvetica Light', Arial, "Helvetica Nueue", "Open Sans" !important;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  /*color: #464a4c;*/
+  color: #101112 !important;
   padding-top: 65px; }
 
 .navbar {

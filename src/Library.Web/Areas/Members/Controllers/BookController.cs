@@ -20,101 +20,117 @@ namespace Library.Web.Areas.Members.Controllers
     [Authorize(Policy="MemberOnly")]
     public class BookController: Controller
     {
-        private LibraryDbContext context;   
+        private LibraryDbContext _context;   
         private int userId;
         private readonly TermService termService;
+        private readonly BookService bookService;
         public BookController(LibraryDbContext context, IHttpContextAccessor httpContextAccessor){
-            this.context = context;  
-            termService = new TermService(context);                      
+            _context = context;  
+            termService = new TermService(context);         
+            bookService = new BookService(context);
             userId = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
         public IActionResult Index(SortFilterPageOptions options) {            
-            var bookService = new BookService(context);
             var books = bookService.GetCheckOutBooksForUser(userId).MapToCheckedBookViewModel().ToList();
             return View(books);
         }
         public IActionResult Borrow(SortFilterPageOptions SortFilterOptions, SearchBookOptions SearchOptions, int? page) { 
-            var bookService = new BookService(context);   
-            var query = bookService.GetAllVariants();
-            if(!string.IsNullOrEmpty(SearchOptions.Phrase)) {
-                page = 1;
-                query = bookService.GetBooksByTitle(query, SearchOptions.Phrase);
-            }
-            if(!string.IsNullOrEmpty(SearchOptions.Location)) {
-                query = bookService.GetBooksByLocationId(query, int.Parse(SearchOptions.Location));
-            }
-            var borrowedVariants = bookService.GetCheckOutBooks("Approved").Select(c => c.Variant).ToList();
-            query = query.Except(borrowedVariants);
-            var bookList = query.MapToBookViewModel().ToList();
-            var model = new BookListViewModel(bookList, SearchOptions, SortFilterOptions);             
+               
+            // var query = bookService.GetAllVariants();
+
+            // if(!string.IsNullOrEmpty(SearchOptions.Phrase)) {
+            //     page = 1;
+            //     query = bookService.GetBooksByTitle(query, SearchOptions.Phrase);
+            // }
+            // if(!string.IsNullOrEmpty(SearchOptions.Location)) {
+            //     query = bookService.GetBooksByLocationId(query, int.Parse(SearchOptions.Location));
+            // }
+            // var borrowedVariants = bookService
+            // .GetCheckOutBooks("Borrow Approved")
+            // .Select(c => c.VariantCopy.Variant)
+            // .ToList();
+            // query = query.Except(borrowedVariants);
+            // var bookList = query.MapToBookViewModel().ToList();
+            // var model = new BookListViewModel(bookList, SearchOptions, SortFilterOptions);             
             
+            // PopulateBookListViewDropdowns(model); 
+            // return View(model);
+            
+            var bookList = bookService
+            .GetAllVariantCopies()
+            .Where(c=>c.Out == false)
+            .Select(c => c.Variant)
+            .Distinct()
+            .MapToBookViewModel().ToList();    
+
+            var model = new BookListViewModel(bookList, SearchOptions, SortFilterOptions); 
             PopulateBookListViewDropdowns(model); 
+
             return View(model);
+
             
         }
 
         [HttpPost]
-        public JsonResult Borrow(List<BookViewModel> books) {            
-            var status = termService.GetTermsBySet("checkout-status").Where(t => t.Name.ToLower().Equals("pending")).SingleOrDefault();
-            foreach(var model in books) {
-                if(model.Checked){
-                    var checkOut = new CheckOut(userId, status.Id){ PatronId = userId, VariantId = model.VariantId };
-                    context.CheckOuts.Add(checkOut);
-                }
-            }
-            context.SaveChanges();
-            return Json(new { books = books } );
-        }
+        public async Task<IActionResult> Borrow(List<BookViewModel> books) {            
+            var statusId = (await _context.CheckOutStatuses
+            .Where(cs=> cs.Name.Equals("Borrow Initiated"))
+            .FirstOrDefaultAsync()).Id;
 
-        [HttpPost]
-        public IActionResult Checkout(List<BookViewModel> books) {
-            var status = termService.GetTermsBySet("checkout-status").Where(t => t.Name.ToLower().Equals("pending")).SingleOrDefault();
             foreach(var model in books) {
-                if(model.Checked){
-                    var checkOut = new CheckOut(userId, status.Id) { PatronId = userId, VariantId = model.VariantId };
-                    context.CheckOuts.Add(checkOut);
+                if(model.Checked){                    
+                    var checkOut = new CheckOut(userId, statusId)
+                    { 
+                        PatronId = userId, 
+                        VariantId = model.VariantId 
+                    };
+                    _context.CheckOuts.Add(checkOut);
                 }
             }
-            context.SaveChanges();
+            _context.SaveChanges();
             return RedirectToAction(nameof(BookController.Index));
-        }
-        
+        }        
         [HttpGet]
-        public IActionResult Return () {            
+        public async Task<IActionResult> Return () {            
             var model = new ReturnBookViewModel();
-            model.CheckOutBooks = GetCheckOutBooks(userId).Where(co => co.Returned == false).ToList();
+            await GetCheckOutBooksAsync(model);
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Return(ReturnBookViewModel model) {
-            var checkOut = context.CheckOuts.Find(model.SelectedCheckOutId);
-            if(checkOut == null){
-                return  NotFound();
-            } 
-            checkOut.Returned = true;
-            checkOut.ReturnedDate = DateTime.UtcNow;
-            context.Entry(checkOut).State = EntityState.Modified;
-            context.SaveChanges();
-            model.CheckOutBooks = GetCheckOutBooks(userId).Where(co => co.Returned == false).ToList();
+        public async Task<IActionResult> Return(ReturnBookViewModel model) {
+            var checkOut = _context.CheckOuts.Find(model.SelectedCheckOutId);
+            if(checkOut == null) return  NotFound();
+            var checkOutState = new CheckOutState
+            {
+                StatusId = _context.CheckOutStatuses.Where(cs => cs.Name.ToLower().Equals("return initiated")).FirstOrDefault().Id
+            };
+            checkOut.CheckOutStates.Add(checkOutState);
+            _context.Entry(checkOut).State = EntityState.Modified;
+            _context.SaveChanges();
+            await GetCheckOutBooksAsync(model);
             return View(model);
         }
-        public IActionResult Catalogue(int? CatalogueId, int? GenreId){
-            var bookService = new BookService(context);
+        private async Task GetCheckOutBooksAsync(ReturnBookViewModel model)
+        {
+            var query = bookService.GetCheckOutBooks("borrow approved");
+            query = query.Where(co=>co.PatronId == userId);            
+            model.CheckOutBooks  = await query.MapToCheckedBookViewModel().ToListAsync();
+        }
+        public IActionResult Catalogue(int? CatalogueId, int? GenreId){            
             var catalogueModel = new BookCatalogueViewModel();
             PopulateCatalogueViewDropdowns(catalogueModel);
             catalogueModel.Books = bookService.GetAllBooks().MapToBookViewModel().ToList();
             return View(catalogueModel);
         }
-        public IActionResult GetBooksByCategory(int categoryId) {
-            var bookService = new BookService(context);
+        public IActionResult GetBooksByCategory(int categoryId) {            
             var query =  bookService.GetBooksByCategory(categoryId);
             var books =query.MapToBookViewModel().ToList();
             return PartialView("_CategoryBooks", books);
         }
         [HttpGet]
         public IActionResult GetSearchContent(SortFilterPageOptions options) {
-            var bookFilterService = new BookFilterDropdownService(context);
+            var bookFilterService = new BookFilterDropdownService(_context);
             return Json(bookFilterService.GetFilterDropdownValues((BooksFilterBy)options.FilterBy));
         }
         [HttpGet]
@@ -125,26 +141,21 @@ namespace Library.Web.Areas.Members.Controllers
             // .Select( g => new { ISBN = g.Key, Variant = g.Select(r => r).FirstOrDefault()})
             // .Select( gr => gr.Variant).ToList();            
         
-            var bookService = new BookService(context);
+            
             var query = bookService.GetBookByVariantId(id);
             var result = query.FirstOrDefault();
             var model = query.MapToBookPreviewViewModel().FirstOrDefault();            
             return PartialView("_Preview", model);
         }
         
-        private IList<CheckedBookViewModel> GetCheckOutBooks(int userId) {
-            var bookService = new BookService(context);
-            var books = bookService.GetCheckOutBooksForUser(userId).MapToCheckedBookViewModel().ToList(); 
-            return books;
-        }
 
-        private void PopulateCatalogueViewDropdowns(BookCatalogueViewModel model) {
-            var termService = new TermService(context);
+
+        private void PopulateCatalogueViewDropdowns(BookCatalogueViewModel model) {            
             model.Categories = termService.GetTermsBySet("book-category").MapToSelectList();
             model.Genres = termService.GetTermsBySet("genre").MapToSelectList();
         }
         private void PopulateBookListViewDropdowns(BookListViewModel model) {
-            model.SearchOptions.Locations = context.Locations.MapToSelectList().ToList();
+            model.SearchOptions.Locations = _context.Locations.MapToSelectList().ToList();
         }
     }
 }

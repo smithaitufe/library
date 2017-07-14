@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Library.Web.Models.AuthorViewModels
 {
-    public class CreateEditAuthorViewModel
+    public class AuthorEditorViewModel
     {
 
         public int? Id { get; set; }
@@ -15,7 +15,7 @@ namespace Library.Web.Models.AuthorViewModels
         [StringLength(50)]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
-        [Required]
+        
         [EmailAddress]
         public string Email { get; set; }
 

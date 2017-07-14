@@ -13,37 +13,61 @@
     <thead>
         <tr>
             <th>Format</th>
+            <th>ISBN</th>
+            <th>Volume</th>
+            <th>Edition</th>
             <th>Year</th>
             <th>Due Days</th>
             <th>Fine</th>
             <th>Collection Mode</th>
+            <th>Copies</th>
+            <th>Price</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach(var item in Model.Variants)
         {
             <tr>
-                <td>@item.Format.Name</td>
+                <td><a asp-action="EditBookType" asp-route-id="@item.BookId" asp-route-typeid="@item.Id">@item.Format.Name</a></td>
+                <td>@item.ISBN</td>
+                <td>@item.Volume</td>
+                <td>@item.Edition</td>
                 <td>@item.Year.Name</td>
                 <td>@item.DaysAllowed.Name</td>
                 <td>@item.Fine.Name</td>
-                <td>@item.CollectionMode.Name</td>                
+                <td>@item.CollectionMode.Name</td>   
+                <td>@item.VariantLocations.Count()</td>
+                <td>
+                    @foreach(var price in @item.PricesLink)
+                    {
+                        
+                        <div class="btn btn-sm btn-success">@($"{price.Price.Name} ({price.Condition.Name})")</div>
+                    }
+                </td>
+                <td>
+                    <!--<a asp-action="EditBookType" asp-route-id="@item.BookId" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Edit</a>-->
+                    <a asp-action="BookLocations" asp-route-typeid="@item.Id" class="btn btn-info btn-sm">Locations</a>
+                    <a asp-action="BookPrices" asp-route-typeid="@item.Id" class="btn btn-info btn-sm">Prices</a>
+
+                    
+                </td>             
             </tr>
+           @*
             <tr>
-                <td colspan="5">
+                <td colspan="8">
                     
                     <div class="row">
                         <div class="col-sm-12 col-md-2">
                             <a asp-action="EditBookType" asp-route-id="@item.BookId" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Edit</a>
                         </div>
                         <div class="col-sm-12 col-md-10 text-right">
-                            <a asp-action="BookLocations" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Locations</a>
-                            <a asp-action="BookVolumes" asp-route-typeid="@item.Id" class="btn btn-success btn-sm">Volumes</a>
-                            <a asp-action="BookEditions" asp-route-typeid="@item.Id" class="btn btn-success btn-sm">Editions</a>
+                            <a asp-action="BookLocations" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Locations</a>                            
                         </div>
                     </div>
                 </td>
             </tr>
+            *@
         }
     </tbody>
 </table>

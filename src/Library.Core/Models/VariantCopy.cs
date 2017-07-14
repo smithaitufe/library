@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Core.Models
 {
-    public class VariantLocation: BaseEntity {
+    public class VariantCopy: BaseEntity {
         [Required]
         [ForeignKey("Variant")]
         public int VariantId { get; set; }
@@ -19,13 +20,12 @@ namespace Library.Core.Models
         [MaxLength(40)]       
         public string SerialNo { get; set; } 
         public bool Out { get; set; } = false;        
-        public bool Visible { get; set; } = true;
-
-
-        
+        public bool Visible { get; set; } = true;        
         public Variant Variant { get; set; }        
         public Location Location { get; set; }        
         public Term Availability { get; set; }
-        public Term Source { get; set; }        
+        public Term Source { get; set; }
+        public ICollection<CheckOut> CheckOuts { get; set; }   
+        
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.Core.Models
@@ -12,5 +13,7 @@ namespace Library.Core.Models
         public string Abbreviation { get; set; }
 
         public Term Country { get; }
+        public ICollection<Address> Addresses { get; set; }
+
     }
 }

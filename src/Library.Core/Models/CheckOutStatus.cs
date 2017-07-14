@@ -9,12 +9,11 @@ namespace Library.Core.Models
         [Required]
         public string Name { get; set; }
         public int Left { get; set; }
-        public int Right { get; set; }
-        public bool Out { get; set; } = false;
+        public int Right { get; set; }        
 
         [ForeignKey("ParentId")]
         public CheckOutStatus Parent { get; set; }
 
-        public ICollection<CheckOutState> CheckOutsLink { get; set; }
+        public ICollection<CheckOutState> CheckOutStates { get; set; }
     }
 }

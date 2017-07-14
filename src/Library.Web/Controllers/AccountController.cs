@@ -1,19 +1,22 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 using Library.Core.Models;
 using Library.Web.Models.AccountViewModels;
 using Library.Web.Code;
 using Library.Repo;
 using Library.Web.Services;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Security.Claims;
 
+using System.Linq;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace Library.Web.Controllers
 {
@@ -23,23 +26,20 @@ namespace Library.Web.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ILogger _logger;
-        private readonly string _externalCookieScheme;
+        private readonly ILogger _logger;        
         private readonly LibraryDbContext _context;
 
         public AccountController(
             RoleManager<Role> roleManager,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            LibraryDbContext context,
-            IOptions<IdentityCookieOptions> identityCookieOptions,
+            LibraryDbContext context,            
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
-            _context = context;
-            _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
+            _context = context;            
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
         //
@@ -66,12 +66,16 @@ namespace Library.Web.Controllers
             {
                 var user = new User { UserName = model.PhoneNumber, Email = model.PhoneNumber, FirstName = model.FirstName, LastName = model.LastName };
                 // Add user claim
-                user.Claims.Add(new IdentityUserClaim<int> { ClaimType = ClaimTypes.Role, ClaimValue = Code.Roles.Member });
-                user.Claims.Add(new IdentityUserClaim<int> { ClaimType = ClaimTypes.GivenName, ClaimValue = model.PhoneNumber });
+                var claims = new List<Claim> {
+                    new Claim(ClaimTypes.Role,Code.Roles.Member,ClaimValueTypes.String),
+                    new Claim(ClaimTypes.GivenName,model.PhoneNumber, ClaimValueTypes.String)
+                };               
+                
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, Roles.Member);
+                    await _userManager.AddClaimsAsync(user, claims);
                     var userAddress = new UserAddress { User = user, Address = new Address { Line = model.Line, City = model.City, StateId = model.StateId } };
                     _context.UserAddresses.Add(userAddress);
                     await _context.SaveChangesAsync();

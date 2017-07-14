@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Core.Models
 {
-    public class Member: BaseEntity
+    public class ClubMember: BaseEntity
     {
-        public int UserId { get; set; }
-        public int ClubId { get; set; }
-
-        [ForeignKey("UserId")]
+        [ForeignKey("User")]
+        public long UserId { get; set; }
+        public int ClubId { get; set; }        
         public User User { get; set; }
         [ForeignKey("ClubId")]
         public Club Club { get; set; }

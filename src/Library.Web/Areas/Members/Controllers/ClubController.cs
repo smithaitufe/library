@@ -42,7 +42,7 @@ namespace Library.Web.Areas.Members.Controllers {
         [HttpPost]
         public IActionResult Join(JoinClubViewModel model) {
             if(ModelState.IsValid){
-                context.Set<Member>().Add(new Member { UserId = model.UserId, ClubId = model.ClubId  });
+                context.Set<ClubMember>().Add(new ClubMember { UserId = model.UserId, ClubId = model.ClubId  });
                 context.SaveChanges();
                 return RedirectToAction(nameof(ClubController.Index));
             }

@@ -39,7 +39,6 @@ namespace Library.Web.Extensions
                 FineId = model.FineId,
                 YearId = model.YearId,
                 Pages = model.Pages,
-
                 ISBN = model.ISBN,
                 Edition = model.Edition,
                 Volume = model.Volume,
@@ -49,9 +48,9 @@ namespace Library.Web.Extensions
         }       
         
         public static VariantPrice MapToVariantPrice(this BookEditorViewModel model) => new VariantPrice { VariantId = (int)model.VariantId, PriceId = model.PriceId, ConditionId = model.ConditionId };
-        public static VariantLocation MapToVariantLocation(this BookEditorViewModel model) => new VariantLocation { VariantId = (int)model.VariantId, LocationId = model.LocationId, AvailabilityId = model.AvailabilityId, SourceId = model.SourceId };
-        public static IQueryable<BookLocationViewModel> MapToVariantLocationViewModel(this IQueryable<VariantLocation> variantLocation) {
-            var query = variantLocation.Select(vl => new BookLocationViewModel {
+        public static VariantCopy MapToVariantCopy(this BookEditorViewModel model) => new VariantCopy { VariantId = (int)model.VariantId, LocationId = model.LocationId, AvailabilityId = model.AvailabilityId, SourceId = model.SourceId };
+        public static IQueryable<VariantCopyViewModel> MapToVariantCopyViewModel(this IQueryable<VariantCopy> variantCopy) {
+            var query = variantCopy.Select(vl => new VariantCopyViewModel {
                 Id = vl.Id,
                 VariantId = vl.VariantId,
                 LocationId = vl.LocationId,
@@ -71,10 +70,9 @@ namespace Library.Web.Extensions
                     Title = book.Title,
                     Description = book.Description,
                     GenreId = book.GenreId,
-                    Genre = book.Genre,
-                    // ISBN = book.ISBN,
+                    Genre = book.Genre,                    
                     CategoryId = book.CategoryId,
-                    Authors = book.AuthorsLink.Select(al => al.Author).ToList()
+                    Authors = book.BookAuthors.Select(al => al.Author).ToList()
                 }
             );
         }
@@ -89,7 +87,7 @@ namespace Library.Web.Extensions
                     GenreId = v.Book.GenreId,
                     Genre = v.Book.Genre,
                     Publisher = v.Book.Publisher,
-                    Authors = v.Book.AuthorsLink.Select(al => al.Author).ToList(),
+                    Authors = v.Book.BookAuthors.Select(al => al.Author).ToList(),
                     CategoryId = v.Book.CategoryId,
                     Category = v.Book.Category,
                     Cover = v.Book.Cover,
@@ -101,7 +99,7 @@ namespace Library.Web.Extensions
                     Grant = v.Grant,
                     CollectionModeId = v.CollectionModeId,
                     CollectionMode = v.CollectionMode,
-                    Prices = v.PricesLink,
+                    Prices = v.VariantPrices,
                     FineId = v.FineId,
                     Fine = v.Fine,
                     DaysAllowedId = v.DaysAllowedId,
@@ -109,8 +107,8 @@ namespace Library.Web.Extensions
                     Format = v.Format.Name,
                     Volume = v.Volume,
                     Edition = v.Edition,
-                    Locations = v.VariantLocations.ToList(),
-                    Sources = v.VariantLocations.Select(vl => vl.Source).ToList()
+                    VariantCopies = v.VariantCopies.ToList(),
+                    Sources = v.VariantCopies.Select(vl => vl.Source).ToList()
                 });
         }
         public static IQueryable<BookPreviewViewModel> MapToBookPreviewViewModel(this IQueryable<Variant> variant)
@@ -121,7 +119,7 @@ namespace Library.Web.Extensions
                 SubTitle = v.Book.SubTitle,
                 Description = v.Book.Description,
                 Genre = v.Book.Genre,
-                Authors = v.Book.AuthorsLink.Select(al => al.Author).MapToAuthorViewModel().ToList(),
+                Authors = v.Book.BookAuthors.Select(al => al.Author).MapToAuthorViewModel().ToList(),
                 Category = v.Book.Category,
                 Cover = v.Book.Cover,
                 Publisher = v.Book.Publisher,
@@ -129,8 +127,8 @@ namespace Library.Web.Extensions
                 Year = v.Year,
                 Fine = v.Fine,                
                 DaysAllowed = v.DaysAllowed,
-                Locations = v.VariantLocations.Select(vl => vl.Location).ToList(),
-                Sources = v.VariantLocations.Select(vl => vl.Source).ToList(),                
+                Locations = v.VariantCopies.Select(vl => vl.Location).ToList(),
+                Sources = v.VariantCopies.Select(vl => vl.Source).ToList(),                
             });
 
             return query;
@@ -138,24 +136,23 @@ namespace Library.Web.Extensions
         public static IQueryable<CheckedBookViewModel> MapToCheckedBookViewModel(this IQueryable<CheckOut> checkOuts)
         {
             var checkOutQuery = checkOuts
-               .Include(co => co.Patron)
-               .Include(co => co.Variant)
-               .ThenInclude(bv => bv.Book).ThenInclude(b => b.AuthorsLink).ThenInclude(al => al.Author)
-               .Include(co => co.Variant).ThenInclude(bv => bv.Format)
-               .Include(co => co.Variant).ThenInclude(bv => bv.Book).ThenInclude(bv => bv.Genre)
+            //    .Include(co => co.Patron)
+            //    .Include(co => co.Variant)
+            //    .ThenInclude(bv => bv.Book).ThenInclude(b => b.AuthorsLink).ThenInclude(al => al.Author)
+            //    .Include(co => co.Variant).ThenInclude(bv => bv.Format)
+            //    .Include(co => co.Variant).ThenInclude(bv => bv.Book).ThenInclude(bv => bv.Genre)
                .Select(
                    co => new CheckedBookViewModel
                    {
                        Id = co.Id,
-                       BookVariantId = co.Variant.Id,
-                       Title = co.Variant.Book.Title,
-                       Genre = co.Variant.Book.Genre,
-                       ISBN = co.Variant.ISBN,
-                       Format = co.Variant.Format.Name,
-                       Authors = co.Variant.Book.AuthorsLink.Select(al => al.Author).ToList(),
-                       Patron = co.Patron,
-                       Returned = co.Returned,
-                       ReturnedDate = co.ReturnedDate
+                       VariantId = co.VariantCopy.Variant.Id,
+                       VariantCopyId = co.VariantCopyId,
+                       Title = co.VariantCopy.Variant.Book.Title,
+                       Genre = co.VariantCopy.Variant.Book.Genre,
+                       ISBN = co.VariantCopy.Variant.ISBN,
+                       Format = co.VariantCopy.Variant.Format.Name,
+                       Authors = co.VariantCopy.Variant.Book.BookAuthors.Select(al => al.Author).ToList(),
+                       Patron = co.Patron
                    }
                );
             return checkOutQuery;
@@ -199,7 +196,7 @@ namespace Library.Web.Extensions
                 Description = v.Book.Description,
                 GenreId = v.Book.GenreId,
                 Genre = v.Book.Genre,
-                Authors = v.Book.AuthorsLink.Select(al => al.Author).ToList(),
+                Authors = v.Book.BookAuthors.Select(al => al.Author).ToList(),
                 CategoryId = v.Book.CategoryId,
                 Category = v.Book.Category,
                 YearId = v.YearId,
@@ -212,7 +209,7 @@ namespace Library.Web.Extensions
                 Fine = v.Fine,
                 DaysAllowedId = v.DaysAllowedId,
                 DaysAllowed = v.DaysAllowed,
-                Locations = v.VariantLocations.ToList(),
+                VariantCopies = v.VariantCopies.ToList(),
                 Format = v.Format.Name,
                 Volume = v.Volume,
                 Edition = v.Edition
@@ -270,14 +267,12 @@ namespace Library.Web.Extensions
 
         public static IQueryable<BookCirculationViewModel> MapToBookCirculationViewModel(this IQueryable<CheckOut> checkouts) {            
             var mapping = checkouts.Select(co => new BookCirculationViewModel {
-                CheckOutId = co.Id,
-                VariantId = co.VariantId,
-                LocationId = co.LocationId,
+                CheckOutId = co.Id,              
                 RequestedDays = co.RequestedDays.Name,
                 ApprovedDays = co.ApprovedDays.Name,
-                BookTitle = co.Variant.Book.Title,
-                BookISBN = co.Variant.ISBN,
-                BookFormat = co.Variant.Format.Name,
+                BookTitle = co.VariantCopy.Variant.Book.Title,
+                BookISBN = co.VariantCopy.Variant.ISBN,
+                BookFormat = co.VariantCopy.Variant.Format.Name,
                 PatronName = $"{co.Patron.LastName}, {co.Patron.FirstName}",
                 PatronUserName = co.Patron.UserName,
                 RequestDate = co.CheckOutStates.Where(cos => cos.Status.Name.ToLower().Equals("borrow initiated")).Select(cos => cos.InsertedAt).Single(),

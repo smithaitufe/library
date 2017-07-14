@@ -13,14 +13,14 @@ namespace Library.Web.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Email = table.Column<string>(maxLength: 200, nullable: false),
-                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    LastName = table.Column<string>(maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(maxLength: 20, nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    Email = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
+                    FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,15 +31,14 @@ namespace Library.Web.Migrations
                 name: "CheckOutStatuses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Left = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Out = table.Column<bool>(nullable: false),
-                    ParentId = table.Column<int>(nullable: true),
-                    Right = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Left = table.Column<int>(type: "int4", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ParentId = table.Column<int>(type: "int4", nullable: true),
+                    Right = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,11 +55,11 @@ namespace Library.Web.Migrations
                 name: "Clubs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 200, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,14 +70,14 @@ namespace Library.Web.Migrations
                 name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Abbreviation = table.Column<string>(maxLength: 5, nullable: true),
-                    Icon = table.Column<string>(nullable: true),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 70, nullable: false),
-                    TelephoneCode = table.Column<string>(maxLength: 10, nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    Abbreviation = table.Column<string>(type: "varchar(5)", maxLength: 5, nullable: true),
+                    Icon = table.Column<string>(type: "text", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Name = table.Column<string>(type: "varchar(70)", maxLength: 70, nullable: false),
+                    TelephoneCode = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,13 +88,13 @@ namespace Library.Web.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ContentType = table.Column<string>(nullable: true),
-                    Extension = table.Column<string>(nullable: true),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Path = table.Column<string>(nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    ContentType = table.Column<string>(type: "text", nullable: true),
+                    Extension = table.Column<string>(type: "text", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Path = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -106,12 +105,12 @@ namespace Library.Web.Migrations
                 name: "Locations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Code = table.Column<string>(nullable: true),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    Code = table.Column<string>(type: "text", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -119,29 +118,14 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Publishers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Publishers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(type: "int8", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -152,13 +136,13 @@ namespace Library.Web.Migrations
                 name: "States",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Abbreviation = table.Column<string>(maxLength: 10, nullable: true),
-                    CountryId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    Abbreviation = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
+                    CountryId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -169,11 +153,11 @@ namespace Library.Web.Migrations
                 name: "TermSets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -184,31 +168,31 @@ namespace Library.Web.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(type: "int8", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Approved = table.Column<bool>(nullable: false),
-                    ChangePasswordFirstTimeLogin = table.Column<bool>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    LastName = table.Column<string>(maxLength: 50, nullable: false),
-                    LibraryNo = table.Column<string>(nullable: true),
-                    Locked = table.Column<bool>(nullable: false),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    PhotoId = table.Column<int>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    Suspended = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    AccessFailedCount = table.Column<int>(type: "int4", nullable: false),
+                    Approved = table.Column<bool>(type: "bool", nullable: false),
+                    ChangePasswordFirstTimeLogin = table.Column<bool>(type: "bool", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bool", nullable: false),
+                    FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    LibraryNo = table.Column<string>(type: "text", nullable: true),
+                    Locked = table.Column<bool>(type: "bool", nullable: false),
+                    LockoutEnabled = table.Column<bool>(type: "bool", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bool", nullable: false),
+                    PhotoId = table.Column<int>(type: "int4", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    Suspended = table.Column<bool>(type: "bool", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bool", nullable: false),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -225,11 +209,11 @@ namespace Library.Web.Migrations
                 name: "RoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    RoleId = table.Column<int>(nullable: false)
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true),
+                    RoleId = table.Column<long>(type: "int8", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -243,15 +227,45 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    CountryId = table.Column<int>(type: "int4", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Line = table.Column<string>(type: "text", nullable: false),
+                    StateId = table.Column<int>(type: "int4", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Addresses_States_StateId",
+                        column: x => x.StateId,
+                        principalTable: "States",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Terms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    TermSetId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    TermSetId = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -265,27 +279,27 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Members",
+                name: "ClubMembers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClubId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    ClubId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    UserId = table.Column<long>(type: "int8", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Members", x => x.Id);
+                    table.PrimaryKey("PK_ClubMembers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Members_Clubs_ClubId",
+                        name: "FK_ClubMembers_Clubs_ClubId",
                         column: x => x.ClubId,
                         principalTable: "Clubs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Members_Users_UserId",
+                        name: "FK_ClubMembers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -296,11 +310,11 @@ namespace Library.Web.Migrations
                 name: "UserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<long>(type: "int8", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -317,10 +331,10 @@ namespace Library.Web.Migrations
                 name: "UserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<long>(type: "int8", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -337,13 +351,28 @@ namespace Library.Web.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
-                    RoleId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    RoleId1 = table.Column<long>(type: "int8", nullable: true),
+                    UserId1 = table.Column<long>(type: "int8", nullable: true),
+                    RoleId = table.Column<long>(type: "int8", nullable: false),
+                    UserId = table.Column<long>(type: "int8", nullable: false),
+                    Discriminator = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserRoles", x => new { x.RoleId, x.UserId });
                     table.UniqueConstraint("AK_UserRoles_UserId_RoleId", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Roles_RoleId1",
+                        column: x => x.RoleId1,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
@@ -362,10 +391,10 @@ namespace Library.Web.Migrations
                 name: "UserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    UserId = table.Column<long>(type: "int8", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -380,24 +409,48 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Addresses",
+                name: "Publishers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    City = table.Column<string>(nullable: true),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Line = table.Column<string>(nullable: false),
-                    StateId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    AddressId = table.Column<int>(type: "int4", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.PrimaryKey("PK_Publishers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Addresses_Terms_StateId",
-                        column: x => x.StateId,
-                        principalTable: "Terms",
+                        name: "FK_Publishers_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserAddresses",
+                columns: table => new
+                {
+                    UserId = table.Column<long>(type: "int8", nullable: false),
+                    AddressId = table.Column<int>(type: "int4", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAddresses", x => new { x.UserId, x.AddressId });
+                    table.ForeignKey(
+                        name: "FK_UserAddresses_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserAddresses_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -406,16 +459,16 @@ namespace Library.Web.Migrations
                 name: "Announcements",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CategoryId = table.Column<int>(nullable: false),
-                    ExpiresAt = table.Column<DateTime>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Introduction = table.Column<string>(nullable: true),
-                    ReleaseAt = table.Column<DateTime>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    Title = table.Column<string>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    CategoryId = table.Column<int>(type: "int4", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Introduction = table.Column<string>(type: "text", nullable: true),
+                    ReleaseAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -429,23 +482,156 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClubGenres",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    ClubId = table.Column<int>(type: "int4", nullable: false),
+                    GenreId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClubGenres", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClubGenres_Clubs_ClubId",
+                        column: x => x.ClubId,
+                        principalTable: "Clubs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClubGenres_Terms_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "Terms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    AuthorId = table.Column<long>(type: "int8", nullable: false),
+                    CategoryId = table.Column<int>(type: "int4", nullable: false),
+                    ClubId = table.Column<int>(type: "int4", nullable: false),
+                    Hidden = table.Column<bool>(type: "bool", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Locked = table.Column<bool>(type: "bool", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    Views = table.Column<int>(type: "int4", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Users_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_Terms_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Terms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_Clubs_ClubId",
+                        column: x => x.ClubId,
+                        principalTable: "Clubs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Active = table.Column<bool>(type: "bool", nullable: false),
+                    BasisId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    NumberOfDaysId = table.Column<int>(type: "int4", nullable: false),
+                    PatronId = table.Column<long>(type: "int8", nullable: false),
+                    ReservedByUserId = table.Column<long>(type: "int8", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Terms_BasisId",
+                        column: x => x.BasisId,
+                        principalTable: "Terms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Users_PatronId",
+                        column: x => x.PatronId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Users_ReservedByUserId",
+                        column: x => x.ReservedByUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLocations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Active = table.Column<bool>(type: "bool", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    LocationId = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    UserId = table.Column<long>(type: "int8", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLocations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserLocations_Terms_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Terms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserLocations_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CategoryId = table.Column<int>(nullable: false),
-                    CoverId = table.Column<int>(nullable: true),
-                    Description = table.Column<string>(maxLength: 255, nullable: true),
-                    GenreId = table.Column<int>(nullable: false),
-                    ISBN = table.Column<string>(maxLength: 30, nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    NoInSeries = table.Column<int>(nullable: true),
-                    PublisherId = table.Column<int>(nullable: false),
-                    Series = table.Column<bool>(nullable: false),
-                    SubTitle = table.Column<string>(maxLength: 255, nullable: true),
-                    Title = table.Column<string>(maxLength: 255, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    CategoryId = table.Column<int>(type: "int4", nullable: false),
+                    CoverId = table.Column<int>(type: "int4", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    GenreId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    NoInSeries = table.Column<int>(type: "int4", nullable: true),
+                    PublisherId = table.Column<int>(type: "int4", nullable: false),
+                    Series = table.Column<bool>(type: "bool", nullable: false),
+                    SubTitle = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
+                    Title = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -477,159 +663,44 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClubGenres",
+                name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClubId = table.Column<int>(nullable: false),
-                    GenreId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    CommenterId = table.Column<long>(type: "int8", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    ParentId = table.Column<int>(type: "int4", nullable: true),
+                    PostId = table.Column<int>(type: "int4", nullable: false),
+                    StatusId = table.Column<int>(type: "int4", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClubGenres", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClubGenres_Clubs_ClubId",
-                        column: x => x.ClubId,
-                        principalTable: "Clubs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClubGenres_Terms_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AuthorId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false),
-                    ClubId = table.Column<int>(nullable: false),
-                    Hidden = table.Column<bool>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Locked = table.Column<bool>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    Title = table.Column<string>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    Views = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Posts_Users_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_Comments_Users_CommenterId",
+                        column: x => x.CommenterId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Posts_Terms_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Posts_Clubs_ClubId",
-                        column: x => x.ClubId,
-                        principalTable: "Clubs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reservations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Active = table.Column<bool>(nullable: false),
-                    BasisId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    NumberOfDaysId = table.Column<int>(nullable: false),
-                    PatronId = table.Column<int>(nullable: false),
-                    ReservedByUserId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reservations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reservations_Terms_BasisId",
-                        column: x => x.BasisId,
-                        principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reservations_Users_PatronId",
-                        column: x => x.PatronId,
-                        principalTable: "Users",
+                        name: "FK_Comments_Comments_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Comments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reservations_Users_ReservedByUserId",
-                        column: x => x.ReservedByUserId,
-                        principalTable: "Users",
+                        name: "FK_Comments_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserLocations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Active = table.Column<bool>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    LocationId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserLocations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserLocations_Terms_LocationId",
-                        column: x => x.LocationId,
+                        name: "FK_Comments_Terms_StatusId",
+                        column: x => x.StatusId,
                         principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserLocations_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserAddresses",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(nullable: false),
-                    AddressId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserAddresses", x => new { x.UserId, x.AddressId });
-                    table.ForeignKey(
-                        name: "FK_UserAddresses_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserAddresses_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -638,12 +709,12 @@ namespace Library.Web.Migrations
                 name: "BookAuthors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AuthorId = table.Column<int>(nullable: false),
-                    BookId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    AuthorId = table.Column<int>(type: "int4", nullable: false),
+                    BookId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -666,13 +737,13 @@ namespace Library.Web.Migrations
                 name: "PriceOffers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BookId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    NewPrice = table.Column<decimal>(nullable: false),
-                    PromotionalText = table.Column<string>(nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    BookId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    NewPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    PromotionalText = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -689,14 +760,14 @@ namespace Library.Web.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BookId = table.Column<int>(nullable: false),
-                    Comment = table.Column<string>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Stars = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    BookId = table.Column<int>(type: "int4", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Stars = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -713,18 +784,23 @@ namespace Library.Web.Migrations
                 name: "Variants",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BookId = table.Column<int>(nullable: false),
-                    CollectionModeId = table.Column<int>(nullable: false),
-                    DaysAllowedId = table.Column<int>(nullable: false),
-                    FineId = table.Column<int>(nullable: false),
-                    FormatId = table.Column<int>(nullable: false),
-                    GrantId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Pages = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    YearId = table.Column<int>(nullable: false)
+                    BookId = table.Column<int>(type: "int4", nullable: false),
+                    CollectionModeId = table.Column<int>(type: "int4", nullable: false),
+                    DaysAllowedId = table.Column<int>(type: "int4", nullable: false),
+                    Edition = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    FineId = table.Column<int>(type: "int4", nullable: false),
+                    FormatId = table.Column<int>(type: "int4", nullable: false),
+                    GrantId = table.Column<int>(type: "int4", nullable: false),
+                    ISBN = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    LanguageId = table.Column<int>(type: "int4", nullable: false),
+                    Pages = table.Column<int>(type: "int4", nullable: false),
+                    ShelfNo = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    Volume = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    YearId = table.Column<int>(type: "int4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -766,6 +842,12 @@ namespace Library.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Variants_Terms_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Terms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Variants_Terms_YearId",
                         column: x => x.YearId,
                         principalTable: "Terms",
@@ -774,131 +856,15 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CommenterId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    ParentId = table.Column<int>(nullable: true),
-                    PostId = table.Column<int>(nullable: false),
-                    StatusId = table.Column<int>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comments_Users_CommenterId",
-                        column: x => x.CommenterId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comments_Comments_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Comments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Comments_Terms_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CheckOuts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ApprovedDaysId = table.Column<int>(nullable: true),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    LocationId = table.Column<int>(nullable: false),
-                    PatronId = table.Column<int>(nullable: false),
-                    RequestedDaysId = table.Column<int>(nullable: false),
-                    Returned = table.Column<bool>(nullable: false),
-                    ReturnedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    VariantId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CheckOuts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CheckOuts_Terms_ApprovedDaysId",
-                        column: x => x.ApprovedDaysId,
-                        principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CheckOuts_Terms_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CheckOuts_Users_PatronId",
-                        column: x => x.PatronId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CheckOuts_Terms_RequestedDaysId",
-                        column: x => x.RequestedDaysId,
-                        principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CheckOuts_Variants_VariantId",
-                        column: x => x.VariantId,
-                        principalTable: "Variants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Editions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 20, nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    VariantId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Editions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Editions_Variants_VariantId",
-                        column: x => x.VariantId,
-                        principalTable: "Variants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Inventories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    LocationId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    VariantId = table.Column<int>(nullable: false)
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    LocationId = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    VariantId = table.Column<int>(type: "int4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -918,73 +884,44 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VariantLanguages",
+                name: "VariantCopies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BookVariantId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    LanguageId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    VariantId = table.Column<int>(nullable: false)
+                    AvailabilityId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    LocationId = table.Column<int>(type: "int4", nullable: false),
+                    Out = table.Column<bool>(type: "bool", nullable: false),
+                    SerialNo = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true),
+                    SourceId = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    VariantId = table.Column<int>(type: "int4", nullable: false),
+                    Visible = table.Column<bool>(type: "bool", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VariantLanguages", x => x.Id);
+                    table.PrimaryKey("PK_VariantCopies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VariantLanguages_Variants_BookVariantId",
-                        column: x => x.BookVariantId,
-                        principalTable: "Variants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_VariantLanguages_Terms_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Terms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "VariantLocations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AvailabilityId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    LocationId = table.Column<int>(nullable: false),
-                    Out = table.Column<bool>(nullable: false),
-                    SerialNo = table.Column<string>(maxLength: 20, nullable: true),
-                    SourceId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    VariantId = table.Column<int>(nullable: false),
-                    Visible = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VariantLocations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_VariantLocations_Terms_AvailabilityId",
+                        name: "FK_VariantCopies_Terms_AvailabilityId",
                         column: x => x.AvailabilityId,
                         principalTable: "Terms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_VariantLocations_Locations_LocationId",
+                        name: "FK_VariantCopies_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_VariantLocations_Terms_SourceId",
+                        name: "FK_VariantCopies_Terms_SourceId",
                         column: x => x.SourceId,
                         principalTable: "Terms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_VariantLocations_Variants_VariantId",
+                        name: "FK_VariantCopies_Variants_VariantId",
                         column: x => x.VariantId,
                         principalTable: "Variants",
                         principalColumn: "Id",
@@ -995,13 +932,13 @@ namespace Library.Web.Migrations
                 name: "VariantPrices",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ConditionId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    PriceId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    VariantId = table.Column<int>(nullable: false)
+                    ConditionId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    PriceId = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    VariantId = table.Column<int>(type: "int4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1027,21 +964,48 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Volumes",
+                name: "CheckOuts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 20, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    VariantId = table.Column<int>(nullable: false)
+                    ApprovedDaysId = table.Column<int>(type: "int4", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    PatronId = table.Column<long>(type: "int8", nullable: false),
+                    RequestedDaysId = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    VariantCopyId = table.Column<int>(type: "int4", nullable: true),
+                    VariantId = table.Column<int>(type: "int4", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Volumes", x => x.Id);
+                    table.PrimaryKey("PK_CheckOuts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Volumes_Variants_VariantId",
+                        name: "FK_CheckOuts_Terms_ApprovedDaysId",
+                        column: x => x.ApprovedDaysId,
+                        principalTable: "Terms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CheckOuts_Users_PatronId",
+                        column: x => x.PatronId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CheckOuts_Terms_RequestedDaysId",
+                        column: x => x.RequestedDaysId,
+                        principalTable: "Terms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CheckOuts_VariantCopies_VariantCopyId",
+                        column: x => x.VariantCopyId,
+                        principalTable: "VariantCopies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CheckOuts_Variants_VariantId",
                         column: x => x.VariantId,
                         principalTable: "Variants",
                         principalColumn: "Id",
@@ -1052,13 +1016,13 @@ namespace Library.Web.Migrations
                 name: "CheckOutStates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CheckOutId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<int>(nullable: false),
-                    StatusId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    CheckOutId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    ModifiedByUserId = table.Column<long>(type: "int8", nullable: false),
+                    StatusId = table.Column<int>(type: "int4", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1087,13 +1051,13 @@ namespace Library.Web.Migrations
                 name: "Recalls",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CheckOutId = table.Column<int>(nullable: false),
-                    InsertedAt = table.Column<DateTime>(nullable: false),
-                    RecallDate = table.Column<DateTime>(nullable: false),
-                    RecalledByUserId = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    CheckOutId = table.Column<int>(type: "int4", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    RecallDate = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    RecalledByUserId = table.Column<long>(type: "int8", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1113,6 +1077,11 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Addresses_CountryId",
+                table: "Addresses",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Addresses_StateId",
                 table: "Addresses",
                 column: "StateId");
@@ -1121,6 +1090,17 @@ namespace Library.Web.Migrations
                 name: "IX_Announcements_CategoryId",
                 table: "Announcements",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookAuthors_AuthorId",
+                table: "BookAuthors",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookAuthors_BookId_AuthorId",
+                table: "BookAuthors",
+                columns: new[] { "BookId", "AuthorId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_CategoryId",
@@ -1143,25 +1123,9 @@ namespace Library.Web.Migrations
                 column: "PublisherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookAuthors_AuthorId",
-                table: "BookAuthors",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookAuthors_BookId_AuthorId",
-                table: "BookAuthors",
-                columns: new[] { "BookId", "AuthorId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CheckOuts_ApprovedDaysId",
                 table: "CheckOuts",
                 column: "ApprovedDaysId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CheckOuts_LocationId",
-                table: "CheckOuts",
-                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CheckOuts_PatronId",
@@ -1172,6 +1136,11 @@ namespace Library.Web.Migrations
                 name: "IX_CheckOuts_RequestedDaysId",
                 table: "CheckOuts",
                 column: "RequestedDaysId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CheckOuts_VariantCopyId",
+                table: "CheckOuts",
+                column: "VariantCopyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CheckOuts_VariantId",
@@ -1209,6 +1178,16 @@ namespace Library.Web.Migrations
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClubMembers_ClubId",
+                table: "ClubMembers",
+                column: "ClubId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClubMembers_UserId",
+                table: "ClubMembers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommenterId",
                 table: "Comments",
                 column: "CommenterId");
@@ -1229,11 +1208,6 @@ namespace Library.Web.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Editions_VariantId",
-                table: "Editions",
-                column: "VariantId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Inventories_LocationId",
                 table: "Inventories",
                 column: "LocationId");
@@ -1242,16 +1216,6 @@ namespace Library.Web.Migrations
                 name: "IX_Inventories_VariantId",
                 table: "Inventories",
                 column: "VariantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Members_ClubId",
-                table: "Members",
-                column: "ClubId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Members_UserId",
-                table: "Members",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_AuthorId",
@@ -1272,6 +1236,11 @@ namespace Library.Web.Migrations
                 name: "IX_PriceOffers_BookId",
                 table: "PriceOffers",
                 column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Publishers_AddressId",
+                table: "Publishers",
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recalls_CheckOutId",
@@ -1304,6 +1273,11 @@ namespace Library.Web.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RoleClaims_RoleId",
+                table: "RoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "Roles",
                 column: "NormalizedName",
@@ -1313,6 +1287,46 @@ namespace Library.Web.Migrations
                 name: "IX_Terms_TermSetId",
                 table: "Terms",
                 column: "TermSetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAddresses_AddressId",
+                table: "UserAddresses",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserClaims_UserId",
+                table: "UserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLocations_LocationId",
+                table: "UserLocations",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLocations_UserId",
+                table: "UserLocations",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogins_UserId",
+                table: "UserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogins_ProviderKey_LoginProvider",
+                table: "UserLogins",
+                columns: new[] { "ProviderKey", "LoginProvider" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleId1",
+                table: "UserRoles",
+                column: "RoleId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_UserId1",
+                table: "UserRoles",
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -1331,19 +1345,39 @@ namespace Library.Web.Migrations
                 column: "PhotoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserAddresses_AddressId",
-                table: "UserAddresses",
-                column: "AddressId");
+                name: "IX_VariantCopies_AvailabilityId",
+                table: "VariantCopies",
+                column: "AvailabilityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLocations_LocationId",
-                table: "UserLocations",
+                name: "IX_VariantCopies_LocationId",
+                table: "VariantCopies",
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLocations_UserId",
-                table: "UserLocations",
-                column: "UserId");
+                name: "IX_VariantCopies_SourceId",
+                table: "VariantCopies",
+                column: "SourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariantCopies_VariantId",
+                table: "VariantCopies",
+                column: "VariantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariantPrices_ConditionId",
+                table: "VariantPrices",
+                column: "ConditionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariantPrices_PriceId",
+                table: "VariantPrices",
+                column: "PriceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariantPrices_VariantId",
+                table: "VariantPrices",
+                column: "VariantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Variants_BookId",
@@ -1376,79 +1410,14 @@ namespace Library.Web.Migrations
                 column: "GrantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Variants_YearId",
+                name: "IX_Variants_LanguageId",
                 table: "Variants",
-                column: "YearId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VariantLanguages_BookVariantId",
-                table: "VariantLanguages",
-                column: "BookVariantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VariantLanguages_LanguageId",
-                table: "VariantLanguages",
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VariantLocations_AvailabilityId",
-                table: "VariantLocations",
-                column: "AvailabilityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VariantLocations_LocationId",
-                table: "VariantLocations",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VariantLocations_SourceId",
-                table: "VariantLocations",
-                column: "SourceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VariantLocations_VariantId",
-                table: "VariantLocations",
-                column: "VariantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VariantPrices_ConditionId",
-                table: "VariantPrices",
-                column: "ConditionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VariantPrices_PriceId",
-                table: "VariantPrices",
-                column: "PriceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VariantPrices_VariantId",
-                table: "VariantPrices",
-                column: "VariantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Volumes_VariantId",
-                table: "Volumes",
-                column: "VariantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleClaims_RoleId",
-                table: "RoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserClaims_UserId",
-                table: "UserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_UserId",
-                table: "UserLogins",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_ProviderKey_LoginProvider",
-                table: "UserLogins",
-                columns: new[] { "ProviderKey", "LoginProvider" });
+                name: "IX_Variants_YearId",
+                table: "Variants",
+                column: "YearId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1466,19 +1435,13 @@ namespace Library.Web.Migrations
                 name: "ClubGenres");
 
             migrationBuilder.DropTable(
+                name: "ClubMembers");
+
+            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Countries");
-
-            migrationBuilder.DropTable(
-                name: "Editions");
-
-            migrationBuilder.DropTable(
                 name: "Inventories");
-
-            migrationBuilder.DropTable(
-                name: "Members");
 
             migrationBuilder.DropTable(
                 name: "PriceOffers");
@@ -1493,31 +1456,16 @@ namespace Library.Web.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "States");
+                name: "RoleClaims");
 
             migrationBuilder.DropTable(
                 name: "UserAddresses");
 
             migrationBuilder.DropTable(
-                name: "UserLocations");
-
-            migrationBuilder.DropTable(
-                name: "VariantLanguages");
-
-            migrationBuilder.DropTable(
-                name: "VariantLocations");
-
-            migrationBuilder.DropTable(
-                name: "VariantPrices");
-
-            migrationBuilder.DropTable(
-                name: "Volumes");
-
-            migrationBuilder.DropTable(
-                name: "RoleClaims");
-
-            migrationBuilder.DropTable(
                 name: "UserClaims");
+
+            migrationBuilder.DropTable(
+                name: "UserLocations");
 
             migrationBuilder.DropTable(
                 name: "UserLogins");
@@ -1527,6 +1475,9 @@ namespace Library.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "VariantPrices");
 
             migrationBuilder.DropTable(
                 name: "Authors");
@@ -1541,12 +1492,6 @@ namespace Library.Web.Migrations
                 name: "CheckOuts");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
-
-            migrationBuilder.DropTable(
-                name: "Locations");
-
-            migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
@@ -1554,6 +1499,12 @@ namespace Library.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "VariantCopies");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Variants");
@@ -1572,6 +1523,15 @@ namespace Library.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "TermSets");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "States");
         }
     }
 }

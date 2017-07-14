@@ -27,8 +27,7 @@ namespace Library.Web.Services
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        private IQueryable<User> Users => _context.Users
-            .Include(u => u.Roles)
+        private IQueryable<User> Users => _context.Users        
             .Include(u => u.LocationsLink)
             .ThenInclude( ll => ll.Location);
 

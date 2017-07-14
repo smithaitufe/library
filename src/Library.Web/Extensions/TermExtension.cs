@@ -34,7 +34,10 @@ namespace Library.Web.Extensions
             terms = order != -1 ? ( order == 0 ? terms.OrderBy(t => t.Id) : (order == 1 ? terms.OrderByDescending(t => t.Id) : terms)) : terms;            
             return terms.Select(t=> new SelectListItem { Value = t.Id.ToString(), Text = t.Name}).ToList();
         }
-         public static IList<SelectListItem> MapToSelectList(this IEnumerable<Term> terms) {            
+        public static IList<SelectListItem> MapToSelectList(this IQueryable<Term> terms) {            
+            return terms.Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name}).ToList();
+        }
+        public static IList<SelectListItem> MapToSelectList(this IEnumerable<Term> terms) {            
             return terms.Select(t=> new SelectListItem { Value = t.Id.ToString(), Text = t.Name}).ToList();
         }
         

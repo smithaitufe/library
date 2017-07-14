@@ -38,7 +38,7 @@ namespace Library.Web.Extensions
                 }
             );
         }
-        public static Author MapToAuthor(this CreateEditAuthorViewModel model) {
+        public static Author MapToAuthor(this AuthorEditorViewModel model) {
             var author = new Author();
             author.LastName = model.LastName;
             author.FirstName = model.FirstName;
@@ -49,8 +49,8 @@ namespace Library.Web.Extensions
             }
             return author;
         }
-        public static CreateEditAuthorViewModel MapToCreateEditAuthorViewModel(this IQueryable<Author> author) {
-            return author.Select (a => new CreateEditAuthorViewModel {
+        public static AuthorEditorViewModel MapToAuthorEditorViewModel(this IQueryable<Author> author) {
+            return author.Select (a => new AuthorEditorViewModel {
                 Id = a.Id,
                 LastName = a.LastName,
                 FirstName = a.FirstName,

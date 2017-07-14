@@ -9,7 +9,7 @@ namespace Library.Core.Models
         public CheckOut CheckOut { get; set; }
         public DateTime RecallDate { get; set; } = DateTime.Now;     
         [ForeignKey("RecalledByUser")]   
-        public int RecalledByUserId { get; set;}        
+        public long RecalledByUserId { get; set;}        
         public User RecalledBy { get; set; }        
         
         

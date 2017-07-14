@@ -1,23 +1,43 @@
-@model CreateEditPublisherViewModel
+@model PublisherEditorViewModel
 @{
     ViewBag.Title = "New Publisher";
 }
 
 
-<div class="content-container shadowed">
-    <h2 class="content-header">@(Model.Id == null ? "Add" : "Edit") Publisher</h2>
-    <div class="horizontal-divider"></div>
-    <div class="content">
-    <input type="hidden" asp-for="Id">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input type="text" class="form-control" asp-for="Name" placeholder="@Html.DisplayNameFor(m=>m.Name)">
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+         <div class="card">
+        <h2 class="card-header">@(Model.Id == null ? "New" : "Edit") Publisher</h2>    
+        <div class="card-block">
+        <input type="hidden" asp-for="Id">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input type="text" class="form-control" asp-for="Name" placeholder="@Html.DisplayNameFor(m=>m.Name)">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber"></label>
+            <input type="text" class="form-control" asp-for="PhoneNumber" placeholder="@Html.DisplayNameFor(m=>m.PhoneNumber)">
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address.Line"></label>
+            <input type="text" class="form-control" asp-for="Address.Line" placeholder="@Html.DisplayNameFor(m=>m.Address.Line)">
+            <span asp-validation-for="Address.Line" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address.CountryId"></label>
+            <select asp-for="Address.CountryId" asp-items="Model.Address.Countries" class="form-control">
+                <option value="">Select Location</option>
+            </select>
+            <span asp-validation-for="Address.CountryId" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <button class="btn btn-primary border-radius-0" type="submit">Save</button>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+        
+        </div>
     </div>
-    
- </div>
+    </div>
 </div>

@@ -52,6 +52,10 @@ namespace Library.Web.Models.BookViewModels
         [Display(Name = "Location")]
         [Required(ErrorMessage = "Select a location for this book")]
         public int LocationId { get; set; }
+        [Display(Name = "Book Quantity")]
+        [Required(ErrorMessage = "{0} cannot be empty")]
+        [RegularExpression("^[1-9][0-9]+$", ErrorMessage = "Invalid characters were found in {0}")]
+        public int? Quantity { get; set; }
         [Display(Name = "Sale Grant")]
         [Required(ErrorMessage = "Choose sale grant for this book")]
         public int GrantId { get; set; }
@@ -112,11 +116,12 @@ namespace Library.Web.Models.BookViewModels
         }
         [Required(ErrorMessage = "Please specify the numbe of pages of this book")]
         public int Pages { get; set; }
-        [Required(ErrorMessage = "Book Edition is required")]
+        // [Required(ErrorMessage = "Book Edition is required")]
         [StringLength(20, ErrorMessage = "Maximum characters allowed for edition is ${0}")]
         public string Edition { get; set; }
-        [Required(ErrorMessage = "Book Volume is required")]
+        // [Required(ErrorMessage = "Book Volume is required")]
         [StringLength(20, ErrorMessage = "Maximum characters allowed for volume is ${0}")]
-        public string Volume { get; set; }
+        public string Volume { get; set; }        
+        public string ShelfNo { get; set; }
     }
 }

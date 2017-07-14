@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace Library.Web.Migrations
@@ -13,28 +15,32 @@ namespace Library.Web.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
+#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.0-preview1-24937");
+                .HasAnnotation("ProductVersion", "2.0.0-preview2-25794");
 
             modelBuilder.Entity("Library.Core.Models.Address", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("City");
+
+                    b.Property<int?>("CountryId");
 
                     b.Property<DateTime>("InsertedAt");
 
                     b.Property<string>("Line")
                         .IsRequired();
 
-                    b.Property<int>("StateId");
+                    b.Property<int?>("StateId");
 
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("StateId");
 
@@ -44,8 +50,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Announcement", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CategoryId");
 
@@ -75,11 +80,9 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Author", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("FirstName")
@@ -105,21 +108,15 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Book", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CategoryId");
 
                     b.Property<int?>("CoverId");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(255);
+                    b.Property<string>("Description");
 
                     b.Property<int>("GenreId");
-
-                    b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasMaxLength(30);
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -154,8 +151,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.BookAuthor", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AuthorId");
 
@@ -178,24 +174,19 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.CheckOut", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int?>("ApprovedDaysId");
 
                     b.Property<DateTime>("InsertedAt");
 
-                    b.Property<int>("LocationId");
-
-                    b.Property<int>("PatronId");
+                    b.Property<long>("PatronId");
 
                     b.Property<int>("RequestedDaysId");
 
-                    b.Property<bool>("Returned");
-
-                    b.Property<DateTime?>("ReturnedDate");
-
                     b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("VariantCopyId");
 
                     b.Property<int>("VariantId");
 
@@ -203,11 +194,11 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("ApprovedDaysId");
 
-                    b.HasIndex("LocationId");
-
                     b.HasIndex("PatronId");
 
                     b.HasIndex("RequestedDaysId");
+
+                    b.HasIndex("VariantCopyId");
 
                     b.HasIndex("VariantId");
 
@@ -217,14 +208,13 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.CheckOutState", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CheckOutId");
 
                     b.Property<DateTime>("InsertedAt");
 
-                    b.Property<int>("ModifiedByUserId");
+                    b.Property<long>("ModifiedByUserId");
 
                     b.Property<int>("StatusId");
 
@@ -244,8 +234,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.CheckOutStatus", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -253,8 +242,6 @@ namespace Library.Web.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<bool>("Out");
 
                     b.Property<int?>("ParentId");
 
@@ -272,8 +259,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Club", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -291,8 +277,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.ClubGenre", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClubId");
 
@@ -311,13 +296,34 @@ namespace Library.Web.Migrations
                     b.ToTable("ClubGenres");
                 });
 
+            modelBuilder.Entity("Library.Core.Models.ClubMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ClubId");
+
+                    b.Property<DateTime>("InsertedAt");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<long>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClubId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ClubMembers");
+                });
+
             modelBuilder.Entity("Library.Core.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CommenterId");
+                    b.Property<long>("CommenterId");
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -348,8 +354,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Country", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abbreviation")
                         .HasMaxLength(5);
@@ -372,33 +377,10 @@ namespace Library.Web.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("Library.Core.Models.Edition", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-                    b.Property<DateTime>("InsertedAt");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(20);
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<int>("VariantId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VariantId");
-
-                    b.ToTable("Editions");
-                });
-
             modelBuilder.Entity("Library.Core.Models.Image", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ContentType");
 
@@ -418,8 +400,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Inventory", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -441,8 +422,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Location", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Code");
 
@@ -457,36 +437,12 @@ namespace Library.Web.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("Library.Core.Models.Member", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-                    b.Property<int>("ClubId");
-
-                    b.Property<DateTime>("InsertedAt");
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClubId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Members");
-                });
-
             modelBuilder.Entity("Library.Core.Models.Post", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AuthorId");
+                    b.Property<long>("AuthorId");
 
                     b.Property<int>("CategoryId");
 
@@ -522,8 +478,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.PriceOffer", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BookId");
 
@@ -545,8 +500,9 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Publisher", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AddressId");
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -554,9 +510,13 @@ namespace Library.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
+                    b.Property<string>("PhoneNumber");
+
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Publishers");
                 });
@@ -564,8 +524,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Recall", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CheckOutId");
 
@@ -573,7 +532,7 @@ namespace Library.Web.Migrations
 
                     b.Property<DateTime>("RecallDate");
 
-                    b.Property<int>("RecalledByUserId");
+                    b.Property<long>("RecalledByUserId");
 
                     b.Property<DateTime?>("UpdatedAt");
 
@@ -589,8 +548,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Reservation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Active");
 
@@ -600,9 +558,9 @@ namespace Library.Web.Migrations
 
                     b.Property<int>("NumberOfDaysId");
 
-                    b.Property<int>("PatronId");
+                    b.Property<long>("PatronId");
 
-                    b.Property<int>("ReservedByUserId");
+                    b.Property<long>("ReservedByUserId");
 
                     b.Property<DateTime?>("UpdatedAt");
 
@@ -620,8 +578,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Review", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BookId");
 
@@ -647,7 +604,7 @@ namespace Library.Web.Migrations
 
             modelBuilder.Entity("Library.Core.Models.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
@@ -671,8 +628,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.State", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abbreviation")
                         .HasMaxLength(10);
@@ -695,8 +651,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Term", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -718,8 +673,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.TermSet", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("InsertedAt");
 
@@ -736,7 +690,7 @@ namespace Library.Web.Migrations
 
             modelBuilder.Entity("Library.Core.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
@@ -810,7 +764,7 @@ namespace Library.Web.Migrations
 
             modelBuilder.Entity("Library.Core.Models.UserAddress", b =>
                 {
-                    b.Property<int>("UserId");
+                    b.Property<long>("UserId");
 
                     b.Property<int>("AddressId");
 
@@ -824,8 +778,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.UserLocation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Active");
 
@@ -835,7 +788,7 @@ namespace Library.Web.Migrations
 
                     b.Property<DateTime?>("UpdatedAt");
 
-                    b.Property<int>("UserId");
+                    b.Property<long>("UserId");
 
                     b.HasKey("Id");
 
@@ -849,8 +802,7 @@ namespace Library.Web.Migrations
             modelBuilder.Entity("Library.Core.Models.Variant", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BookId");
 
@@ -858,17 +810,31 @@ namespace Library.Web.Migrations
 
                     b.Property<int>("DaysAllowedId");
 
+                    b.Property<string>("Edition")
+                        .HasMaxLength(50);
+
                     b.Property<int>("FineId");
 
                     b.Property<int>("FormatId");
 
                     b.Property<int>("GrantId");
 
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
                     b.Property<DateTime>("InsertedAt");
+
+                    b.Property<int>("LanguageId");
 
                     b.Property<int>("Pages");
 
+                    b.Property<string>("ShelfNo");
+
                     b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("Volume")
+                        .HasMaxLength(50);
 
                     b.Property<int>("YearId");
 
@@ -886,41 +852,17 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("GrantId");
 
+                    b.HasIndex("LanguageId");
+
                     b.HasIndex("YearId");
 
                     b.ToTable("Variants");
                 });
 
-            modelBuilder.Entity("Library.Core.Models.VariantLanguage", b =>
+            modelBuilder.Entity("Library.Core.Models.VariantCopy", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-                    b.Property<int>("BookVariantId");
-
-                    b.Property<DateTime>("InsertedAt");
-
-                    b.Property<int>("LanguageId");
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<int>("VariantId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookVariantId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.ToTable("VariantLanguages");
-                });
-
-            modelBuilder.Entity("Library.Core.Models.VariantLocation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AvailabilityId");
 
@@ -931,7 +873,7 @@ namespace Library.Web.Migrations
                     b.Property<bool>("Out");
 
                     b.Property<string>("SerialNo")
-                        .HasMaxLength(20);
+                        .HasMaxLength(40);
 
                     b.Property<int>("SourceId");
 
@@ -951,14 +893,13 @@ namespace Library.Web.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("VariantLocations");
+                    b.ToTable("VariantCopies");
                 });
 
             modelBuilder.Entity("Library.Core.Models.VariantPrice", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ConditionId");
 
@@ -981,30 +922,7 @@ namespace Library.Web.Migrations
                     b.ToTable("VariantPrices");
                 });
 
-            modelBuilder.Entity("Library.Core.Models.Volume", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-                    b.Property<DateTime>("InsertedAt");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<int>("VariantId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VariantId");
-
-                    b.ToTable("Volumes");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -1013,7 +931,7 @@ namespace Library.Web.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<int>("RoleId");
+                    b.Property<long>("RoleId");
 
                     b.HasKey("Id");
 
@@ -1022,7 +940,7 @@ namespace Library.Web.Migrations
                     b.ToTable("RoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -1031,7 +949,7 @@ namespace Library.Web.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<int>("UserId");
+                    b.Property<long>("UserId");
 
                     b.HasKey("Id");
 
@@ -1040,7 +958,7 @@ namespace Library.Web.Migrations
                     b.ToTable("UserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -1048,7 +966,7 @@ namespace Library.Web.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<int>("UserId");
+                    b.Property<long>("UserId");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -1059,22 +977,27 @@ namespace Library.Web.Migrations
                     b.ToTable("UserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
-                    b.Property<int>("RoleId");
+                    b.Property<long>("RoleId");
 
-                    b.Property<int>("UserId");
+                    b.Property<long>("UserId");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
                     b.HasKey("RoleId", "UserId");
 
                     b.HasAlternateKey("UserId", "RoleId");
 
                     b.ToTable("UserRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<long>");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
-                    b.Property<int>("UserId");
+                    b.Property<long>("UserId");
 
                     b.Property<string>("LoginProvider")
                         .IsRequired();
@@ -1091,12 +1014,32 @@ namespace Library.Web.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("Library.Core.Models.UserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<long>");
+
+                    b.Property<long?>("RoleId1");
+
+                    b.Property<long?>("UserId1");
+
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserRole");
+
+                    b.HasDiscriminator().HasValue("UserRole");
+                });
+
             modelBuilder.Entity("Library.Core.Models.Address", b =>
                 {
-                    b.HasOne("Library.Core.Models.Term", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("Library.Core.Models.Country", "Country")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("Library.Core.Models.State", "State")
+                        .WithMany("Addresses")
+                        .HasForeignKey("StateId");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Announcement", b =>
@@ -1111,7 +1054,8 @@ namespace Library.Web.Migrations
                 {
                     b.HasOne("Library.Core.Models.Term", "Category")
                         .WithMany("CategoryBooks")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Image", "Cover")
                         .WithMany()
@@ -1119,7 +1063,8 @@ namespace Library.Web.Migrations
 
                     b.HasOne("Library.Core.Models.Term", "Genre")
                         .WithMany("GenreBooks")
-                        .HasForeignKey("GenreId");
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Publisher", "Publisher")
                         .WithMany("Books")
@@ -1135,7 +1080,7 @@ namespace Library.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Library.Core.Models.Book", "Book")
-                        .WithMany("AuthorsLink")
+                        .WithMany("BookAuthors")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1144,12 +1089,8 @@ namespace Library.Web.Migrations
                 {
                     b.HasOne("Library.Core.Models.Term", "ApprovedDays")
                         .WithMany("CheckOutApprovedDays")
-                        .HasForeignKey("ApprovedDaysId");
-
-                    b.HasOne("Library.Core.Models.Term", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ApprovedDaysId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.User", "Patron")
                         .WithMany()
@@ -1158,11 +1099,18 @@ namespace Library.Web.Migrations
 
                     b.HasOne("Library.Core.Models.Term", "RequestedDays")
                         .WithMany("CheckOutRequestedDays")
-                        .HasForeignKey("RequestedDaysId");
+                        .HasForeignKey("RequestedDaysId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Library.Core.Models.VariantCopy", "VariantCopy")
+                        .WithMany("CheckOuts")
+                        .HasForeignKey("VariantCopyId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Variant", "Variant")
                         .WithMany("CheckOuts")
-                        .HasForeignKey("VariantId");
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Library.Core.Models.CheckOutState", b =>
@@ -1174,10 +1122,11 @@ namespace Library.Web.Migrations
 
                     b.HasOne("Library.Core.Models.User", "ModifiedBy")
                         .WithMany("CheckOutStates")
-                        .HasForeignKey("ModifiedByUserId");
+                        .HasForeignKey("ModifiedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.CheckOutStatus", "Status")
-                        .WithMany("CheckOutsLink")
+                        .WithMany("CheckOutStates")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1202,6 +1151,19 @@ namespace Library.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Library.Core.Models.ClubMember", b =>
+                {
+                    b.HasOne("Library.Core.Models.Club", "Club")
+                        .WithMany()
+                        .HasForeignKey("ClubId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Library.Core.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Library.Core.Models.Comment", b =>
                 {
                     b.HasOne("Library.Core.Models.User", "Commenter")
@@ -1215,19 +1177,12 @@ namespace Library.Web.Migrations
 
                     b.HasOne("Library.Core.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Term", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Library.Core.Models.Edition", b =>
-                {
-                    b.HasOne("Library.Core.Models.Variant", "Variant")
-                        .WithMany("Editions")
-                        .HasForeignKey("VariantId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1240,20 +1195,8 @@ namespace Library.Web.Migrations
 
                     b.HasOne("Library.Core.Models.Variant", "Variant")
                         .WithMany("Inventories")
-                        .HasForeignKey("VariantId");
-                });
-
-            modelBuilder.Entity("Library.Core.Models.Member", b =>
-                {
-                    b.HasOne("Library.Core.Models.Club", "Club")
-                        .WithMany()
-                        .HasForeignKey("ClubId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Library.Core.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Library.Core.Models.Post", b =>
@@ -1282,15 +1225,24 @@ namespace Library.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Library.Core.Models.Publisher", b =>
+                {
+                    b.HasOne("Library.Core.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+                });
+
             modelBuilder.Entity("Library.Core.Models.Recall", b =>
                 {
                     b.HasOne("Library.Core.Models.CheckOut", "CheckOut")
                         .WithMany("RecalledBooks")
-                        .HasForeignKey("CheckOutId");
+                        .HasForeignKey("CheckOutId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.User", "RecalledBy")
                         .WithMany("RecalledBooks")
-                        .HasForeignKey("RecalledByUserId");
+                        .HasForeignKey("RecalledByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Library.Core.Models.Reservation", b =>
@@ -1302,11 +1254,13 @@ namespace Library.Web.Migrations
 
                     b.HasOne("Library.Core.Models.User", "Patron")
                         .WithMany("Reservations")
-                        .HasForeignKey("PatronId");
+                        .HasForeignKey("PatronId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.User", "ReservedBy")
                         .WithMany("ReservationBookings")
-                        .HasForeignKey("ReservedByUserId");
+                        .HasForeignKey("ReservedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Library.Core.Models.Review", b =>
@@ -1372,55 +1326,56 @@ namespace Library.Web.Migrations
 
                     b.HasOne("Library.Core.Models.Term", "DaysAllowed")
                         .WithMany("DaysAllowedVariants")
-                        .HasForeignKey("DaysAllowedId");
+                        .HasForeignKey("DaysAllowedId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Term", "Fine")
                         .WithMany("FineVariants")
-                        .HasForeignKey("FineId");
+                        .HasForeignKey("FineId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Term", "Format")
                         .WithMany("FormatVariants")
-                        .HasForeignKey("FormatId");
+                        .HasForeignKey("FormatId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Term", "Grant")
                         .WithMany("GrantVariants")
-                        .HasForeignKey("GrantId");
-
-                    b.HasOne("Library.Core.Models.Term", "Year")
-                        .WithMany("YearVariants")
-                        .HasForeignKey("YearId");
-                });
-
-            modelBuilder.Entity("Library.Core.Models.VariantLanguage", b =>
-                {
-                    b.HasOne("Library.Core.Models.Variant", "Variant")
-                        .WithMany("Languages")
-                        .HasForeignKey("BookVariantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("GrantId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Term", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Library.Core.Models.Term", "Year")
+                        .WithMany("YearVariants")
+                        .HasForeignKey("YearId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Library.Core.Models.VariantLocation", b =>
+            modelBuilder.Entity("Library.Core.Models.VariantCopy", b =>
                 {
                     b.HasOne("Library.Core.Models.Term", "Availability")
-                        .WithMany("AvailabilityVariantLocations")
-                        .HasForeignKey("AvailabilityId");
+                        .WithMany("AvailabilityVariantCopies")
+                        .HasForeignKey("AvailabilityId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Location", "Location")
-                        .WithMany("VariantLocations")
-                        .HasForeignKey("LocationId");
+                        .WithMany("VariantCopies")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Term", "Source")
-                        .WithMany("SourceVariantLocations")
-                        .HasForeignKey("SourceId");
+                        .WithMany("SourceVariantCopies")
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Variant", "Variant")
-                        .WithMany("VariantLocations")
-                        .HasForeignKey("VariantId");
+                        .WithMany("VariantCopies")
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Library.Core.Models.VariantPrice", b =>
@@ -1432,65 +1387,71 @@ namespace Library.Web.Migrations
 
                     b.HasOne("Library.Core.Models.Term", "Price")
                         .WithMany("VariantPrices")
-                        .HasForeignKey("PriceId");
+                        .HasForeignKey("PriceId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Library.Core.Models.Variant", "Variant")
-                        .WithMany("PricesLink")
-                        .HasForeignKey("VariantId");
-                });
-
-            modelBuilder.Entity("Library.Core.Models.Volume", b =>
-                {
-                    b.HasOne("Library.Core.Models.Variant", "Variant")
-                        .WithMany("Volumes")
+                        .WithMany("VariantPrices")
                         .HasForeignKey("VariantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.HasOne("Library.Core.Models.Role")
-                        .WithMany("Claims")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
                     b.HasOne("Library.Core.Models.User")
-                        .WithMany("Claims")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
                     b.HasOne("Library.Core.Models.User")
-                        .WithMany("Logins")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
                     b.HasOne("Library.Core.Models.Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Library.Core.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
+                {
+                    b.HasOne("Library.Core.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Library.Core.Models.UserRole", b =>
+                {
+                    b.HasOne("Library.Core.Models.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RoleId1");
 
-                    b.HasOne("Library.Core.Models.User")
+                    b.HasOne("Library.Core.Models.User", "User")
                         .WithMany("Roles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId1");
                 });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<int>", b =>
-                {
-                    b.HasOne("Library.Core.Models.User")
-                        .WithMany("Tokens")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+#pragma warning restore 612, 618
         }
     }
 }

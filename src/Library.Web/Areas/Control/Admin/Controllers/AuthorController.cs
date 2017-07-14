@@ -26,11 +26,11 @@ namespace Library.Web.Areas.Admin.Controllers
         }
 
         public IActionResult Create(){
-            var model = new CreateEditAuthorViewModel();
+            var model = new AuthorEditorViewModel();
             return View(model);
         }
         [HttpPost]
-        public IActionResult Create(CreateEditAuthorViewModel model){
+        public IActionResult Create(AuthorEditorViewModel model){
             if(!ModelState.IsValid)
                 return View(model);  
                 
@@ -40,14 +40,14 @@ namespace Library.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(AuthorController.Index));
         }
         public IActionResult Edit(int id){            
-            var model = _context.Authors.Where(a => a.Id == id).MapToCreateEditAuthorViewModel();
+            var model = _context.Authors.Where(a => a.Id == id).MapToAuthorEditorViewModel();
             if(model == null){
                 return NotFound();
             }
             return View(model);
         }
         [HttpPost]
-        public IActionResult Edit(int id, CreateEditAuthorViewModel model){
+        public IActionResult Edit(int id, AuthorEditorViewModel model){
             if(!ModelState.IsValid)
                 return View(model);            
             var author = model.MapToAuthor();
@@ -57,7 +57,7 @@ namespace Library.Web.Areas.Admin.Controllers
         }
         [HttpGet]
         public IActionResult AddEditAuthor(long? id) {
-            var model = new CreateEditAuthorViewModel();
+            var model = new AuthorEditorViewModel();
             if(id.HasValue){
                 Author author = _context.Set<Author>().SingleOrDefault(a => a.Id == id.Value);
                 if(author != null) {
@@ -71,7 +71,7 @@ namespace Library.Web.Areas.Admin.Controllers
             return PartialView("_AddEditAuthor", model);
         }
         [HttpPost]
-        public IActionResult AddEditAuthor(long? id, CreateEditAuthorViewModel model) {
+        public IActionResult AddEditAuthor(long? id, AuthorEditorViewModel model) {
             if(!ModelState.IsValid)
                 return PartialView("_AddEditAuthor", model);
                 

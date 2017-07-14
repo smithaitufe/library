@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PreserveCompilationContext>false</PreserveCompilationContext>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,8 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0-preview1-final"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0-preview1-final"/>
+    <!-- <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0-preview2-25405-01" /> -->
+    <!-- <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.0.0-preview2-final" /> -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0-preview2-final"/> 
+    <!-- <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0-preview2-final"/> -->
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0-preview2-final" />
+    <!-- <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0-preview2-final" /> -->
+    <!-- <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0-preview2-final" /> -->
   </ItemGroup>
 
 

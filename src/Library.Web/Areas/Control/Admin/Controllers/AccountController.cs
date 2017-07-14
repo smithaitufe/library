@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Library.Core.Models;
 using Library.Repo;
 using Library.Web.Code;
-// using Library.Web.Data;
 using Library.Web.Extensions;
 using Library.Web.Models.AccountViewModels;
 using Library.Web.Models.CommonPageSettingsViewModels;
@@ -72,24 +71,14 @@ namespace Library.Web.Areas.Admin.Controllers
             }
             var user = model.MapToUser();  
             user.LocationsLink.Add(new UserLocation { LocationId = model.LocationId});
-            user.Claims.Add(new IdentityUserClaim<int> { ClaimType = ClaimTypes.Role, ClaimValue = model.Role });                
+            var claim = new Claim(ClaimTypes.Role, model.Role,ClaimValueTypes.String);            
             var identityService = new IdentityService(_context, _userManager);
-            var result = await identityService.AddUser(user, model.Password);                
+            var result = await identityService.AddUser(user, model.Password);   
+            await _userManager.AddClaimAsync(user, claim);             
             if(result.Succeeded) {
                 await _userManager.AddToRoleAsync(user, model.Role);
             }
             return RedirectToAction("Index");
-
-            // foreach(var role in model.SelectedRoles){                
-                //     user.Claims.Add(new IdentityUserClaim<int> { ClaimType = ClaimTypes.Role, ClaimValue = role });
-                // }
-                
-                // List<SelectListItem> userClaims = model.UserClaims.Where(c => c.Selected).ToList();
-                // foreach (var claim in userClaims)
-                // {
-                //     user.Claims.Add(new IdentityUserClaim<int> { ClaimType = claim.Value, ClaimValue = claim.Value});
-                // }
-
         }
 
         public IActionResult Details(int id) {            

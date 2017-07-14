@@ -8,14 +8,15 @@ namespace Library.Web.Models.BookViewModels
     public class CheckedBookViewModel
     {
         public int Id { get; set; }
-        public int BookVariantId { get; set; }
+        public int VariantId { get; set; }
+        public int? VariantCopyId { get; set; }
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }        
         public string ISBN { get; set; }
         public string Format { get;set; }
         public bool Checked { get; set; } = false;   
-        public bool Returned { get; set; }     
+        public bool Out { get; set; }     
         [Display(Name="Price")]
         public decimal Price { get; set; } = 0.0M;
         [Display(Name="Published On")]

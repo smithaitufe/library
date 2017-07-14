@@ -19,7 +19,6 @@ namespace Library.Web.Models.BookViewModels
         [Display(Name="Category")]
         public int CategoryId { get; set; }
         public Image Cover { get; set; }
-
         public bool Checked { get; set; }
         public int VariantId { get; set; }
         public string Format { get;set; }
@@ -75,7 +74,7 @@ namespace Library.Web.Models.BookViewModels
         public Image Image { get; set; }
         
         public ICollection<VariantPrice> Prices { get; set; }        
-        public ICollection<VariantLocation> Locations { get; set; }
+        public ICollection<VariantCopy> VariantCopies { get; set; }
         public ICollection<Term> Sources { get; set; }
         public ICollection<Publisher> Publishers { get; set; }
         public ICollection<Author> Authors { get; set; }        

@@ -6,7 +6,12 @@ namespace Library.Core.Models
 {
     public class Variant: BaseEntity
     {
+        public Variant(){
+            VariantCopies = new HashSet<VariantCopy>();
+            VariantPrices = new HashSet<VariantPrice>();
+        }
         [Required]
+        [ForeignKey("Book")]
         public int BookId { get; set; }
         [Required]
         [MaxLength(30)]
@@ -20,10 +25,13 @@ namespace Library.Core.Models
         [Required]
         public int Pages { get; set; }
         [Required]
+        [ForeignKey("Format")]
         public int FormatId { get; set; }      
-        [Required] 
+        [Required]
+        [ForeignKey("Grant")] 
         public int GrantId { get; set; }
         [Required]
+        [ForeignKey("Year")]
         public int YearId { get; set; }
         [Required]
         [ForeignKey("DaysAllowed")]
@@ -36,18 +44,18 @@ namespace Library.Core.Models
         public Term Language { get; set; }
         public Term DaysAllowed { get; set; }               
         public Term CollectionMode { get; set; }        
-        public Term Fine { get; set; }
-        [ForeignKey("GrantId")]
-        public Term Grant { get; set; }
-        [ForeignKey("YearId")]
+        public Term Fine { get; set; }        
+        public Term Grant { get; set; }        
         public Term Year { get; set; }       
-        [ForeignKey("FormatId")]
+        public string ShelfNo { get; set; }
         public Term Format { get; set; }
-        [ForeignKey("BookId")]
         public Book Book { get; set; }        
         public ICollection<CheckOut> CheckOuts { get; set; }           
-        public ICollection<VariantPrice> PricesLink { get; set; }          
-        public ICollection<VariantLocation> VariantLocations { get; set; }        
+        public ICollection<VariantPrice> VariantPrices { get; set; }          
+        public ICollection<VariantCopy> VariantCopies { get; set; }        
         public ICollection<Inventory> Inventories { get; set; }
+
+
+
     }
 }

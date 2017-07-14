@@ -4,31 +4,23 @@
 
 <ul class="nav nav-pills pb-0 mb-0">
     <li>
-        <a class="nav-link" asp-action="BookBasic" asp-controller="Book">
-            <span></span>
+        <a class="nav-link btn btn-primary" asp-action="BookBasic" asp-controller="Book">
+            <span><i class="material-icons small">subject</i></span>
             <span>Basic</span>
         </a>
     </li>
     <li>
-        <a  class="nav-link" asp-action="BookTypes" asp-controller="Book">
-            <span></span>
+        <a  class="nav-link btn btn-success" asp-action="BookTypes" asp-controller="Book">
+            <i class="material-icons small">toc</i>
             <span>Types</span>
         </a>
     </li>
     <li>
-        <a  class="nav-link" asp-action="BookAuthors" asp-controller="Book">
-            <span></span>
+        <a  class="nav-link btn btn-success" asp-action="BookAuthors" asp-controller="Book">
+            <span><i class="material-icons small">perm_identity</i></span>
             <span>Authors</span>
         </a>
-    </li>                
-    
-    <li>
-        <a  class="nav-link" asp-action="BookPrices" asp-controller="Book">
-            <span></span>
-            <span>Price</span>
-        </a>
-    </li>
-
+    </li> 
 </ul>
 <hr>
 @RenderBody()

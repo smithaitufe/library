@@ -4,8 +4,6 @@
     <div class="card card-block">
         <div class="card-text">
 
-            
-
             <div class="row form-group">
                 <label asp-for="FormatId" class="col-sm-12 col-md-4"></label>
                 <div class="col-sm-12 col-md-8">
@@ -15,7 +13,36 @@
                 <span asp-validation-for="FormatId" class="text-danger"></span>
                 </div>
             </div>
-
+            <div class="row form-group">
+                <label asp-for="ISBN" class="col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <input asp-for="ISBN" type="text" class="form-control">
+                    <span asp-validation-for="ISBN" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label asp-for="Edition" class="col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <input asp-for="Edition" type="text" class="form-control">
+                    <span asp-validation-for="Edition" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label asp-for="Volume" class="col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <input asp-for="Volume" type="text" class="form-control">
+                    <span asp-validation-for="Volume" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label asp-for="LanguageId" class="col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <select asp-for="LanguageId" asp-items="Model.Languages" class="form-control">
+                    <option value="">Select Format</option>
+                </select>
+                <span asp-validation-for="LanguageId" class="text-danger"></span>
+                </div>
+            </div>
             <div class="row form-group">
                 <label asp-for="Pages" class="col-sm-12 col-md-4"></label>
                 <div class="col-sm-12 col-md-8">

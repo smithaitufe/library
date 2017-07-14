@@ -30,7 +30,7 @@ namespace Library.NCIPServer
             // services.AddEntityFrameworkSqlite().AddDbContext<LibraryDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("Library.Web")));
             // services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("Library.Web")));
             services.AddEntityFrameworkNpgsql()
-            .AddDbContext<LibraryDbContext>(options => { options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("Library.NCIPServer")); });
+            .AddDbContext<LibraryDbContext>(options => { options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")); });
             services.AddMvc(options =>
             {
                 // To add XmlSerializer based Input and Output formatters.
@@ -46,9 +46,5 @@ namespace Library.NCIPServer
         }
     }
 
-    class LibraryDbContextFactory : IDbContextFactory<LibraryDbContext>
-    {
-        public LibraryDbContext Create(string[] args)
-            => Program.BuildWebHost(args).Services.GetRequiredService<LibraryDbContext>();
-    }
+    
 }

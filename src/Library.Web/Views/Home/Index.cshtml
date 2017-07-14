@@ -11,67 +11,97 @@
     ViewData["Title"] = pageSettings.ApplicationTitle;
 }   
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-6 col-md-6 pl-0 pr-0">
-            <div class="login-left-sidebar">
-                <img src="@Url.Content("~/images/bg/login-left-sidebar-bg.png")" alt="" style="height: 100vh">
+
+<div class="container-fluid row">
+    <div class="col-sm-12 col-md-6 px-0 py-0">            
+        <div class="login-left-sidebar">
+            <img src="@Url.Content("~/images/bg/login-left-sidebar-bg.png")" alt="" style="height: auto; max-height: 100vh;">
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 px-0 py-0">
+        <div class="row">
+            <div class="col-sm-10 mx-auto"> 
+                @if(ViewData.ModelState["LoginError"] != null && ViewData.ModelState["LoginError"].Errors.Count > 0)
+                {
+                    <div class="alert alert-danger" role="alert">                        
+                            @ViewData.ModelState["LoginError"].Errors[0].ErrorMessage                       
+                    </div>
+                }
             </div>
         </div>
-        <div class="col-sm-6 col-md-6 pl-0 pr-0">
-            <div class="row">
-                <div class="col-sm-10 mx-auto"> 
-                    @if(ViewData.ModelState["LoginError"] != null && ViewData.ModelState["LoginError"].Errors.Count > 0){
-                        <div class="alert alert-danger" role="alert">                        
-                                @ViewData.ModelState["LoginError"].Errors[0].ErrorMessage                       
-                        </div>
-                    }
-                </div>
-            </div>
-            <h3 class="text-center header-text">Welcome to @pageSettings.ApplicationTitle</h3>
-            <div class="row">
-                <div class="col-sm-10 mx-auto">                
+        
+        <div class="row">
+            <div class="col-sm-12"><h3 class="text-center header-text">Welcome to @pageSettings.ApplicationTitle</h3></div>
+            <div class="col-sm-10 mx-auto">                
                 <h5 class="text-center">Sign in to your Account</h5>
                 <div class="content-container shadowed">
                     <div class="content">
                         <br>
-                        <form asp-controller="Home" asp-action="Index" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">                            
-                            <div class="form-group">
-                                <label asp-for="ID" class="form-control-label"></label>                
-                                <input asp-for="ID" type="text" class="form-control">
-                                <i class="fa fa-mobile fa-login"></i>
-                                <span asp-validation-for="ID" class="text-danger"></span>
+                        <form asp-controller="Home" asp-action="Index" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <label asp-for="ID" class="form-control-label"></label>                
+                                    <input asp-for="ID" type="text" class="form-control">
+                                    <i class="fa fa-mobile fa-login"></i>
+                                    <span asp-validation-for="ID" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
+                                <div class="col-sm-12">
                                     <label asp-for="Password" class="form-control-label"></label>
                                     <input asp-for="Password" type="password" class="form-control">
                                     <i class="fa fa-lock fa-login"></i>
                                     <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
                             </div>
                             
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-7"><a asp-action="ForgotPassword" asp-controller="Account">Forgotten your password?</a></div>
-                                    <div class="col-sm-12 col-md-5 text-right"><a asp-action="Register" asp-controller="Account">Create Account</a></div>
-                                </div>
-                                
+                            <div class="form-group row">
+                                <div class="col-sm-12 col-md-7"><a asp-action="ForgotPassword" asp-controller="Account">Forgotten your password?</a></div>
+                                <div class="col-sm-12 col-md-5 text-right"><a asp-action="Register" asp-controller="Account">Create Account</a></div>
                             </div>
+
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block">Login</button>               
                             </div>                                                   
                         </form>
                     </div>
                 </div>
+                
+                
+
             </div>
         </div>
 
+        <div class="row footer">
+            <div class="col-sm-12">
+                <p>
+                    @Html.Raw(pageSettings.CopyrightDescription.Replace("{year}", @DateTime.Now.Year.ToString() ))
+                </p>
+            </div>
+        </div>
     </div>
 </div>
+
 
 @section Styles {
     <style>
         body{
-            padding-top: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+        }
+        .container-fluid{
+            min-height: 100%;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+        .footer{
+            position: absolute;
+            bottom: 0;
+            height: 70px;
+            text-align: center;
+            width: 100%;
         }
         .fa-login{
             display: inline-block;            

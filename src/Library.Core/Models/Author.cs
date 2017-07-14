@@ -10,8 +10,7 @@ namespace Library.Core.Models
         public string FirstName { get; set; }
         [Required]
         [MaxLength(50)]
-        public string LastName { get; set; }
-        [Required]
+        public string LastName { get; set; }        
         [DataType(DataType.EmailAddress)]
         [MaxLength(200)]
         public string Email { get; set; }

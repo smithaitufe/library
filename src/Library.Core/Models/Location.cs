@@ -6,6 +6,6 @@ namespace Library.Core.Models
         public string Name { get; set; }
         public string Code { get; set; }
 
-        public ICollection<VariantLocation> VariantLocations { get; set; }
+        public ICollection<VariantCopy> VariantCopies { get; set; }
     }
 }

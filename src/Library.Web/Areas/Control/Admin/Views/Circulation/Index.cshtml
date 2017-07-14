@@ -1,38 +1,48 @@
 @model BookCirculationListingViewModel
-
-<h4 class="mt-2" style="font-weight: bold">Books Circulation</h4>
-<div class="content-container shadowed">
-    <div class="content"> 
-        <form asp-action="Index" asp-controller="Circulation" method="get">           
-            <div class="row form-group pb-0">
-                <div class="col-sm-12 col-md-3">
-                    <label class="form-control-label">Category</label>                        
-                    <select asp-for="SearchCirculationsOptions.Status" class="form-control form-control-sm">
-                        <option value="">Select Option</option>
-                        <option value="Borrow Initiated">Borrow Initiated</option>
-                        <option value="Approved">Borrrowed</option>
-                        <option value="Return Initiated">Return Initiated</option>
-                        <option value="Return Confirmed">Returned</option>
-                    </select>
-                </div>
-                <div class="col-sm-12 col-md-3">
-                    <label for="" class="form-control-label">Start Date</label>
-                    <input asp-for="SearchCirculationsOptions.StartDate" type="text" class="form-control form-control-sm datetimepicker">
-                </div>
-                <div class="col-sm-12 col-md-3">
-                    <label for="" class="form-control-label">End Date</label>
-                    <input asp-for="SearchCirculationsOptions.EndDate" type="text" class="form-control form-control-sm datetimepicker">
-                </div>
-                <div class="col-sm-12 col-md-3">
-                    <br/>                        
-                    <button type="submit" class="btn btn-secondary btn-sm mt-2">Search</button>
-                </div>
+<div class="row">
+    <div class="col-sm-12 col-md-3">
+        <form asp-action="Index" asp-controller="Circulation" method="get">         
+            <div class="card">
+                <h4 class="card-header">Books Circulation</h4>
+                <div class="card-block">                    
+                    <div class="form-group">
+                        <label class="mb-0">Category</label>                        
+                        <select asp-for="SearchCirculationsOptions.Status" class="form-control ">
+                            <option value="">Select Option</option>
+                            <option value="Borrow Initiated">Borrow Initiated</option>
+                            <option value="Approved">Borrrowed</option>
+                            <option value="Return Initiated">Return Initiated</option>
+                            <option value="Return Confirmed">Returned</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="mb-0">Start Date</label>
+                        <input asp-for="SearchCirculationsOptions.StartDate" type="text" class="form-control datetimepicker">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="mb-0">End Date</label>
+                        <input asp-for="SearchCirculationsOptions.EndDate" type="text" class="form-control datetimepicker">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-sm mt-2">Search</button>
+                    </div>
+                </div>                
             </div>
-        </form>    
+        </form> 
+    </div>
+
+    <div class="col-sm-12 col-md-9">
+        @Html.Partial("_BorrowedBookListingIndex", @Model)
     </div>
 </div>
-   
-@Html.Partial("_BorrowedBookListingIndex", @Model)
+
+@*
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            @Html.Partial("_BorrowedBookListingIndex", @Model)
+        </div>
+    </div>
+*@
 
 @section Styles {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.min.css" />

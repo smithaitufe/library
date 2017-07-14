@@ -12,7 +12,7 @@ namespace Library.Core.Models
         [DataType(DataType.Text)]
         public string Text { get; set; }
         [Required]
-        public int AuthorId { get; set;}
+        public long AuthorId { get; set;}
         [Required]
         public int CategoryId { get; set; }
         [Required]

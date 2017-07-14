@@ -4,7 +4,7 @@ namespace Library.Core.Models
 {
     public class UserLocation: BaseEntity
     {
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public int LocationId { get; set; }
         public bool Active { get; set; } = true;
         

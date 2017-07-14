@@ -1,11 +1,129 @@
 @model AdminDashboardIndexViewModel
 
-
-<div class="card">
-    <div class="card-header">
-        
+<div class="row mb-2">
+    <div class="col-sm-12 col-md-5">
+        <div class="card">
+            <h3 class="card-header py-2">Users</h3>
+            <div class="card-block">
+                <h5><span class="statistics-header">Pending Registered Users:</span>@Model.TotalRegistrations</h5>
+                <h5><span class="statistics-header">Approved Registered Users:</span>@Model.TotalRegistrations</h5>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-
+    <div class="col-sm-12 col-md-5">
+        <div class="card">
+            <h3 class="card-header py-2">Defaulters</h3>
+            <div class="card-block">
+                <h5><span class="statistics-header">Pending Registered Users:</span>@Model.TotalRegistrations</h5>
+                <h5><span class="statistics-header">Approved Registered Users:</span>@Model.TotalRegistrations</h5>
+            </div>
+        </div>
     </div>
 </div>
+        
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="card">
+            <h3 class="card-header py-2">Books</h3>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header py-1 bg-info">Summary</div>
+                            <div class="card-block">
+                                <div class="form-group">
+                                    <label class="mb-0">Location</label>
+                                    <select id="location" class="form-control" onchange="BookLocationChanged(this)">                     
+                                        @foreach(var location in @ViewBag.Locations)                
+                                        {
+                                            <option value="@location.Id">@location.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div id="locationStatistics"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header py-1 bg-danger text-white">
+                                Defaulters
+                            </div>
+                            <div class="card-block">
+                                <h5><span class="statistics-header">Pending Registered Users:</span>@Model.TotalRegistrations</h5>
+                                <h5><span class="statistics-header">Approved Registered Users:</span>@Model.TotalRegistrations</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function(){
+            BookLocationChanged();            
+        })
+        function BookLocationChanged()
+        {
+            var locationId = $('select[id="location"]').val();
+            
+            $.ajax({
+                cache: false,
+                url: '/admin/dashboard/getbooksummary',
+                data: {locationId: locationId},
+                success: function(response){                        
+                    $("#locationStatistics").html(response);
+                },
+                fail: function(err){
+                    $("#locationStatistics").html(response);
+                }
+            });
+        }
+    </script>
+}
+
+@section Styles
+{
+    <style>
+        .card-header
+        {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .title, .content
+        {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0;
+        }
+        .title
+        {
+            background-color: lightgrey;
+            width: 100px;            
+            color: black;        
+        }
+        .content
+        {
+            background-color: red;
+            width: 100px;
+        }
+
+        #locationStatistics
+        {
+
+        }
+        .statistics-header
+        {
+            display: inline-block;
+            width: 230px;            
+            font-size: 0.8em;
+            font-style: italic;
+            
+        }
+    </style>
+}

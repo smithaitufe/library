@@ -3,8 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <UserSecretsId>aspnet-Library.Web-CD99B72A-528B-44B9-9FE2-19E5FAB39FB9</UserSecretsId>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,16 +14,27 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview1-final" />    
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0-preview1-final" PrivateAssets="All" />    
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0-preview1" />
-    <PackageReference Include="NewtonSoft.Json" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />     
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0-preview2-final" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0-preview2-final" PrivateAssets="All" />  
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0-preview2-final" />
+    <PackageReference Include="NewtonSoft.Json" Version="10.0.1" />
     <PackageReference Include="AutoMapper" Version="6.0.2"/>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0"/>
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0-preview1-final" />
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0-preview1-final" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0-preview2-final" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0-preview2-final" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0-preview2-final" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\**\*;**\*.cshtml;appsettings.json;web.config">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <Target Name="AfterPublish">
+    <MakeDir Directories="$(PublishDir)Logs" Condition="!Exists('$(PublishDir)Logs')" />
+  </Target>
 
 </Project>

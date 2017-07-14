@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.Core.Models
@@ -11,5 +12,7 @@ namespace Library.Core.Models
         [MaxLength(5)]
         public string Abbreviation { get; set; }
         public string Icon { get; set;}
+
+        public ICollection<Address> Addresses { get; set; }
     }
 }

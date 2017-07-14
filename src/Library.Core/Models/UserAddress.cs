@@ -5,7 +5,7 @@ namespace Library.Core.Models
 {
     public class UserAddress {
         [ForeignKey("User")]
-        public int  UserId { get; set; }
+        public long  UserId { get; set; }
         [ForeignKey("Address")]        
         public int AddressId { get; set; }        
         public User User { get; set; }

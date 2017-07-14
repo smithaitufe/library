@@ -7,6 +7,7 @@ using Library.Web.Areas.Members.Controllers;
 using Library.Web.Code;
 using Library.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,23 +21,20 @@ namespace Library.Web.Controllers
     public class HomeController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        
-        private readonly string _externalCookieScheme;
+        private readonly SignInManager<User> _signInManager;        
         private readonly ILogger _logger;
 
-        public HomeController(UserManager<User> userManager, SignInManager<User> signInManager, IOptions<IdentityCookieOptions> identityCookieOptions, ILoggerFactory loggerFactory)
+        public HomeController(UserManager<User> userManager, SignInManager<User> signInManager, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;            
             _signInManager = signInManager;
-            _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _logger = loggerFactory.CreateLogger<HomeController>();
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(string returnUrl = null)
         {
-            await HttpContext.SignOutAsync(_externalCookieScheme);
+            await HttpContext.SignOutAsync("Cookies");
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }

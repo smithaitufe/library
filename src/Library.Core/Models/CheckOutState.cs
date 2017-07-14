@@ -6,7 +6,7 @@ namespace Library.Core.Models
     public class CheckOutState: BaseEntity {        
         public int CheckOutId { get; set; }
         public int StatusId {get; set; }
-        public int ModifiedByUserId  { get; set; }
+        public long ModifiedByUserId  { get; set; }
            
         [ForeignKey("StatusId")]
         public CheckOutStatus Status { get; set; }

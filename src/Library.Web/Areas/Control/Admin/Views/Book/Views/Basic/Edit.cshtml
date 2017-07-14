@@ -1,22 +1,23 @@
 @model BookBasicEditorViewModel
 
-<form asp-action="BookBasic" asp-controller="Book" enctype="multipart/form-data">
+<form asp-action="EditBookBasic" asp-controller="Book" enctype="multipart/form-data" method="Post">
+@*<input type="hidden" value="@Model.PreviousCover.Path" name="PreviousCover" />*@
 <div class="row">
     <div class="col-sm-12 col-md-3">
-        <div class="card card-block">
-            <h4 class="card-title">Book Cover</h4>
-            <div class="form-group">
+        <div class="card">
+            <h3 class="card-header mx-0">Book Cover</h3>
+            <div class="card-block">
                 <label class="custom-file image-upload-control">
                     <input type="file" asp-for="Image" class="custom-file-input" onchange="Common.FileBrowsed(this,'#preview', null)">
                     <span class="custom-file-control">
-                        <!--<span id="fileName"></span>-->
-                        @if(Model.Cover == null || !string.IsNullOrEmpty(Model.Cover.Path))
+                        <span id="fileName"></span>                        
+                        @if(Model.Cover == null || string.IsNullOrEmpty(Model.Cover.Path))
                         {
                             <img src="@Url.Content("~/images/icons/book-icon.png")" alt="" id="preview">
                         }
                         else
                         {
-                            <img src="@Url.Content(Model.Cover.Path)" alt="" id="preview">
+                            <img src="@Url.Content(Model.Cover.Path)" alt="@Model.Title" title="@Model.Title" id="preview">
                         }
                     </span>
                 </label>
@@ -29,77 +30,6 @@
 
         <div class="card card-block">
             <div class="card-text">
-            <!--
-                    <div class="form-group">
-                    <label asp-for="GenreId"></label>
-                    <select asp-for="GenreId" asp-items="Model.Genres" class="form-control">
-                        <option value="">Select Genre</option>
-                    </select>
-                    <span asp-validation-for="GenreId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CategoryId" class=""></label>
-                    <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control">
-                        <option value="">Select Book Category</option>
-                    </select>
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="FormatId"></label>
-                    <select asp-for="FormatId" asp-items="Model.BookFormats" class="form-control">
-                        <option value="">Select Formats</option>
-                    </select>
-                    <span asp-validation-for="FormatId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Title"></label>
-                    <input asp-for="Title" type="text" class="form-control" placeholder="@Html.DisplayNameFor(f=>f.Title)">
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SubTitle"></label>
-                    <input asp-for="SubTitle" type="text" class="form-control" placeholder="@Html.DisplayNameFor(f=>f.SubTitle)">
-                    <span asp-validation-for="SubTitle" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ISBN"></label>
-                    <input type="text" asp-for="ISBN" class="form-control">
-                    <span asp-validation-for="ISBN" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PublisherId"></label>
-                    <select asp-for="PublisherId" asp-items="Model.Publishers" class="form-control">
-                        <option value="">Select a publisher</option>
-                    </select>
-                    <span asp-validation-for="PublisherId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YearId"></label>
-                    <select asp-for="YearId" asp-items="Model.Years" class="form-control"></select>
-                    <span asp-validation-for="YearId" class="text-danger"></span>            
-                </div>
-                <div class="form-group">
-                    <label asp-for="DaysAllowedId"></label>
-                    <select asp-for="DaysAllowedId" asp-items="Model.Days" class="form-control"></select>
-                    <span asp-validation-for="DaysAllowedId" class="text-danger"></span>            
-                </div>
-                <div class="form-group">
-                    <label asp-for="CollectionModeId"></label>
-                    <select asp-for="CollectionModeId" asp-items="Model.CollectionModes" class="form-control"></select>
-                    <span asp-validation-for="CollectionModeId" class="text-danger"></span>            
-                </div>
-                <div class="form-group">
-                    <label asp-for="FineId"></label>
-                    <select asp-for="FineId" asp-items="Model.Fines" class="form-control"></select>
-                    <span asp-validation-for="FineId" class="text-danger"></span>            
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Save</button>
-                </div>
-            -->
-
-
-
                 <div class="row form-group">
                     <label asp-for="GenreId" class="col-form-label col-sm-12 col-md-4"></label>
                     <div class="col-sm-12 col-md-8">
@@ -118,15 +48,7 @@
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
                 </div>
-                <!--<div class="row form-group">
-                    <label asp-for="FormatId" class="col-sm-12 col-md-4"></label>
-                    <div class="col-sm-12 col-md-8">
-                        <select asp-for="FormatId" asp-items="Model.BookFormats" class="form-control">
-                        <option value="">Select Format</option>
-                    </select>
-                    <span asp-validation-for="FormatId" class="text-danger"></span>
-                    </div>
-                </div>-->
+
                 <div class="row form-group">
                     <label asp-for="Title" class="col-form-label col-sm-12 col-md-4"></label>
                     <div class="col-sm-12 col-md-8">
@@ -141,13 +63,7 @@
                         <span asp-validation-for="SubTitle" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <label asp-for="ISBN" class="col-form-label col-sm-12 col-md-4"></label>
-                    <div class="col-sm-12 col-md-8">
-                        <input asp-for="ISBN" type="text" class="form-control" placeholder="@Html.DisplayNameFor(f=>f.ISBN)">
-                        <span asp-validation-for="ISBN" class="text-danger"></span>
-                    </div>
-                </div>
+
                 <div class="row form-group">
                     <label asp-for="PublisherId" class="col-form-label col-sm-12 col-md-4"></label>
                     <div class="col-sm-12 col-md-8">
@@ -157,36 +73,14 @@
                         <span asp-validation-for="PublisherId" class="text-danger"></span>
                     </div>
                 </div>
-                <!--
+
                 <div class="row form-group">
-                    <label asp-for="YearId" class="col-form-label col-sm-12 col-md-4"></label>
+                    <label asp-for="Description" class="col-sm-12 col-md-4"></label>
                     <div class="col-sm-12 col-md-8">
-                        <select asp-for="YearId" asp-items="Model.Years" class="form-control"></select>
-                        <span asp-validation-for="YearId" class="text-danger"></span> 
-                    </div>           
-                </div>
-                <div class="row form-group">
-                    <label asp-for="DaysAllowedId" class="col-form-label col-sm-12 col-md-4"></label>
-                    <div class="col-sm-12 col-md-8">
-                        <select asp-for="DaysAllowedId" asp-items="Model.Days" class="form-control"></select>
-                        <span asp-validation-for="DaysAllowedId" class="text-danger"></span>
+                        <textarea asp-for="Description" cols="30" rows="5" class="form-control"></textarea>
                     </div>
                 </div>
 
-                <div class="row form-group">
-                    <label asp-for="CollectionModeId" class="col-form-label col-sm-12 col-md-4"></label>
-                    <div class="col-sm-12 col-md-8">
-                        <select asp-for="CollectionModeId" asp-items="Model.CollectionModes" class="form-control"></select>
-                        <span asp-validation-for="CollectionModeId" class="text-danger"></span>            
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <label asp-for="FineId" class="col-form-label col-sm-12 col-md-4"></label>
-                    <div class="col-sm-12 col-md-8">
-                        <select asp-for="FineId" asp-items="Model.Fines" class="form-control"></select>
-                        <span asp-validation-for="FineId" class="text-danger"></span>   
-                    </div>         
-                </div>-->
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>

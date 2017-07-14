@@ -8,7 +8,7 @@ namespace Library.Web.Models.AccountViewModels
 {
     public class UserViewModel {
         [Display(Name = "User Id")]
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         [Display(Name = "Username")]
         public string UserName { get; set; }
         [Display(Name = "First Name")]

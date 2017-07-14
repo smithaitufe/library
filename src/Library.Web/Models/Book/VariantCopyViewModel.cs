@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Web.Models.BookViewModels
 {
-    public class BookLocationViewModel
+    public class VariantCopyViewModel
     { 
         [DefaultValue(0)]
         public int Id { get; set; }

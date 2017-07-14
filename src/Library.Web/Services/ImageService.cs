@@ -38,24 +38,26 @@ namespace Library.Web.Services
         public async Task<Image> SaveToDirectory(IFormFile file)
         {
             var image = new Image();
-            var path = _imageUploadSettings.BookLocation;            
-            var uploads = Path.Combine(_environment.WebRootPath, path.Substring(1));
+            var folder = _imageUploadSettings.BookLocation;            
+            var path = Path.Combine(folder, file.FileName); 
+            var uploads = Path.Combine(_environment.WebRootPath, folder.Substring(1));
+            if(!Directory.Exists(uploads)){
+                Directory.CreateDirectory(uploads);
+            }
 
             if (file.Length > 0)
             {
-                if(!Directory.Exists(uploads)){
-                    Directory.CreateDirectory(uploads);
-                }
-
                 var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                 using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
                 {
-                    await file.CopyToAsync(fileStream);
-                    
-                    path = Path.Combine(path, file.FileName);                    
-                    image = new Image { Path = path, Extension = Path.GetExtension(file.FileName) };
-                    _context.Images.Add(image);
-                    await _context.SaveChangesAsync();
+                    await file.CopyToAsync(fileStream);    
+                    fileStream.Close();
+                    // await fileStream.WriteAsync(file.OpenReadStream(), 0, (int)file.Length);
+
+                                       
+                    image = new Image { Path = path, Extension = Path.GetExtension(file.FileName), ContentType = file.ContentType };
+                    // _context.Images.Add(image);
+                    // await _context.SaveChangesAsync();
                     return image;
                 }
             }

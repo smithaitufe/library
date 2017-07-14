@@ -6,7 +6,7 @@ namespace Library.Web.Models.BookViewModels
     public class BookLocationListingViewModel
     {
         public Variant Variant { get; set; }
-        public IList<VariantLocation> Locations { get; set; } = new List<VariantLocation>();
+        public IList<VariantCopy> Copies { get; set; } = new List<VariantCopy>();
         
     }
 }

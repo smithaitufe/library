@@ -25,9 +25,8 @@ namespace Library.Core.Models
 
         public ICollection<CheckOut> CheckOutRequestedDays { get; set; }
         public ICollection<CheckOut> CheckOutApprovedDays { get; set; }
-        public ICollection<VariantLocation> AvailabilityVariantLocations { get; set; }
-        public ICollection<VariantLocation> SourceVariantLocations { get; set; }
-
+        public ICollection<VariantCopy> AvailabilityVariantCopies { get; set; }
+        public ICollection<VariantCopy> SourceVariantCopies { get; set; }
         public ICollection<VariantPrice> VariantPrices { get; set; }
 
 

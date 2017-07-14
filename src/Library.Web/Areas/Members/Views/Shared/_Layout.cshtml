@@ -61,7 +61,7 @@
 <br><br><br><br>
 <footer class="footer">
     <div class="container">
-    <span class="text-muted">@Html.Raw(library.CopyrightDescription)</span>
+    <span class="text-muted">@Html.Raw(pageSettings.CopyrightDescription.Replace("{year}", @DateTime.Now.Year.ToString()))</span>
     </div>
 </footer>
 
