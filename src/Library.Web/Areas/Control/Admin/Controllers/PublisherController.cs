@@ -15,6 +15,7 @@ namespace Library.Web.Areas.Admin.Controllers
 {
     [Area(SiteAreas.Admin)]
     [Authorize(Policy="AdministratorOnly")]
+    [Route("Admin/Publisher")]
     public class PublisherController: Controller
     {
         LibraryDbContext _context;
@@ -23,6 +24,7 @@ namespace Library.Web.Areas.Admin.Controllers
             _context = context;
             publisherService = new PublisherService(_context);
         }
+        [HttpGet("")]
         public async Task<IActionResult> Index() {
             
             var publishers = await publisherService.GetAllPublishers()            
@@ -35,14 +37,14 @@ namespace Library.Web.Areas.Admin.Controllers
             return View(listing);
         }
 
-        [HttpGet]
+        [HttpGet("Create")]
         public async Task<IActionResult> Create() {
             var model = new PublisherEditorViewModel();
             await PopulateDropdown(model);
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<IActionResult> Create(PublisherEditorViewModel model) {
             
             if(!ModelState.IsValid)
@@ -56,14 +58,22 @@ namespace Library.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(PublisherController.Index));
            
         }
-        [HttpGet]
-        public IActionResult Edit(int id) {
-            var publisher = _context.Publishers.AsNoTracking().SingleOrDefault(p => p.Id == id);
+        [HttpGet("{id:int}/Edit")]
+        public async Task<IActionResult> Edit(int id) {
+            var publisher = _context.Publishers.Include(p=>p.Address).AsNoTracking().SingleOrDefault(p => p.Id == id);
             if(publisher == null) return NotFound();
-            return View(publisher.MapToPublisherEditorViewModel());
+            var model = publisher.MapToPublisherEditorViewModel();
+
+            await PopulateDropdown(model);
+            return View(model);
         }
-        [HttpPost]
+        [HttpPost("{id:int}/Edit")]
         public async Task<IActionResult> Edit(int id, PublisherEditorViewModel model) {
+            if(!ModelState.IsValid)
+            {
+                await PopulateDropdown(model);
+                return View(model);
+            }
              var publisher = _context.Publishers.SingleOrDefault(p => p.Id == id);
              if(publisher == null) return NotFound();
 
@@ -71,9 +81,6 @@ namespace Library.Web.Areas.Admin.Controllers
              {
                 await _context.SaveChangesAsync();
              }
-            //  publisher = model.MapToPublisher();
-            // _context.Entry(publisher).State = EntityState.Modified;
-            // _context.SaveChanges();
             return RedirectToAction(nameof(PublisherController.Index));
             
         }

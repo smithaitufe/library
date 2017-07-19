@@ -1,48 +1,43 @@
 @model UserRegistrationListingViewModel
-@if(Model.Registrations.Count > 0){
-    <div class="content-container">
-    <div class="content">
-<form asp-action="Registrations" asp-controller="Account">
-    
-<div class="row">
-    <div class="col-sm-12 col-md-12">
-        <h4 class="pull-left">Registrations</h4>
-        <button type="submit" class="pull-right btn btn-primary">Save Changes</button>
+@if(Model.Registrations.Count > 0)
+{
+    <div class="card-block">
+        <form asp-action="Registrations" asp-controller="Account">                
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" class="check-all"></th>
+                        <th>FullName</th>
+                        <th>Email</th>
+                        <th>Joined At</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(var c = 0; c < Model.Registrations.Count; c++) {
+                        <tr>
+                            <td>
+                                <input type="checkbox" asp-for="@Model.Registrations[c].Approved" class="check-approved">
+                            </td>
+                            <td>
+                                <input type="hidden" asp-for="@Model.Registrations[c].UserId">
+                                @Model.Registrations[c].FullName
+                            </td>
+                            <td>@Model.Registrations[c].Email</td>
+                            <td>@Model.Registrations[c].InsertedAt.ToString("dd-MM-yyyy")</td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+               
+        </form>
     </div>
-</div>
-<br>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>FullName</th>
-            <th>Email</th>
-            <th>Joined At</th>
-            <th></th>
-            <th><input type="checkbox" class="check-all"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @for(var c = 0; c < Model.Registrations.Count; c++) {
-            <tr>
-                <td>
-                    <input type="hidden" asp-for="@Model.Registrations[c].UserId">
-                    @Model.Registrations[c].FullName
-                </td>
-                <td>@Model.Registrations[c].Email</td>
-                <td>@Model.Registrations[c].InsertedAt.ToString("dd-MM-yyyy")</td>
-                <td></td>
-                <td>
-                    <input type="checkbox" asp-for="@Model.Registrations[c].Approved" class="check-approved">
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-</form>
-</div>
-</div>
-}else{
+}
+else
+{
     <div class="alert alert-danger">
         No Registrations Currently
     </div>

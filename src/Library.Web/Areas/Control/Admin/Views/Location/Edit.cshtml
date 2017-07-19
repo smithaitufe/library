@@ -1,3 +1,5 @@
-@model CreateEditLocationViewModel
+@model LocationEditorViewModel
 
-@Html.Partial("_FormPartial")
+<form asp-action="Edit" method="POST">
+    @Html.Partial("_FormPartial")
+</form>

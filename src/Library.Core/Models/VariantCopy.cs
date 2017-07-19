@@ -25,6 +25,10 @@ namespace Library.Core.Models
         public Location Location { get; set; }        
         public Term Availability { get; set; }
         public Term Source { get; set; }
+        
+        [ForeignKey("Shelf")]
+        public int? ShelfId { get; set; }
+        public Shelf Shelf { get; set; }
         public ICollection<CheckOut> CheckOuts { get; set; }   
         
     }

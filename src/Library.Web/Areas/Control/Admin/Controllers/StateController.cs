@@ -27,14 +27,13 @@ namespace Library.Web.Areas.Control.Admin.Controllers
         }
 
         public async Task<IActionResult> Index(){
-            var stateListing = new StateListingViewModel();
-            stateListing.States = await _context.States.OrderBy(s => s.Name).ToListAsync();
-            return View(stateListing);
+            var listing = new StateListingViewModel();
+            listing.States = await _context.States.OrderBy(s => s.Name).ToListAsync();
+            return View(listing);
         }
-        public async Task<IActionResult> Create() {
-            var model = new StateEditorViewModel() { 
-                EditorAttributes = new EditorAttributes { ActionUrl = "Create", Caption = "Create State"} 
-            };
+        public async Task<IActionResult> Create()
+        {
+            var model = new StateEditorViewModel();
             await PopulateDropdowns(model);
             return View(model);
         }
@@ -42,13 +41,10 @@ namespace Library.Web.Areas.Control.Admin.Controllers
         public async Task<IActionResult> Create(StateEditorViewModel model) {
             if(!ModelState.IsValid)
             {
-                model.EditorAttributes = new EditorAttributes { ActionUrl = "Create", Caption = "Create State"};
                 await PopulateDropdowns(model);
                 return View(model);
-            } 
-
+            }
             var state = _mapper.Map<StateEditorViewModel, State>(model);
-            var vm = _mapper.Map<State, StateEditorViewModel>(state);
             _context.States.Add(state);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(LocationController.Index));
@@ -59,8 +55,7 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             if(state == null){
                 return NotFound();
             }
-            var model = _mapper.Map<State, StateEditorViewModel>(state);
-            model.EditorAttributes = new EditorAttributes { ActionUrl = "Edit", Caption = "Edit State"};
+            var model = _mapper.Map<State, StateEditorViewModel>(state);            
             await PopulateDropdowns(model);
             return View(model);
         }
@@ -73,17 +68,15 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             };
             if(!ModelState.IsValid)
             {
-                model.EditorAttributes = new EditorAttributes { ActionUrl = "Edit", Caption = "Edit Location"};
                 await PopulateDropdowns(model);
                 return View(model);
             }
-            var result = _mapper.Map<StateEditorViewModel, State>(model);            
-            _context.Attach(result);
-            _context.Entry(result).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            if(await TryUpdateModelAsync<State>(state, string.Empty, s=>s.Name, s=>s.Abbreviation, s=>s.CountryId))
+            {
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(StateController.Index));
         }
-
         private async Task PopulateDropdowns(StateEditorViewModel model)
         {
            model.Countries = await _context.Countries.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToListAsync();                       

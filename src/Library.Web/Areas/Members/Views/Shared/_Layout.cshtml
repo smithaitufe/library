@@ -1,9 +1,18 @@
+@*
 @inject Microsoft.Extensions.Options.IOptions<Library> Library
 @{
     var library = Library.Value;
     ViewData["Title"] = library.ApplicationTitle;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+*@
+@inject IOptions<SitePageSettingsViewModel> SitePageSettings    
+@{
+    var pageSettings = SitePageSettings.Value;
+    ViewData["Title"] = pageSettings.ApplicationTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+
 @section Styles {    
     <style>
         .footer {
@@ -25,7 +34,7 @@
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">@library.ApplicationTitle</a>
+      <a class="navbar-brand" href="#">@pageSettings.ApplicationTitle</a>
       <div class="collapse navbar-collapse" id="navbarCollapse">        
         @await Html.PartialAsync("_LoginPartial")
       </div>

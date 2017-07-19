@@ -1,9 +1,21 @@
 @model BookTypeEditorViewModel
 
 <form asp-action="CreateBookType" asp-controller="Book" method="POST">
-    <div class="card card-block">
-        <div class="card-text">
-
+    <div class="card">
+         <div class="card-block"> 
+            <h3>@Model.Book.Title</h3>
+            <h5>@Model.Location.Name</h5>
+            
+            @*<div class="row form-group">
+                <label asp-for="LocationId" class="col-sm-12 col-md-4"></label>
+                <div class="col-sm-12 col-md-8">
+                    <select asp-for="LocationId" class="form-control" asp-items="@(new SelectList(Model.Locations, "Id","Name"))">
+                    <option value="">Select Location</option>
+                </select>
+                <span asp-validation-for="LocationId" class="text-danger"></span>
+                </div>
+            </div>
+            *@
             <div class="row form-group">
                 <label asp-for="FormatId" class="col-sm-12 col-md-4"></label>
                 <div class="col-sm-12 col-md-8">
@@ -86,6 +98,6 @@
             </div>
 
 
-        </div>
+         </div> 
     </div>
 </form>

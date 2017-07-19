@@ -46,8 +46,7 @@ namespace Library.Core.Models
         public Term CollectionMode { get; set; }        
         public Term Fine { get; set; }        
         public Term Grant { get; set; }        
-        public Term Year { get; set; }       
-        public string ShelfNo { get; set; }
+        public Term Year { get; set; }        
         public Term Format { get; set; }
         public Book Book { get; set; }        
         public ICollection<CheckOut> CheckOuts { get; set; }           

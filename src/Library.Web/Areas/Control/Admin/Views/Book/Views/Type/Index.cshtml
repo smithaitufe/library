@@ -1,75 +1,93 @@
 @model BookTypeListingViewModel
 
 
-<div class="card card-block">
-    <div class="card-text">
-        <div class="row">
-            <div class="col-sm-12">
-                <h2 class="card-title float-left">Book Types</h2>
-                <a asp-action="CreateBookType" class="float-right btn btn-primary">Add Type</a>
+<div class="card">
+    <div class="card-header py-1">       
+        <h3 class="pt-1">Book Types</h3>        
+    </div>
+    <div class="card-block pb-0">
+        <form asp-action="BookTypes" method="Get">
+        <div class="row form-group">
+            <div class="col-sm-12 col-md-4">
+                <label asp-for="BookTypeLocationSearch.LocationId"></label>
+                <select asp-for="BookTypeLocationSearch.LocationId" asp-items="@(new SelectList(Model.BookTypeLocationSearch.Locations, "Id","Name"))" class="form-control">
+                    <option value="">Select Location</option>
+                </select>
             </div>
         </div>
-        <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Format</th>
-            <th>ISBN</th>
-            <th>Volume</th>
-            <th>Edition</th>
-            <th>Year</th>
-            <th>Due Days</th>
-            <th>Fine</th>
-            <th>Collection Mode</th>
-            <th>Copies</th>
-            <th>Price</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model.Variants)
+        <div class="form-group"><button class="btn btn-primary">Search</button></div>
+        </form>
+    </div>
+    <div class="card-block">
+        
+        @if(@ViewBag.LocationId != null)
         {
-            <tr>
-                <td><a asp-action="EditBookType" asp-route-id="@item.BookId" asp-route-typeid="@item.Id">@item.Format.Name</a></td>
-                <td>@item.ISBN</td>
-                <td>@item.Volume</td>
-                <td>@item.Edition</td>
-                <td>@item.Year.Name</td>
-                <td>@item.DaysAllowed.Name</td>
-                <td>@item.Fine.Name</td>
-                <td>@item.CollectionMode.Name</td>   
-                <td>@item.VariantLocations.Count()</td>
-                <td>
-                    @foreach(var price in @item.PricesLink)
+            <div class="row">
+                <div class="col-sm-12">
+                    @if(Model.Variants.Count() == 0)
                     {
-                        
-                        <div class="btn btn-sm btn-success">@($"{price.Price.Name} ({price.Condition.Name})")</div>
+                        <h4 class="float-left">No Book Type has been added to the location selected</h4>
+                        <a  asp-action="CreateBookType" 
+                            asp-route-id="@Model.BookId" 
+                            asp-route-locationId="@ViewBag.LocationId" 
+                            class="float-right btn btn-primary">Add Type</a>
                     }
-                </td>
-                <td>
-                    <!--<a asp-action="EditBookType" asp-route-id="@item.BookId" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Edit</a>-->
-                    <a asp-action="BookLocations" asp-route-typeid="@item.Id" class="btn btn-info btn-sm">Locations</a>
-                    <a asp-action="BookPrices" asp-route-typeid="@item.Id" class="btn btn-info btn-sm">Prices</a>
-
-                    
-                </td>             
-            </tr>
-           @*
-            <tr>
-                <td colspan="8">
-                    
-                    <div class="row">
-                        <div class="col-sm-12 col-md-2">
-                            <a asp-action="EditBookType" asp-route-id="@item.BookId" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Edit</a>
+                    else if(@Model.Variants.Count() < @ViewBag.TotalFormats)
+                    {
+                        <div class="float-left">
+                            @Model.Variants.Count() Book Types Found.
                         </div>
-                        <div class="col-sm-12 col-md-10 text-right">
-                            <a asp-action="BookLocations" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Locations</a>                            
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            *@
+                        <a  asp-action="CreateBookType" 
+                            asp-route-id="@Model.BookId" 
+                            asp-route-locationId="@ViewBag.LocationId" 
+                            class="float-right btn btn-primary">Add Type</a>
+                    }
+                    else
+                    {
+                        <h3 class="float-left">
+                            @Model.Variants.Count() Book Types Found.
+                        </h3>
+                    }
+                    
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+        @if(Model.Variants.Count() > 0)
+        {        
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>ISBN</th>
+                        <th>Volume</th>
+                        <th>Edition</th>
+                        <th>Year</th>
+                        <th>Due Days</th>
+                        <th>Fine</th>
+                        <th>Collection Mode</th> 
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model.Variants)
+                    {
+                        <tr>
+                            <td><a asp-action="EditBookType" asp-route-id="@item.BookId" asp-route-typeid="@item.Id">@item.Format.Name</a></td>
+                            <td>@item.ISBN</td>
+                            <td>@item.Volume</td>
+                            <td>@item.Edition</td>
+                            <td>@item.Year.Name</td>
+                            <td>@item.DaysAllowed.Name</td>
+                            <td>@item.Fine.Name</td>
+                            <td>@item.CollectionMode.Name</td>                                               
+                            <td>                            
+                                <a asp-action="BookPrices" asp-route-typeid="@item.Id" class="btn btn-info btn-sm">Prices</a>
+                                <a asp-action="BookPrices" asp-route-typeid="@item.Id" class="btn btn-primary btn-sm">Copies</a>
+                            </td>             
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 </div>

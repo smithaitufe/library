@@ -26,7 +26,7 @@ namespace Library.Core.Models
         [ForeignKey("ApprovedDaysId")]
         public Term ApprovedDays { get; set; }        
         public ICollection<CheckOutState> CheckOutStates { get; set; }
-        
+        public bool Active { get; set; } = true;        
         public CheckOut() {}
         public CheckOut (long modifiedByUserId, int statusId ) {
             CheckOutStates = new HashSet<CheckOutState>() 

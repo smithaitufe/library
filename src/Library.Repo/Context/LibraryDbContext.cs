@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Library.Core.Models;
-
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Library.Repo
 {
@@ -46,7 +46,7 @@ namespace Library.Repo
         public DbSet<UserAddress> UserAddresses { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Country> Countries { get; set; }        
-
+        public DbSet<Shelf> Shelves { get; set; }
 
         
         protected override void OnModelCreating(ModelBuilder builder)
@@ -196,7 +196,13 @@ namespace Library.Repo
             .HasMany(t => t.VariantPrices)
             .WithOne(t=> t.Price)
             .HasForeignKey(t => t.PriceId)           
-            .OnDelete(DeleteBehavior.Restrict);  
+            .OnDelete(DeleteBehavior.Restrict); 
+
+            builder.Entity<Term>()
+            .HasMany(t => t.LanguageVariants)
+            .WithOne(t => t.Language)
+            .HasForeignKey(b => b.LanguageId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Variant>()
             .HasMany(t => t.VariantCopies)
@@ -227,5 +233,9 @@ namespace Library.Repo
             
         }
        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.IncludeIgnoredWarning));
+        }
     }
 }

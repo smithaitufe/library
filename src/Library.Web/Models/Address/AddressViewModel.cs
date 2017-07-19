@@ -9,7 +9,8 @@ namespace Library.Web.Models.AddressViewModels
         public int AddressId { get; set; }
         public string City { get; set; }
         public string Line { get; set; }
-        public int StateId { get; set; }
+        public int? StateId { get; set; }
+        public int? CountryId { get; set; }
         public DateTime InsertedAt { get; set; }        
     }
 }

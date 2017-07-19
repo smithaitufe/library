@@ -24,13 +24,24 @@
                 </div>
              </div>
         </form>
-        <hr>
-       
+        <hr>      
 
-        @foreach(var item in Model.Books) {
+        @foreach(var item in Model.Books)
+        {
             <div class="row">
                 <div class="col-sm-12 col-md-1">
-                    <img src="@Url.Content(@item.Cover.Path)" alt="@item.Title" title="@item.Title" style="width: 80px; height: 80px">
+                    
+
+                    @if(@item.Cover == null || string.IsNullOrEmpty(@item.Cover.Path))
+                    {
+                        <img src="@Url.Content("~/images/icons/book-icon.png")" alt="No cover" style="width: 80px; height: 80px">
+                    }
+                    else
+                    {
+                        <img src="@Url.Content(@item.Cover.Path)" alt="@@item.Title" title="@@item.Title" style="width: 80px; height: 80px">
+                    }
+
+
                 </div>
                 <div class="col-sm-12 col-md-11">                     
                     <div class="row">
@@ -38,7 +49,7 @@
                     </div>
                      <div class="row">
                         <div class="col-sm-12 col-md-10">
-                            by @string.Join(", ", item.AuthorsLink.Select(al => al.Author.LastName + " " + al.Author.FirstName[0]).ToList())
+                            by @string.Join(", ", item.BookAuthors.Select(al => al.Author.LastName + " " + al.Author.FirstName[0]).ToList())
                         </div>                    
                         <div class="col-sm-12 col-md-2">
                             <div class="btn-group">

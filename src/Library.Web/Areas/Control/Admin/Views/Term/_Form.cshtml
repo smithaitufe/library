@@ -1,0 +1,42 @@
+@model TermEditorViewModel
+
+@{
+    string message = TempData["FlashMessage"] as string;
+}
+
+@*@if(!string.IsNullOrEmpty(TempData["FlashMessage"]))
+{
+    <div class="alert alert-success">
+        @TempData["FlashMessage"].FlashMessage
+        <button class="close"></button>
+    </div>
+}
+*@
+@if(message != null)
+{
+    <div class="alert alert-success">
+        @message
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+    </div>
+}
+
+<div class="card">    
+    <h3 class="card-header">
+        Settings 
+    </h3>
+    <div class="card-block">
+        <h4>@Model.TermSet.Name.Replace("-", " ").ToUpper()</h4>
+        <div class="form-group">
+            <input type="hidden" asp-for="TermSetId">
+            <input type="hidden" asp-for="TermId">
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="form-control-label"></label>
+            <input asp-for="Name" type="text" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</div>

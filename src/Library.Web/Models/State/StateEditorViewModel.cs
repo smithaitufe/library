@@ -17,9 +17,6 @@ namespace Library.Web.Models.StateViewModels
         [Display(Name="Abbreviation")]
         [Required(ErrorMessage="{0} is required")]
         public string Abbreviation { get; set; }
-        public ICollection<SelectListItem> Countries { get; set; }
-
-        public EditorAttributes EditorAttributes { get; set; }
-        
+        public ICollection<SelectListItem> Countries { get; set; }        
     }
 }

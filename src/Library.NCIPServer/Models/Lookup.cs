@@ -1,5 +1,6 @@
 using System;
 using System.Xml.Serialization;
+using Library.Core.Models;
 
 namespace Library.NCIPServer.Models
 {
@@ -79,6 +80,14 @@ namespace Library.NCIPServer.Models
         public UserOptionalFields UserOptionalFields { get; set; }
         [XmlElement]
         public UserFiscalAccount UserFiscalAccount { get; set; }
+
+        public LookupUserResponse(){}
+        public LookupUserResponse(User user, Address address)
+        {
+            UserId = new UserId {
+                
+            };
+        }
 
     }
 }

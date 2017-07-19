@@ -19,6 +19,7 @@ using Library.Web.Models.CommonPageSettingsViewModels;
 using Library.Web.Models.BookViewModels;
 using Library.Web.Models.StateViewModels;
 using Library.Web.Models.LocationViewModels;
+using Library.Web.Models.ShelfViewModels;
 
 namespace Library.Web
 {
@@ -53,6 +54,8 @@ namespace Library.Web
                 cfg.CreateMap<Variant, BookBasicEditorViewModel>();
                 cfg.CreateMap<BookBasicEditorViewModel, Variant>();
                 cfg.CreateMap<BookBasicEditorViewModel, Book>();
+                cfg.CreateMap<ShelfEditorViewModel, Shelf>();
+                cfg.CreateMap<Shelf, ShelfEditorViewModel>();
             });
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper); 
@@ -92,17 +95,8 @@ namespace Library.Web
             
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseCustomizedMvc();
             
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller=Home}/{action=Index}"
-                );
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
         }
     }
 }

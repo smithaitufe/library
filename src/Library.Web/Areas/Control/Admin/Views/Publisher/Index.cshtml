@@ -1,6 +1,6 @@
 @model PublisherListingViewModel
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-9">
 
 
 <div class="card">  
@@ -9,6 +9,38 @@
         <a class="float-right btn btn-primary" asp-action="Create">Add</a>
     </div>    
     <div class="card-block pb-0">
+        <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Location</th>
+                        <th></th>                    
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach(var item in Model.Publishers)
+                    {
+                        <tr>
+                            
+                            <td>@item.Name</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>                           
+                                @if(item.Address != null && item.Address.Country != null)
+                                {
+                                    @item.Address.Country.Name
+                                }                                                   
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-danger btn-sm">edit</a>
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
         
         
         @*
@@ -63,7 +95,6 @@
                     }
                 </tbody>
             </table>
-        *@
 
         
             @foreach(var item in Model.Publishers)
@@ -83,6 +114,7 @@
                     <hr>
                 </div>
             }
+          *@
         
     </div>
 </div>

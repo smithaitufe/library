@@ -94,7 +94,8 @@ namespace Library.Web.Areas.Control.Admin.Controllers
                     LocationId = model.LocationId,
                     AvailabilityId = model.AvailabilityId,
                     SourceId = model.SourceId,
-                    SerialNo = $"{variant.Id}{Common.RandomString(10)}"
+                    SerialNo = $"{variant.Id}{Common.RandomString(10)}",
+                    ShelfId = model.ShelfId
                 });
             }
 
@@ -202,11 +203,8 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             {
                 return NotFound();
             }
-
-
             var model = new BookBasicEditorViewModel()
             {
-
                 Id = book.Id,
                 GenreId = book.GenreId,
                 Title = book.Title,
@@ -215,13 +213,10 @@ namespace Library.Web.Areas.Control.Admin.Controllers
                 CategoryId = book.CategoryId,
                 PublisherId = book.PublisherId,
                 Cover = book.Cover
-
             };
             await PopulateDropdowns(model);
             return View("Views/Basic/Edit", model);
-        }
-
-        //[Bind("Title,SubTitle,PublisherId,CategoryId,GenreId,Image,Description,")]
+        }        
         [HttpPost("{id:int}/Basic/Edit")]
         public async Task<IActionResult> EditBookBasic(int id, BookBasicEditorViewModel model)
         {
@@ -239,9 +234,11 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             
             if (model.Image != null && model.Image.Length > 0)
             {
-                var file = new FileInfo(book.Cover.Path);
-                file.Delete();
-                _context.Images.Remove(book.Cover);
+                if(model.Cover != null && !string.IsNullOrEmpty(model.Cover.Path)){
+                    var file = new FileInfo(book.Cover.Path);
+                    file.Delete();
+                    _context.Images.Remove(book.Cover);
+                }                
                 var cover = await imageService.SaveToDirectory(model.Image);
                 book.Cover = cover;
             }
@@ -263,42 +260,82 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             return Json(bookFilterService.GetFilterDropdownValues((BooksFilterBy)options.FilterBy));
         }
 
+        [HttpGet("GetShelfByLocation/{locationId:int}")]
+        public IActionResult GetShelfByLocation(int locationId)
+        {
+            var shelves = _context.Shelves.OrderBy(s=>s.Name).Where(s => s.LocationId == locationId).ToList();
+            return Json(shelves);
+
+        }
+
 
         [HttpGet("{id:int}/Types")]
-        public async Task<IActionResult> BookTypes(int id)
+        public async Task<IActionResult> BookTypes(int id, BookTypeLocationSearchViewModel BookTypeLocationSearch)
         {
             var bookTypeListing = new BookTypeListingViewModel();
-            bookTypeListing.Variants = await bookService.GetAllBookVariants(id).ToListAsync();
+            var bookTypeLocationSearch = new BookTypeLocationSearchViewModel{
+                Locations = _context.Locations.OrderBy(l=>l.Name).ToList()
+            };
+            bookTypeListing.BookTypeLocationSearch = bookTypeLocationSearch;
+            bookTypeListing.BookId = id;
+            bookTypeListing.Variants = new List<Variant>();
+
+            if(BookTypeLocationSearch.LocationId.HasValue){
+                bookTypeListing.Variants = await bookService
+                .GetAllBookVariants(id)
+                .Where(v => v.VariantCopies.Where( vc => vc.LocationId == BookTypeLocationSearch.LocationId.Value).Any()
+                ).ToListAsync();
+                ViewBag.LocationId = BookTypeLocationSearch.LocationId.Value;
+            }
+            ViewBag.TotalFormats = await termService.GetTermsBySet("book-format").CountAsync();
             return View("Views/Type/Index", bookTypeListing);
         }
-        [HttpGet("{id:int}/Types/Create")]
-        public async Task<IActionResult> CreateBookType(int id)
+        [HttpGet("{id:int}/Locations/{locationId:int}/Types/Create")]
+        public async Task<IActionResult> CreateBookType(int id, int locationId)
         {
+            var location = await _context.Locations.Include(l=>l.VariantCopies).FirstOrDefaultAsync(l=>l.Id == locationId);            
+            if(location == null)
+            {
+                return NotFound();
+            }
             var model = new BookTypeEditorViewModel();
-            await PopulateDropdowns(model);
-            await NormalizeTypes(id, model, false);
-
+            await SetupCreateBookType(id, location, model);
             return View("Views/Type/Create", model);
         }
-        [HttpPost("{id:int}/Types/Create")]
-        public async Task<IActionResult> CreateBookType(int id, BookTypeEditorViewModel model)
+
+
+        [HttpPost("{id:int}/Locations/{locationId:int}/Types/Create")]
+        public async Task<IActionResult> CreateBookType(int id, int locationId, BookTypeEditorViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                await PopulateDropdowns(model);
-
-                // var book = bookService.GetBookById(typeId).ToSingleOrDefaultAsync();
-                // var formats = book.Variants.Select(b => b.Format).MapToSelectList();
-                // model.BookFormats = model.BookFormats.Except(formats);
-                await NormalizeTypes(id, model, false);
-
+                var location = await _context.Locations.Include(l=>l.VariantCopies).FirstOrDefaultAsync(l=>l.Id == locationId);            
+                await SetupCreateBookType(id,location,model);
                 return View("Views/Type/Create");
             }
-            var variant = _mapper.Map<BookTypeEditorViewModel, Variant>(model, opts => opts.BeforeMap((s, d) => s.Id = null));
-
+            var variant = _mapper.Map<BookTypeEditorViewModel, Variant>(model, opts => opts.BeforeMap((s, d) => s.Id = null));            
+            variant.VariantCopies.Add(new VariantCopy
+                {
+                    LocationId = model.LocationId,
+                    AvailabilityId = model.AvailabilityId,
+                    SourceId = model.SourceId,
+                    SerialNo = $"{variant.Id}{Common.RandomString(10)}",
+                    ShelfId = model.ShelfId
+            });
             _context.Variants.Add(variant);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(BookController.BookTypes));
+        }
+
+        private async Task SetupCreateBookType(int id, Location location, BookTypeEditorViewModel model)
+        {
+            var book = await _context.Books.FirstOrDefaultAsync(b=>b.Id == id);
+            model.LocationId = location.Id;
+            model.Location = location;
+            model.BookId = id;
+            model.Book = book;
+            await PopulateDropdowns(model);
+            await NormalizeTypes(id, location.Id, model, false);
         }
 
         [HttpGet("{id:int}/Types/{typeId:int}/Edit")]
@@ -321,7 +358,7 @@ namespace Library.Web.Areas.Control.Admin.Controllers
                 return View("Views/Types/Edit", model);
             }
             variant.FormatId = model.FormatId;
-            variant.Pages = model.Pages;
+            variant.Pages = model.Pages.Value;
             variant.YearId = model.YearId;
             variant.DaysAllowedId = model.DaysAllowedId;
             variant.CollectionModeId = model.CollectionModeId;
@@ -331,53 +368,53 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             return RedirectToAction(nameof(BookController.BookTypes));
         }
 
-        [HttpGet("{id:int}/Types/{typeId:int}/Locations")]
-        public async Task<IActionResult> BookLocations(int id, int typeId)
-        {
-            var locationListing = new BookLocationListingViewModel();
-            var variant = await GetVariant(id, typeId);
-            if (variant == null)
-            {
-                return NotFound();
-            }
-            locationListing.Variant = variant;
-            locationListing.Copies = variant.VariantCopies.ToList();
-            return View("Views/Location/Index", locationListing);
-        }
-        [HttpGet("{id:int}/Types/{typeId:int}/Locations/Create")]
-        public async Task<IActionResult> CreateBookLocation(int id, int typeId)
-        {
-            var variant = await GetVariant(id, typeId);
-            if (variant == null)
-            {
-                return NotFound();
-            }
-            var model = new BookLocationEditorViewModel()
-            {
-                EditorAttributes = new EditorAttributes { ActionUrl = "CreateBookLocation", Caption = "Add Location" }
-            };
-            model.Variant = variant;
-            model.VariantId = variant.Id;
-            await PopulateDropdowns(model);
-            return View("Views/Location/Create", model);
-        }
-        [HttpPost("{id:int}/Types/{typeId:int}/Locations/Create")]
-        public async Task<IActionResult> CreateBookLocation(int id, int typeId, BookLocationEditorViewModel model)
-        {
-            var variant = await GetVariant(id, typeId);
-            if (!ModelState.IsValid)
-            {
-                model.Variant = variant;
-                model.VariantId = variant.Id;
-                await PopulateDropdowns(model);
-                return View("Views/Location/Create", model);
-            }
-            var variantCopy = _mapper.Map<BookLocationEditorViewModel, VariantCopy>(model, opts => opts.BeforeMap((s, d) => { s.Id = null; }));
-            _context.VariantCopies.Add(variantCopy);
-            await _context.SaveChangesAsync();
+        // [HttpGet("{id:int}/Types/{typeId:int}/Locations")]
+        // public async Task<IActionResult> BookLocations(int id, int typeId)
+        // {
+        //     var locationListing = new BookLocationListingViewModel();
+        //     var variant = await GetVariant(id, typeId);
+        //     if (variant == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     locationListing.Variant = variant;
+        //     locationListing.Copies = variant.VariantCopies.ToList();
+        //     return View("Views/Location/Index", locationListing);
+        // }
+        // [HttpGet("{id:int}/Types/{typeId:int}/Locations/Create")]
+        // public async Task<IActionResult> CreateBookLocation(int id, int typeId)
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     if (variant == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     var model = new BookLocationEditorViewModel()
+        //     {
+        //         EditorAttributes = new EditorAttributes { ActionUrl = "CreateBookLocation", Caption = "Add Location" }
+        //     };
+        //     model.Variant = variant;
+        //     model.VariantId = variant.Id;
+        //     await PopulateDropdowns(model);
+        //     return View("Views/Location/Create", model);
+        // }
+        // [HttpPost("{id:int}/Types/{typeId:int}/Locations/Create")]
+        // public async Task<IActionResult> CreateBookLocation(int id, int typeId, BookLocationEditorViewModel model)
+        // {
+        //     var variant = await GetVariant(id, typeId);
+        //     if (!ModelState.IsValid)
+        //     {
+        //         model.Variant = variant;
+        //         model.VariantId = variant.Id;
+        //         await PopulateDropdowns(model);
+        //         return View("Views/Location/Create", model);
+        //     }
+        //     var variantCopy = _mapper.Map<BookLocationEditorViewModel, VariantCopy>(model, opts => opts.BeforeMap((s, d) => { s.Id = null; }));
+        //     _context.VariantCopies.Add(variantCopy);
+        //     await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(BookController.BookLocations));
-        }
+        //     return RedirectToAction(nameof(BookController.BookLocations));
+        // }
 
         [HttpGet("{id:int}/Types/{typeId:int}/Prices")]
         public async Task<IActionResult> BookPrices(int typeId)
@@ -520,6 +557,10 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             model.CollectionModes = termService.GetTermsBySet("book-collection-mode").AsNoTracking().OrderBy(t => t.Name).MapToSelectList();
             model.Fines = termService.GetTermsBySet("book-fine").AsNoTracking().OrderBy(t => t.Name).MapToSelectList();
             model.Languages = termService.GetTermsBySet("book-language").AsNoTracking().OrderBy(t => t.Name).MapToSelectList();
+            model.Availabilities = termService.GetTermsBySet("book-availability").AsNoTracking().OrderBy(t=>t.Name).MapToSelectList();
+            model.BookSources = termService.GetTermsBySet("book-source").AsNoTracking().OrderBy(t=>t.Name).MapToSelectList();
+            model.Shelves = _context.Shelves.Where(s => s.LocationId == model.LocationId).ToList();
+            model.Grants = termService.GetTermsBySet("book-sale-grant").AsNoTracking().OrderBy(t => t.Name).MapToSelectList();
         }
         private async Task<Variant> GetVariant(int id, int typeId)
         {
@@ -552,5 +593,30 @@ namespace Library.Web.Areas.Control.Admin.Controllers
 
             model.BookFormats = formats.Where(f => ids.Contains(f.Id)).MapToSelectList();
         }
+
+        private async Task NormalizeTypes(int id, int locationId, BookTypeEditorViewModel model, bool filter = false)
+        {
+
+            var formats = await termService.GetTermsBySet("book-format").ToListAsync();
+
+            var variants = await bookService
+                                .GetBookById(id)
+                                .Select(b => b.Variants.Where(v=>v.VariantCopies.Where(vc=>vc.LocationId == locationId).Any()).ToList())
+                                .SingleOrDefaultAsync();
+
+            var currentFormatIds = variants.Select(b => b.FormatId).ToList();
+
+            var ids = formats.Select(f => f.Id).ToList();
+            ids = ids.Except(currentFormatIds).ToList();
+
+            if (filter)
+            {
+                var filteredId = variants.Where(v => v.Id == model.Id).Select(v => v.FormatId).FirstOrDefault();
+                ids.Add(filteredId);
+            }
+
+            model.BookFormats = formats.Where(f => ids.Contains(f.Id)).MapToSelectList();
+        }
+        
     }
 }

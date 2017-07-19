@@ -58,7 +58,9 @@ namespace Library.Web.Services
             .Include(v => v.VariantPrices)
             .ThenInclude( pl => pl.Price)
             .Include(v => v.VariantPrices)
-            .ThenInclude( pl => pl.Condition);
+            .ThenInclude( pl => pl.Condition)
+            .Include(v => v.Book)
+            .ThenInclude(b=>b.Cover);
         
         private IQueryable<CheckOut> CheckOuts => _context.CheckOuts
                 .Include(co => co.Patron)
@@ -206,7 +208,7 @@ namespace Library.Web.Services
             }            
             return query;        
         }
-        public IQueryable<CheckOut> GetCheckOutBooksForUser(int userId) 
+        public IQueryable<CheckOut> GetCheckoutsForUser(int userId) 
         {
             var query = from x in CheckOuts select x;
             return query.AsNoTracking().Where(co => co.PatronId == userId);

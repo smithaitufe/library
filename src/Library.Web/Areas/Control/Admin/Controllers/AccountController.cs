@@ -49,7 +49,7 @@ namespace Library.Web.Areas.Admin.Controllers
                     on u.Id equals ur.UserId
                     join r in identityService.GetAllRoles()
                     on ur.RoleId equals r.Id
-                    where  r.Name == role
+                    where  r.Name == role && u.Approved == true
                     select u;
             }                         
             userListing.Users = query.MapToUserViewModel().ToList();
@@ -87,7 +87,7 @@ namespace Library.Web.Areas.Admin.Controllers
             model.Roles = identityService.GetUserRoles(id).MapToRoleViewModel().ToList();
             return View(model);
         }
-        [HttpGet]
+        [HttpGet("Registrations")]
         public IActionResult Registrations(FilterUserRegistration FilterUserRegistrationData) {
             
             var query = from u in _userManager.Users.Where(u => u.Approved == false) select u;
@@ -113,7 +113,7 @@ namespace Library.Web.Areas.Admin.Controllers
             userListing.Registrations = registrations;
             return View(userListing);
         }
-        [HttpPost]
+        [HttpPost("Registrations")]
         public async Task<IActionResult> Registrations(FilterUserRegistration FilterUserRegistrationData, UserRegistrationListingViewModel model) {
             User user = null;
             foreach (var registration in model.Registrations) {

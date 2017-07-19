@@ -2,6 +2,29 @@
 @{
     var count = 1;
 }
+<div class="card-block">
+    <h5 class="card-title">        
+        <span class="btn btn-primary float-left">Total Items: @Model.Terms.Count</span>
+        <a asp-action="Create" asp-controller="Term" asp-route-id="@Model.TermSetId" class="btn btn-primary float-right">Add</a>        
+    </h5>
+</div>
+<div class="card-block">
+    <table class="table table-bordered">
+        <tbody>
+            @foreach(var term in Model.Terms)
+            {  
+            <tr>
+                <td>@term.Name</td>
+                <td>
+                    <a asp-action="Delete" asp-controller="Term" asp-route-id="@term.Id"  data-toggle="modal" data-target="#modal-term" class="btn btn-danger btn-sm">delete</a>
+                    <a asp-action="Edit" asp-controller="Term" asp-route-id="@term.TermSetId" asp-route-termId="@term.Id" class="btn btn-success btn-sm">edit</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@*
 <div class="row">
     <div class="col-sm-12 col-md-5">
         <div class="clearfix">
@@ -30,3 +53,4 @@
         </div>
     </div>
 </div>
+*@

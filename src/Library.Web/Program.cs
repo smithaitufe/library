@@ -14,12 +14,12 @@ namespace Library.Web
     {
         public static void Main(string[] args)
         {
-            BuildWebHost2(args).Run();
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost2(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
+                // .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()                
                 .Build();

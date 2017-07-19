@@ -1,11 +1,9 @@
-@model CreateEditStateViewModel
+@model StateEditorViewModel
 
-<div class="card card-block">
-    <h2 class="card-title">@Model.FormModel.Caption</h2>
-    <div class="card-text">
-        <form asp-action="@Model.FormModel.ActionUrl" method="POST">
+<div class="card">
+    <h2 class="card-header">State</h2>
+    <div class="card-block">        
             <input type="hidden" asp-for="Id">
-
             <div class="form-group">
                 <label asp-for="CountryId"></label>
                 <select asp-for="CountryId" asp-items="Model.Countries" class="form-control">
@@ -13,8 +11,6 @@
                 </select>
                 <span asp-validation-for="CountryId" class="text-danger"></span>
             </div>
-
-
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <input type="text" asp-for="Name"  class="form-control">
@@ -26,7 +22,9 @@
                 <span asp-validation-for="Abbreviation" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        
     </div>
 </div>

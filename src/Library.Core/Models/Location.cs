@@ -7,5 +7,6 @@ namespace Library.Core.Models
         public string Code { get; set; }
 
         public ICollection<VariantCopy> VariantCopies { get; set; }
+        public ICollection<Shelf> Shelves { get; set; }
     }
 }

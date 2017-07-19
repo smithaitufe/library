@@ -121,7 +121,9 @@ namespace Library.Web.Models.BookViewModels
         public string Edition { get; set; }
         // [Required(ErrorMessage = "Book Volume is required")]
         [StringLength(20, ErrorMessage = "Maximum characters allowed for volume is ${0}")]
-        public string Volume { get; set; }        
-        public string ShelfNo { get; set; }
+        public string Volume { get; set; }
+        [Display(Name="Shelf No")]        
+        public int? ShelfId { get; set; }
+
     }
 }

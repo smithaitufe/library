@@ -1,8 +1,9 @@
 @model UserRegistrationListingViewModel
 
 
-<div class="content-container">
-    <div class="content">
+<div class="card">
+    <h3 class="card-header">Registrations</h3>
+    <div class="card-block">
         <form asp-action="Registrations" asp-controller="Account" method="Get">
             <fieldset class="fieldset-with-border">
                 <legend class="legend-with-border">Filter</legend>
@@ -18,8 +19,9 @@
             </fieldset>
         </form>
     </div>
+    @Html.Partial("_Registrations", Model)
 </div>
-@Html.Partial("_Registrations", Model)
+
     
 
 

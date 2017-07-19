@@ -5,17 +5,8 @@
         <div class="card">
             <h3 class="card-header py-2">Users</h3>
             <div class="card-block">
-                <h5><span class="statistics-header">Pending Registered Users:</span>@Model.TotalRegistrations</h5>
-                <h5><span class="statistics-header">Approved Registered Users:</span>@Model.TotalRegistrations</h5>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-12 col-md-5">
-        <div class="card">
-            <h3 class="card-header py-2">Defaulters</h3>
-            <div class="card-block">
-                <h5><span class="statistics-header">Pending Registered Users:</span>@Model.TotalRegistrations</h5>
-                <h5><span class="statistics-header">Approved Registered Users:</span>@Model.TotalRegistrations</h5>
+                <h5><span class="statistics-header">Pending Registered Users:</span>@Model.TotalPendingUserRegistrations</h5>
+                <h5><span class="statistics-header">Approved Registered Users:</span>@Model.TotalUsers</h5>
             </div>
         </div>
     </div>
@@ -25,37 +16,18 @@
     <div class="col-sm-12 col-md-12">
         <div class="card">
             <h3 class="card-header py-2">Books</h3>
-            <div class="card-block">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header py-1 bg-info">Summary</div>
-                            <div class="card-block">
-                                <div class="form-group">
-                                    <label class="mb-0">Location</label>
-                                    <select id="location" class="form-control" onchange="BookLocationChanged(this)">                     
-                                        @foreach(var location in @ViewBag.Locations)                
-                                        {
-                                            <option value="@location.Id">@location.Name</option>
-                                        }
-                                    </select>
-                                </div>
-                                <div id="locationStatistics"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header py-1 bg-danger text-white">
-                                Defaulters
-                            </div>
-                            <div class="card-block">
-                                <h5><span class="statistics-header">Pending Registered Users:</span>@Model.TotalRegistrations</h5>
-                                <h5><span class="statistics-header">Approved Registered Users:</span>@Model.TotalRegistrations</h5>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card-block">                
+                <div class="form-group">
+                    <label class="mb-0">Location</label>
+                    <select id="location" class="form-control" onchange="BookLocationChanged(this)">                     
+                        @foreach(var location in @ViewBag.Locations)                
+                        {
+                            <option value="@location.Id">@location.Name</option>
+                        }
+                    </select>
                 </div>
+                <div id="locationStatistics"></div>
+                
             </div>
         </div>
     </div>

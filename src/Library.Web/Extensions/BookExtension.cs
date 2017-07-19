@@ -133,29 +133,23 @@ namespace Library.Web.Extensions
 
             return query;
         }
-        public static IQueryable<CheckedBookViewModel> MapToCheckedBookViewModel(this IQueryable<CheckOut> checkOuts)
+        public static IQueryable<CheckoutViewModel> MapToCheckoutViewModel(this IQueryable<CheckOut> checkouts)
         {
-            var checkOutQuery = checkOuts
-            //    .Include(co => co.Patron)
-            //    .Include(co => co.Variant)
-            //    .ThenInclude(bv => bv.Book).ThenInclude(b => b.AuthorsLink).ThenInclude(al => al.Author)
-            //    .Include(co => co.Variant).ThenInclude(bv => bv.Format)
-            //    .Include(co => co.Variant).ThenInclude(bv => bv.Book).ThenInclude(bv => bv.Genre)
-               .Select(
-                   co => new CheckedBookViewModel
+                return checkouts.Select(co => new CheckoutViewModel
                    {
                        Id = co.Id,
-                       VariantId = co.VariantCopy.Variant.Id,
+                       VariantId = co.VariantId,
                        VariantCopyId = co.VariantCopyId,
-                       Title = co.VariantCopy.Variant.Book.Title,
-                       Genre = co.VariantCopy.Variant.Book.Genre,
-                       ISBN = co.VariantCopy.Variant.ISBN,
-                       Format = co.VariantCopy.Variant.Format.Name,
-                       Authors = co.VariantCopy.Variant.Book.BookAuthors.Select(al => al.Author).ToList(),
-                       Patron = co.Patron
+                       Title = co.Variant.Book.Title,
+                       Genre = co.Variant.Book.Genre,
+                       ISBN = co.Variant.ISBN,
+                       Format = co.Variant.Format.Name,
+                       Authors = co.Variant.Book.BookAuthors.Select(al => al.Author).ToList(),
+                       Patron = co.Patron,
+                       Active = co.Active
                    }
                );
-            return checkOutQuery;
+            
         }
         public static BookEditorViewModel MapToBookEditorViewModel(this Variant model)
         {

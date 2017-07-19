@@ -71,8 +71,9 @@ namespace Library.Web.Models.BookViewModels
         public Term Fine { get; set; }
         public Term Grant { get; set; }
         public Term Condition { get; set; }
-        public Image Image { get; set; }
-        
+        public Image Image { get; set; }        
+        public int RequestedDaysId { get; set; }
+        public ICollection<Term> Days { get; set; }
         public ICollection<VariantPrice> Prices { get; set; }        
         public ICollection<VariantCopy> VariantCopies { get; set; }
         public ICollection<Term> Sources { get; set; }

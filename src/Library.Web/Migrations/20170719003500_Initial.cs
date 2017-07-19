@@ -13,14 +13,14 @@ namespace Library.Web.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Email = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
-                    FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,14 +31,14 @@ namespace Library.Web.Migrations
                 name: "CheckOutStatuses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Left = table.Column<int>(type: "int4", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ParentId = table.Column<int>(type: "int4", nullable: true),
-                    Right = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Left = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
+                    Right = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,11 +55,11 @@ namespace Library.Web.Migrations
                 name: "Clubs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,14 +70,14 @@ namespace Library.Web.Migrations
                 name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Abbreviation = table.Column<string>(type: "varchar(5)", maxLength: 5, nullable: true),
-                    Icon = table.Column<string>(type: "text", nullable: true),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Name = table.Column<string>(type: "varchar(70)", maxLength: 70, nullable: false),
-                    TelephoneCode = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Abbreviation = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    TelephoneCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,13 +88,13 @@ namespace Library.Web.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ContentType = table.Column<string>(type: "text", nullable: true),
-                    Extension = table.Column<string>(type: "text", nullable: true),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Path = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Extension = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,12 +105,12 @@ namespace Library.Web.Migrations
                 name: "Locations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Code = table.Column<string>(type: "text", nullable: true),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -121,11 +121,11 @@ namespace Library.Web.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "int8", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -136,13 +136,13 @@ namespace Library.Web.Migrations
                 name: "States",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Abbreviation = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
-                    CountryId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Abbreviation = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -153,11 +153,11 @@ namespace Library.Web.Migrations
                 name: "TermSets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -168,31 +168,31 @@ namespace Library.Web.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "int8", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AccessFailedCount = table.Column<int>(type: "int4", nullable: false),
-                    Approved = table.Column<bool>(type: "bool", nullable: false),
-                    ChangePasswordFirstTimeLogin = table.Column<bool>(type: "bool", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bool", nullable: false),
-                    FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    LibraryNo = table.Column<string>(type: "text", nullable: true),
-                    Locked = table.Column<bool>(type: "bool", nullable: false),
-                    LockoutEnabled = table.Column<bool>(type: "bool", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bool", nullable: false),
-                    PhotoId = table.Column<int>(type: "int4", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    Suspended = table.Column<bool>(type: "bool", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bool", nullable: false),
-                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
+                    Approved = table.Column<bool>(type: "bit", nullable: false),
+                    ChangePasswordFirstTimeLogin = table.Column<bool>(type: "bit", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LibraryNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Locked = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PhotoId = table.Column<int>(type: "int", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Suspended = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -206,14 +206,37 @@ namespace Library.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Shelves",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shelves", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Shelves_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true),
-                    RoleId = table.Column<long>(type: "int8", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoleId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -230,14 +253,14 @@ namespace Library.Web.Migrations
                 name: "Addresses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    City = table.Column<string>(type: "text", nullable: true),
-                    CountryId = table.Column<int>(type: "int4", nullable: true),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Line = table.Column<string>(type: "text", nullable: false),
-                    StateId = table.Column<int>(type: "int4", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryId = table.Column<int>(type: "int", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Line = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StateId = table.Column<int>(type: "int", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -260,12 +283,12 @@ namespace Library.Web.Migrations
                 name: "Terms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    TermSetId = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    TermSetId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -282,12 +305,12 @@ namespace Library.Web.Migrations
                 name: "ClubMembers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClubId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UserId = table.Column<long>(type: "int8", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClubId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -310,11 +333,11 @@ namespace Library.Web.Migrations
                 name: "UserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<long>(type: "int8", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -331,10 +354,10 @@ namespace Library.Web.Migrations
                 name: "UserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<long>(type: "int8", nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -351,11 +374,11 @@ namespace Library.Web.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
-                    RoleId1 = table.Column<long>(type: "int8", nullable: true),
-                    UserId1 = table.Column<long>(type: "int8", nullable: true),
-                    RoleId = table.Column<long>(type: "int8", nullable: false),
-                    UserId = table.Column<long>(type: "int8", nullable: false),
-                    Discriminator = table.Column<string>(type: "text", nullable: false)
+                    RoleId1 = table.Column<long>(type: "bigint", nullable: true),
+                    UserId1 = table.Column<long>(type: "bigint", nullable: true),
+                    RoleId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -391,10 +414,10 @@ namespace Library.Web.Migrations
                 name: "UserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<long>(type: "int8", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: true)
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -412,13 +435,13 @@ namespace Library.Web.Migrations
                 name: "Publishers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AddressId = table.Column<int>(type: "int4", nullable: true),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AddressId = table.Column<int>(type: "int", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -435,8 +458,8 @@ namespace Library.Web.Migrations
                 name: "UserAddresses",
                 columns: table => new
                 {
-                    UserId = table.Column<long>(type: "int8", nullable: false),
-                    AddressId = table.Column<int>(type: "int4", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -459,16 +482,16 @@ namespace Library.Web.Migrations
                 name: "Announcements",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CategoryId = table.Column<int>(type: "int4", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Introduction = table.Column<string>(type: "text", nullable: true),
-                    ReleaseAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Introduction = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReleaseAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -485,12 +508,12 @@ namespace Library.Web.Migrations
                 name: "ClubGenres",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClubId = table.Column<int>(type: "int4", nullable: false),
-                    GenreId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClubId = table.Column<int>(type: "int", nullable: false),
+                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -513,18 +536,18 @@ namespace Library.Web.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AuthorId = table.Column<long>(type: "int8", nullable: false),
-                    CategoryId = table.Column<int>(type: "int4", nullable: false),
-                    ClubId = table.Column<int>(type: "int4", nullable: false),
-                    Hidden = table.Column<bool>(type: "bool", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Locked = table.Column<bool>(type: "bool", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    Views = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AuthorId = table.Column<long>(type: "bigint", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ClubId = table.Column<int>(type: "int", nullable: false),
+                    Hidden = table.Column<bool>(type: "bit", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Locked = table.Column<bool>(type: "bit", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Views = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -553,15 +576,15 @@ namespace Library.Web.Migrations
                 name: "Reservations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Active = table.Column<bool>(type: "bool", nullable: false),
-                    BasisId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    NumberOfDaysId = table.Column<int>(type: "int4", nullable: false),
-                    PatronId = table.Column<long>(type: "int8", nullable: false),
-                    ReservedByUserId = table.Column<long>(type: "int8", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    BasisId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NumberOfDaysId = table.Column<int>(type: "int", nullable: false),
+                    PatronId = table.Column<long>(type: "bigint", nullable: false),
+                    ReservedByUserId = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -590,13 +613,13 @@ namespace Library.Web.Migrations
                 name: "UserLocations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Active = table.Column<bool>(type: "bool", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    LocationId = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    UserId = table.Column<long>(type: "int8", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -619,19 +642,19 @@ namespace Library.Web.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CategoryId = table.Column<int>(type: "int4", nullable: false),
-                    CoverId = table.Column<int>(type: "int4", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    GenreId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    NoInSeries = table.Column<int>(type: "int4", nullable: true),
-                    PublisherId = table.Column<int>(type: "int4", nullable: false),
-                    Series = table.Column<bool>(type: "bool", nullable: false),
-                    SubTitle = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
-                    Title = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CoverId = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NoInSeries = table.Column<int>(type: "int", nullable: true),
+                    PublisherId = table.Column<int>(type: "int", nullable: false),
+                    Series = table.Column<bool>(type: "bit", nullable: false),
+                    SubTitle = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -666,15 +689,15 @@ namespace Library.Web.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CommenterId = table.Column<long>(type: "int8", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    ParentId = table.Column<int>(type: "int4", nullable: true),
-                    PostId = table.Column<int>(type: "int4", nullable: false),
-                    StatusId = table.Column<int>(type: "int4", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CommenterId = table.Column<long>(type: "bigint", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -709,12 +732,12 @@ namespace Library.Web.Migrations
                 name: "BookAuthors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AuthorId = table.Column<int>(type: "int4", nullable: false),
-                    BookId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -737,13 +760,13 @@ namespace Library.Web.Migrations
                 name: "PriceOffers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BookId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    NewPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    PromotionalText = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NewPrice = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    PromotionalText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -760,14 +783,14 @@ namespace Library.Web.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BookId = table.Column<int>(type: "int4", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    Stars = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Stars = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -784,23 +807,22 @@ namespace Library.Web.Migrations
                 name: "Variants",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    BookId = table.Column<int>(type: "int4", nullable: false),
-                    CollectionModeId = table.Column<int>(type: "int4", nullable: false),
-                    DaysAllowedId = table.Column<int>(type: "int4", nullable: false),
-                    Edition = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    FineId = table.Column<int>(type: "int4", nullable: false),
-                    FormatId = table.Column<int>(type: "int4", nullable: false),
-                    GrantId = table.Column<int>(type: "int4", nullable: false),
-                    ISBN = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    LanguageId = table.Column<int>(type: "int4", nullable: false),
-                    Pages = table.Column<int>(type: "int4", nullable: false),
-                    ShelfNo = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    Volume = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    YearId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    CollectionModeId = table.Column<int>(type: "int", nullable: false),
+                    DaysAllowedId = table.Column<int>(type: "int", nullable: false),
+                    Edition = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FineId = table.Column<int>(type: "int", nullable: false),
+                    FormatId = table.Column<int>(type: "int", nullable: false),
+                    GrantId = table.Column<int>(type: "int", nullable: false),
+                    ISBN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
+                    Pages = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Volume = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    YearId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -846,7 +868,7 @@ namespace Library.Web.Migrations
                         column: x => x.LanguageId,
                         principalTable: "Terms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Variants_Terms_YearId",
                         column: x => x.YearId,
@@ -859,12 +881,12 @@ namespace Library.Web.Migrations
                 name: "Inventories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    LocationId = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    VariantId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    VariantId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -887,17 +909,18 @@ namespace Library.Web.Migrations
                 name: "VariantCopies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AvailabilityId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    LocationId = table.Column<int>(type: "int4", nullable: false),
-                    Out = table.Column<bool>(type: "bool", nullable: false),
-                    SerialNo = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true),
-                    SourceId = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    VariantId = table.Column<int>(type: "int4", nullable: false),
-                    Visible = table.Column<bool>(type: "bool", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AvailabilityId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    Out = table.Column<bool>(type: "bit", nullable: false),
+                    SerialNo = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    ShelfId = table.Column<int>(type: "int", nullable: true),
+                    SourceId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    VariantId = table.Column<int>(type: "int", nullable: false),
+                    Visible = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -912,6 +935,12 @@ namespace Library.Web.Migrations
                         name: "FK_VariantCopies_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VariantCopies_Shelves_ShelfId",
+                        column: x => x.ShelfId,
+                        principalTable: "Shelves",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -932,13 +961,13 @@ namespace Library.Web.Migrations
                 name: "VariantPrices",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ConditionId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    PriceId = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    VariantId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ConditionId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PriceId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    VariantId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -967,15 +996,16 @@ namespace Library.Web.Migrations
                 name: "CheckOuts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ApprovedDaysId = table.Column<int>(type: "int4", nullable: true),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    PatronId = table.Column<long>(type: "int8", nullable: false),
-                    RequestedDaysId = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    VariantCopyId = table.Column<int>(type: "int4", nullable: true),
-                    VariantId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    ApprovedDaysId = table.Column<int>(type: "int", nullable: true),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PatronId = table.Column<long>(type: "bigint", nullable: false),
+                    RequestedDaysId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    VariantCopyId = table.Column<int>(type: "int", nullable: true),
+                    VariantId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1016,13 +1046,13 @@ namespace Library.Web.Migrations
                 name: "CheckOutStates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CheckOutId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    ModifiedByUserId = table.Column<long>(type: "int8", nullable: false),
-                    StatusId = table.Column<int>(type: "int4", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CheckOutId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedByUserId = table.Column<long>(type: "bigint", nullable: false),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1051,13 +1081,13 @@ namespace Library.Web.Migrations
                 name: "Recalls",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    CheckOutId = table.Column<int>(type: "int4", nullable: false),
-                    InsertedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    RecallDate = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    RecalledByUserId = table.Column<long>(type: "int8", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CheckOutId = table.Column<int>(type: "int", nullable: false),
+                    InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RecallDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RecalledByUserId = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1281,7 +1311,13 @@ namespace Library.Web.Migrations
                 name: "RoleNameIndex",
                 table: "Roles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shelves_LocationId",
+                table: "Shelves",
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Terms_TermSetId",
@@ -1337,7 +1373,8 @@ namespace Library.Web.Migrations
                 name: "UserNameIndex",
                 table: "Users",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_PhotoId",
@@ -1353,6 +1390,11 @@ namespace Library.Web.Migrations
                 name: "IX_VariantCopies_LocationId",
                 table: "VariantCopies",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariantCopies_ShelfId",
+                table: "VariantCopies",
+                column: "ShelfId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VariantCopies_SourceId",
@@ -1504,10 +1546,13 @@ namespace Library.Web.Migrations
                 name: "VariantCopies");
 
             migrationBuilder.DropTable(
-                name: "Locations");
+                name: "Shelves");
 
             migrationBuilder.DropTable(
                 name: "Variants");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Books");

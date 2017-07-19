@@ -74,12 +74,7 @@
                 <div class="card">
                     <h3 class="card-header">Book Properties</h3>
                     <div class="card-block">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4 form-group">
-                                <label asp-for="ShelfNo" class="mb-0"></label>        
-                                <input asp-for="ShelfNo" type="text" class="form-control" placeholder="@Html.DisplayNameFor(f=>f.ShelfNo)">
-                                <span asp-validation-for="ShelfNo" class="text-danger"></span>        
-                            </div>
+                        <div class="row">                            
                             <div class="col-sm-12 col-md-4 form-group">
                                 <label asp-for="Edition" class="mb-0"></label>        
                                 <input asp-for="Edition" type="text" class="form-control" placeholder="@Html.DisplayNameFor(f=>f.Edition)">
@@ -216,6 +211,14 @@
                                     <option value="">Select Availability</option>
                                 </select>
                                 <span asp-validation-for="AvailabilityId" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-12 col-md-4 form-group">
+                                <label asp-for="ShelfId" class="mb-0"></label>        
+                                @*<input asp-for="ShelfNo" type="text" class="form-control" placeholder="@Html.DisplayNameFor(f=>f.ShelfNo)">*@
+                                <select asp-for="ShelfId" class="form-control" disabled>
+                                    <option value="" disabled>Select Shelf</option>
+                                </select>
+                                <span asp-validation-for="ShelfId" class="text-danger"></span>        
                             </div>
                             <div class="col-sm-12 col-md-4 form-group">
                                 <label asp-for="Quantity" class="mb-0"></label>

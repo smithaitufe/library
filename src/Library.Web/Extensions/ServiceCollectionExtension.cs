@@ -59,9 +59,9 @@ namespace Library.Web.Extensions
 
         public static IServiceCollection AddCustomizedDataStore(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddEntityFrameworkNpgsql().AddDbContext<LibraryDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("Library.Web")));
+            //services.AddEntityFrameworkNpgsql().AddDbContext<LibraryDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), o => o.MigrationsAssembly("Library.Web")));
             
-            //services.AddDbContext<LibraryDbContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection"), o=>o.MigrationsAssembly("Library.Web")));
+            services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), o=>o.MigrationsAssembly("Library.Web")));
             return services;
         }
     }

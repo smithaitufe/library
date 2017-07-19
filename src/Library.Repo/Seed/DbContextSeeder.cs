@@ -713,6 +713,20 @@ namespace Library.Repo
         private static async Task PerformBooksSeedAsync()
         {
             var asabaLocationId = (await _context.Locations.Where(l=>l.Name.ToLower().Equals("asaba")).FirstOrDefaultAsync()).Id;
+            var shelfId = 0;
+            if(!_context.Shelves.Any())
+            {
+                (new List<Shelf> {
+                    new Shelf { Name = "AX", LocationId = asabaLocationId },
+                    new Shelf { Name = "BH", LocationId = asabaLocationId },
+                    new Shelf { Name = "SC", LocationId = asabaLocationId },
+                    new Shelf { Name = "HV", LocationId = asabaLocationId },
+                }).ForEach(shelf => _context.Shelves.Add(shelf));
+                await _context.SaveChangesAsync();    
+
+                shelfId = (await _context.Shelves.FirstAsync()).Id;
+            }
+
             if(!_context.Books.Any())
             {            
                 var books = new Book[] {                      
@@ -743,13 +757,15 @@ namespace Library.Repo
                                             LocationId = asabaLocationId,
                                             SourceId = GetTerm("State Purchased", "book-source").Id,
                                             SerialNo = "UEAS3094D",
-                                            AvailabilityId = GetTerm("On Shelf", "book-availability").Id
+                                            AvailabilityId = GetTerm("On Shelf", "book-availability").Id,
+                                            ShelfId = shelfId,
                                         },
                                         new VariantCopy { 
                                             LocationId = asabaLocationId,
                                             SourceId = GetTerm("State Purchased", "book-source").Id,
                                             SerialNo = "UEAS3024E",
-                                            AvailabilityId = GetTerm("On Shelf", "book-availability").Id
+                                            AvailabilityId = GetTerm("On Shelf", "book-availability").Id,
+                                            ShelfId = shelfId,
                                         }
                                     },
                                     VariantPrices = new List<VariantPrice>{
@@ -773,13 +789,13 @@ namespace Library.Repo
                                             LocationId = asabaLocationId,
                                             SourceId = GetTerm("State Purchased", "book-source").Id,
                                             SerialNo = "UEAS30911",
-                                            AvailabilityId = GetTerm("Off Shelf", "book-availability").Id
+                                            AvailabilityId = GetTerm("Off Shelf", "book-availability").Id,
                                         },
                                         new VariantCopy { 
                                             LocationId = asabaLocationId,
                                             SourceId = GetTerm("State Purchased", "book-source").Id,
                                             SerialNo = "UEAS30372",
-                                            AvailabilityId = GetTerm("Off Shelf", "book-availability").Id
+                                            AvailabilityId = GetTerm("Off Shelf", "book-availability").Id,
                                         }
                                     },
                                     VariantPrices = new List<VariantPrice>{
@@ -815,13 +831,15 @@ namespace Library.Repo
                                                 LocationId = asabaLocationId,
                                                 SourceId = GetTerm("State Purchased", "book-source").Id,
                                                 SerialNo = "2YHNC239295",
-                                                AvailabilityId = GetTerm("On Shelf", "book-availability").Id
+                                                AvailabilityId = GetTerm("On Shelf", "book-availability").Id,
+                                                ShelfId = shelfId,
                                             },
                                             new VariantCopy { 
                                                 LocationId = asabaLocationId,
                                                 SourceId = GetTerm("State Purchased", "book-source").Id,
                                                 SerialNo = "2WHNC239286",
-                                                AvailabilityId = GetTerm("On Shelf", "book-availability").Id
+                                                AvailabilityId = GetTerm("On Shelf", "book-availability").Id,
+                                                ShelfId = shelfId,
                                             }
                                         },
                                         VariantPrices = new List<VariantPrice>{                                
@@ -838,7 +856,7 @@ namespace Library.Repo
             }
             if(!_context.CheckOuts.Any())
             {       
-                var patron = await _context.Users.FirstOrDefaultAsync(u=>u.UserName.Equals("08138238095"));
+                var patron = await _context.Users.FirstOrDefaultAsync(u=>u.UserName.Equals("08037862905"));
                 var patron2 = await _context.Users.FirstOrDefaultAsync(u=>u.UserName.Equals("08053094604"));
                 var confirmedBy = await _context.Users.FirstOrDefaultAsync(u=>u.UserName.Equals("08064028176"));
 
@@ -850,15 +868,15 @@ namespace Library.Repo
                         PatronId = patron.Id, 
                         VariantId = variant.Id,            
                         VariantCopyId = variant.VariantCopies.ToList()[1].Id,
-                        RequestedDaysId = GetTerm("10", "book-days-allowed").Id,
-                        ApprovedDaysId = GetTerm("8", "book-days-allowed").Id
+                        RequestedDaysId = GetTerm("2", "book-days-allowed").Id,
+                        ApprovedDaysId = GetTerm("1", "book-days-allowed").Id
                     },
                     new CheckOut(patron2.Id, _context.CheckOutStatuses.SingleOrDefault(cs=> cs.Name.Equals("Borrow Initiated")).Id) { 
                         PatronId = patron2.Id, 
                         VariantId = variant2.Id, 
                         VariantCopyId = variant.VariantCopies.ToList()[0].Id,                   
                         RequestedDaysId = GetTerm("3", "book-days-allowed").Id,
-                        ApprovedDaysId = GetTerm("3", "book-days-allowed").Id,                        
+                        ApprovedDaysId = GetTerm("1", "book-days-allowed").Id,                        
                     }                    
                 };
                 _context.CheckOuts.AddRange(checkOuts);
@@ -890,10 +908,17 @@ namespace Library.Repo
         {
             return await _context.Terms.Include(t => t.TermSet).Where(t => t.TermSet.Name.Equals(termSet)).ToListAsync();
         }
-        private static async Task<Term> GetTerm(string name, string termSet)
+        // private static async Task<Term> GetTerm(string name, string termSet)
+        // {
+        //     return await _context.Terms.Include(t => t.TermSet).Where(t => t.Name.Equals(name) && t.TermSet.Name.Equals(termSet)).FirstOrDefaultAsync();
+        // }
+
+        private static Term GetTerm(string name, string termSet)
         {
-            return await _context.Terms.Include(t => t.TermSet).Where(t => t.Name.Equals(name) && t.TermSet.Name.Equals(termSet)).FirstOrDefaultAsync();
+            return _context.Terms.Include(t => t.TermSet).Where(t => t.Name.Equals(name) && t.TermSet.Name.Equals(termSet)).FirstOrDefault();
         }
+
+
         private static Variant GetVariant(string isbn, string format)
         {
             return _context.Variants.Include(v => v.Book).Include(v => v.Format).SingleOrDefault(v => v.ISBN == isbn && v.Format.Name == format);

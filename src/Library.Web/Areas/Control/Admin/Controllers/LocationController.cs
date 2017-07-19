@@ -16,7 +16,7 @@ namespace Library.Web.Areas.Control.Admin.Controllers
     [Area(SiteAreas.Admin)]
     [Authorize(Policy="AdministratorOnly")]
     public class LocationController: Controller {
-        LibraryDbContext _context;
+        private LibraryDbContext _context;
         private readonly IMapper _mapper;
         public LocationController(LibraryDbContext context, IMapper mapper) {
             _context = context;
@@ -29,17 +29,13 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             return View(locationListing);
         }
         public IActionResult Create() {
-            var model = new LocationEditorViewModel() 
-            { 
-                EditorAttributes = new EditorAttributes { ActionUrl = "Create", Caption = "Create Location"} 
-            };
+            var model = new LocationEditorViewModel();
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> Create(LocationEditorViewModel model) {
             if(!ModelState.IsValid)
-            {
-                model.EditorAttributes = new EditorAttributes { ActionUrl = "Create", Caption = "Create Location"};
+            {               
                 return View(model);
             } 
 
@@ -55,26 +51,24 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             if(location == null){
                 return NotFound();
             }
-            var model = _mapper.Map<Location, LocationEditorViewModel>(location);
-            model.EditorAttributes = new EditorAttributes { ActionUrl = "Edit", Caption = "Edit Location"};
+            var model = _mapper.Map<Location, LocationEditorViewModel>(location);            
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(int id, LocationEditorViewModel model) {
-            var location = _context.Locations.AsNoTracking().Where(l => l.Id == id).FirstOrDefault();
+            var location = _context.Locations.Where(l => l.Id == id).FirstOrDefault();
             if(location == null)
             {
                 return NotFound();
             };
             if(!ModelState.IsValid)
             {
-                model.EditorAttributes = new EditorAttributes { ActionUrl = "Edit", Caption = "Edit Location"};
                 return View(model);
             }
-            var result = _mapper.Map<LocationEditorViewModel, Location>(model);            
-            _context.Attach(result);
-            _context.Entry(result).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            if(await TryUpdateModelAsync<Location>(location, string.Empty, l=>l.Name))
+            {
+                await _context.SaveChangesAsync();
+            }            
             return RedirectToAction(nameof(LocationController.Index));
         }
 

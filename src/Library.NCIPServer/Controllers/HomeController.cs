@@ -22,7 +22,8 @@ namespace Library.NCIPServer.Controllers
         UserManager<User> _userManager;
         RoleManager<Role> _roleManager;
 
-        public HomeController(LibraryDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager){
+        public HomeController(LibraryDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager)
+        {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
@@ -57,16 +58,14 @@ namespace Library.NCIPServer.Controllers
                     xml = GetXMLFromObject(lookupItem);
 
                     var variant = await _context.Variants
-                    .Include(v => v.Book)                    
+                    .Include(v => v.Book)
                     .Where(e => e.Id == int.Parse(lookupItem.ItemId.ItemIdentifierValue))
                     .SingleOrDefaultAsync();
-
-
                     return Ok(document);
 
                 case "lookupuser":
                     lookupUser = (LookupUser)GetObjectFromXML(xml, typeof(LookupUser));
-                    
+
                     return Ok(lookupUser);
                 case "lookupagency":
                     lookupAgency = (LookupAgency)GetObjectFromXML(xml, typeof(LookupAgency));
@@ -114,7 +113,7 @@ namespace Library.NCIPServer.Controllers
             }
             return obj;
         }
-         public static string GetXMLFromObject(object o)
+        public static string GetXMLFromObject(object o)
         {
             StringWriter sw = new StringWriter();
             XmlTextWriter tw = null;
@@ -144,7 +143,7 @@ namespace Library.NCIPServer.Controllers
             XmlTextWriter tw = null;
             try
             {
-                XmlSerializer serializer = new XmlSerializer(o.GetType(), new XmlRootAttribute { ElementName = rootName});
+                XmlSerializer serializer = new XmlSerializer(o.GetType(), new XmlRootAttribute { ElementName = rootName });
                 tw = new XmlTextWriter(sw);
                 serializer.Serialize(tw, o);
             }
@@ -162,13 +161,39 @@ namespace Library.NCIPServer.Controllers
             }
             return FormatXml(sw.ToString());
         }
-        private static string FormatXml(string xml) 
+        private static string FormatXml(string xml)
         {
             string result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
             result += "<NCIPMessage version=\"2.0.0\">";
             result += xml;
             result += "</NCIPMessage>";
             return result;
+        }
+
+        private void XpathFinder()
+        {
+            var path = @"
+                <Cell>          
+                    <CellContent>
+                        <Para>                               
+                            <ParaLine>                      
+                                <String>ABCabcABC abcABC abc ABCABCABC.</string> 
+                            </ParaLine>                      
+                        </Para>     
+                    </CellContent>
+                </Cell>
+            ";
+
+            XPathNavigator nav;
+            XPathDocument docNav;
+            string xPath;
+
+            docNav = new XPathDocument("c:\\books.xml");
+            docNav = new XPathDocument(path);
+            nav = docNav.CreateNavigator();
+            xPath = "/Cell/CellContent/Para/ParaLine/String/text()";
+
+            string value = nav.SelectSingleNode(xPath).Value;
         }
     }
 }

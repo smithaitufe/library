@@ -8443,7 +8443,7 @@ body {
   .image-upload-control label, .image-upload-control span {
     border-width: 0; }
 
-.full-width {
+/* .full-width {
   max-width: 100% !important;
   min-width: 100% !important; }
 
@@ -8474,7 +8474,7 @@ label {
 
 .btn-secondary:hover {
   background: #0288d1 !important;
-  color: #fff; }
+  color: #fff; } */
 
 .primary-bg {
   background-color: #fff !important; }

@@ -1,78 +1,163 @@
 @model BookTypeEditorViewModel
 
 <form asp-action="CreateBookType" asp-controller="Book" method="POST">
+    
+    <input type="hidden" asp-for="BookId">
+    <input type="hidden" asp-for="LocationId">
     <div class="card ">
-        <h1 class="card-header">Book Format</h1>
-
+        <h2 class="card-header py-1">Book Format</h2>
         <div class="card-block">
-            <div class="form-group">
-                <label asp-for="FormatId" class="mb-0"></label>
-                <select asp-for="FormatId" asp-items="Model.BookFormats" class="form-control">
+            <h3>@Model.Location.Name.ToUpper()</h3>
+            <small>@Model.Book.Title</small>
+        </div>        
+        <div class="card-block">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FormatId" class="mb-0"></label>
+                        <select asp-for="FormatId" asp-items="Model.BookFormats" class="form-control">
                     <option value="">Select Format</option>
                 </select>
-                <span asp-validation-for="FormatId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ISBN" class="mb-0"></label>
-                <input asp-for="ISBN" type="text" class="form-control">
-                <span asp-validation-for="ISBN" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Edition" class="mb-0"></label>
-                <input asp-for="Edition" type="text" class="form-control">
-                <span asp-validation-for="Edition" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Volume" class="mb-0"></label>
-                <input asp-for="Volume" type="text" class="form-control">
-                <span asp-validation-for="Volume" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LanguageId" class="mb-0"></label>
-                <select asp-for="LanguageId" asp-items="Model.Languages" class="form-control">
+                        <span asp-validation-for="FormatId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="LanguageId" class="mb-0"></label>
+                        <select asp-for="LanguageId" asp-items="Model.Languages" class="form-control">
                     <option value="">Select Book Language</option>
                 </select>
-                <span asp-validation-for="LanguageId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pages" class="mb-0"></label>
-                <input asp-for="Pages" type="text" class="form-control">
-                <span asp-validation-for="Pages" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="YearId" class="mb-0"></label>
-                <select asp-for="YearId" asp-items="Model.Years" class="form-control"></select>
-                <span asp-validation-for="YearId" class="text-danger"></span>                 
-            </div>
-            <div class="form-group">
-                <label asp-for="DaysAllowedId" class="mb-0"></label>
-                <select asp-for="DaysAllowedId" asp-items="Model.Days" class="form-control"></select>
-                <span asp-validation-for="DaysAllowedId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CollectionModeId" class="mb-0"></label>
-                <select asp-for="CollectionModeId" asp-items="Model.CollectionModes" class="form-control">
+                        <span asp-validation-for="LanguageId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="YearId" class="mb-0"></label>
+                        <select asp-for="YearId" asp-items="Model.Years" class="form-control">
+                            <option value="">Select Year of Publication</option>
+                        </select>
+                        <span asp-validation-for="YearId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DaysAllowedId" class="mb-0"></label>
+                        <select asp-for="DaysAllowedId" asp-items="Model.Days" class="form-control">
+                            <option value="">Select Allowed Days</option>
+                        </select>
+                        <span asp-validation-for="DaysAllowedId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CollectionModeId" class="mb-0"></label>
+                        <select asp-for="CollectionModeId" asp-items="Model.CollectionModes" class="form-control">
                     <option value="">Select Collection Mode</option>
                 </select>
-                <span asp-validation-for="CollectionModeId" class="text-danger"></span>            
-                
-            </div>
-            <div class="form-group">
-                <label asp-for="FineId" class="mb-0"></label>
-                <select asp-for="FineId" asp-items="Model.Fines" class="form-control">
-                    <option value="">Select Book Fine</option>
-                </select>
-                <span asp-validation-for="FineId" class="text-danger"></span>   
-                      
-            </div>
+                        <span asp-validation-for="CollectionModeId" class="text-danger"></span>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FineId" class="mb-0"></label>
+                        <select asp-for="FineId" asp-items="Model.Fines" class="form-control">
+                            <option value="">Select Book Fine</option>
+                        </select>
+                        <span asp-validation-for="FineId" class="text-danger"></span>
 
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SourceId" class="mb-0"></label>
+                        <select asp-for="SourceId" asp-items="Model.BookSources" class="form-control">
+                            <option value="">Select Book Source</option>
+                        </select>
+                        <span asp-validation-for="SourceId" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="AvailabilityId" class="mb-0"></label>
+                        <select asp-for="AvailabilityId" asp-items="Model.Availabilities" class="form-control">
+                            <option value="">Select Availability</option>
+                        </select>
+                        <span asp-validation-for="AvailabilityId" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ShelfId" class="mb-0"></label>
+                        <select asp-for="ShelfId" asp-items="@(new SelectList(Model.Shelves, "Id", "Name"))" class="form-control">
+                            <option value="">Select Shelf</option>
+                        </select>
+                        <span asp-validation-for="ShelfId" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="GrantId" class="mb-0"></label>
+                        <select asp-for="GrantId" asp-items="Model.Grants" class="form-control">
+                            <option value="">Select Grant</option>
+                        </select>
+                        <span asp-validation-for="GrantId" class="text-danger"></span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ISBN" class="mb-0"></label>
+                        <input asp-for="ISBN" type="text" class="form-control">
+                        <span asp-validation-for="ISBN" class="text-danger"></span>
+                    </div>                    
+                </div>
+                <div class="col-md-6">
+                     <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Edition" class="mb-0"></label>
+                                <input asp-for="Edition" type="text" class="form-control">
+                                <span asp-validation-for="Edition" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Volume" class="mb-0"></label>
+                                <input asp-for="Volume" type="text" class="form-control">
+                                <span asp-validation-for="Volume" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Pages" class="mb-0"></label>
+                        <input asp-for="Pages" type="text" class="form-control">
+                        <span asp-validation-for="Pages" class="text-danger"></span>
+                    </div>
+                </div> 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Copies" class="mb-0"></label>
+                        <input asp-for="Copies" type="text" class="form-control">
+                        <span asp-validation-for="Copies" class="text-danger"></span>
+                    </div>
+                </div>               
+            </div>            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group mt-7">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>            
 
         </div>
     </div>

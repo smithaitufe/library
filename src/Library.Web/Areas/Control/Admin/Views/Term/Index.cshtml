@@ -1,22 +1,24 @@
 @model TermListingViewModel
-<div class="row">
-    <div class="col-sm-12 col-md-5">
+<div class="card">
+    <h3 class="card-header">Settings</h3>
+    <div class="card-block">
         <form asp-action="Index" asp-controller="Term" method="GET">
             <div class="form-group">
                     <label asp-for="TermSetId" class="form-control-label"></label>
                     <select asp-for="TermSetId" class="form-control">
                         <option value="">Choose a Category</option>
-                        @foreach(var item in Model.TermSets){
+                        @foreach(var item in Model.TermSets)
+                        {
                             <option value="@item.Value" data-url="@Html.Raw(Url.Action("GetTerms", "Term", new { id = @item.Value}))">@item.Text</option>
                         }
                     </select>
             </div>
         </form>
     </div>
+    <div id="terms">
+    </div>
 </div>
 
-<div id="terms">
-</div>
 @Html.Partial("_Modal", new BootstrapModel { ID = "modal-term", AreaLabeledId = "modal-panel-label", Size = ModalSize.Medium })
 
 @section Scripts {
@@ -26,6 +28,7 @@
             $("body").on("change", "#TermSetId", function(e){                
                 fetchTerms($(this).find(":selected").attr("data-url"));
             });
+            /*
             $("body").on("submit", "#add-edit-term-form", function(e){
                 e.preventDefault();
                 $.ajax({
@@ -48,6 +51,7 @@
                     closeModalAndReload(response);
                 });
             });
+            */
             Modal.init("modal-term")
         })
         function fetchTerms(url){

@@ -1,21 +1,20 @@
-@model IEnumerable<CheckedBookViewModel>
+@model CheckoutListingViewModel
+
 @{
-    ViewData["Title"] = "Books";
+    ViewData["Title"] = "Checkouts";
 }
 
 
-<div class="card card-block">
-    <div class="row">
-        <div class="col-sm-12">
-            <h2 class="card-title float-left">Books</h2>
-            <div class="float-right">
-                <a asp-controller="Book" asp-action="Borrow" class="btn btn-primary">Borrow Book</a>
-                <a asp-controller="Book" asp-action="Return" class="btn btn-success">Return Book</a>
-            </div>
+<div class="card">    
+    <div class="card-block">
+        <h2 class="card-title float-left">Books</h2>
+        <div class="float-right">
+            <a asp-controller="Book" asp-action="Borrow" class="btn btn-primary">Borrow Book</a>
+            <a asp-controller="Book" asp-action="Return" class="btn btn-success">Return Book</a>
         </div>
-    </div>
-    <div class="card-text">
-                <table class="table table-bordered">
+    </div>    
+    <div class="card-block">
+        <table class="table table-bordered">
             <thead>
                 <tr>                    
                     <th>Book Name</th>
@@ -23,29 +22,25 @@
                     <th>ISBN</th>
                     <th>Book Format</th>
                     <th>Genre</th>
-                    <th>Price</th>
-                    <th>Languages</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-               @foreach(var item in Model) {
+               @foreach(var item in Model.Checkouts) {
                     <tr>                    
                         <td>@item.Title</td>
                         <td>@string.Join(", ", item.Authors.OrderBy(a => a.Id).Select(a =>   a.LastName + " " + a.FirstName[0] )) </td>
                         <td>@item.ISBN</td>
                         <td>@item.Format</td>
-                        <td>@item.Genre.Name</td>                    
-                        <td>@item.Price</td>                    
-                        <td></td>
+                        <td>@item.Genre.Name</td>                                            
                         <td>
-                            @if(item.Returned) {
-                                <div class="btn" style="background-color:green; color: #fff; padding:2px 20px;">successful</div>
-                                @*<span style="color: green"><i class="fa fa-arrow-right"></i></span>*@
-                            }else{
+                            @if(item.Active)
+                            {
                                 <div class="btn" style="background-color: red; color: #fff; display: block; padding:2px 20px;">pending</div>
-                                @*<span style="color: red"><i class="fa fa-arrow-left"></i></span>*@
-
+                            }
+                            else
+                            {
+                                <div class="btn" style="background-color:green; color: #fff; padding:2px 20px;">successful</div>                                
                             }
                         </td>
                     </tr>

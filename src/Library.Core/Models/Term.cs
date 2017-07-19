@@ -22,6 +22,7 @@ namespace Library.Core.Models
         public ICollection<Variant> GrantVariants { get; set; }
         public ICollection<Variant> YearVariants { get; set; }
         public ICollection<Variant> FormatVariants { get; set; }
+        public ICollection<Variant> LanguageVariants { get; set; }
 
         public ICollection<CheckOut> CheckOutRequestedDays { get; set; }
         public ICollection<CheckOut> CheckOutApprovedDays { get; set; }

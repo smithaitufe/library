@@ -5,16 +5,12 @@ namespace Library.Web.Models.LocationViewModels
 {
     public class LocationEditorViewModel
     {
-        public int? Id { get; set; }
-        
+        public int? Id { get; set; }        
         [Display(Name="Location Name")]
         [Required(ErrorMessage="{0} cannot be empty")]
         public string Name { get; set; }
         [Display(Name="Location Code")]
         [Required(ErrorMessage="{0} cannot be empty")]
-        public string Code { get; set; }
-
-        public EditorAttributes EditorAttributes { get; set; }
-        
+        public string Code { get; set; }        
     }
 }
