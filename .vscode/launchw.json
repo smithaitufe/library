@@ -6,11 +6,10 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/Library.NCIPServer/bin/Debug/netcoreapp1.1/Library.NCIPServer.dll",
+            "program": "${workspaceRoot}/src/Library.Web/bin/Debug/netcoreapp1.1/Library.Web.dll",
             "args": [],
-            "cwd": "${workspaceRoot}/src/Library.NCIPServer",
+            "cwd": "${workspaceRoot}/src/Library.Web",
             "stopAtEntry": false,
-            "requireExactSource": false,
             "launchBrowser": {
                 "enabled": true,
                 "args": "${auto-detect-url}",
@@ -29,7 +28,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceRoot}/src/Library.NCIPServer/Views"
+                "/Views": "${workspaceRoot}/src/Library.Web/Views"
             }
         },
         {

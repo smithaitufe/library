@@ -38,5 +38,7 @@ namespace Library.NCIPServer.Models
     {
         [XmlAttribute]
         public string Scheme { get; set; }
+        [XmlText]
+        public string Value { get; set; }
     }
 }

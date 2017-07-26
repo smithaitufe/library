@@ -2,6 +2,7 @@ using System.Xml.Serialization;
 
 namespace Library.NCIPServer.Models
 {
+    // [XmlRoot]
     public class ItemOptionalFields 
     {
         [XmlElement]
@@ -16,6 +17,7 @@ namespace Library.NCIPServer.Models
         public Location Location { get; set; }
         [XmlElement]
         public string ItemTransaction { get; set; }
+        public ItemDescription ItemDescription { get; set; }
 
     }
     public class ItemDescription

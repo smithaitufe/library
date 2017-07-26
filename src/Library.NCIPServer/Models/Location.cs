@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace Library.NCIPServer.Models
 {
-    [XmlRoot]
+    // [XmlRoot]
     public class Location 
     {
         [XmlElement]
@@ -17,7 +17,7 @@ namespace Library.NCIPServer.Models
         [XmlElement]
         public LocationNameInstance LocationNameInstance { get; set; }
         [XmlElement]
-        public IList<LocationNameInstance> LocationNameInstances { get; set; }
+        public List<LocationNameInstance> LocationNameInstances { get; set; } = new List<LocationNameInstance>();
     }
     public class LocationNameInstance
     {

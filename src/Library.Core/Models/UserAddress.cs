@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Library.Core.Models
 {
     public class UserAddress {
+        
         [ForeignKey("User")]
         public long  UserId { get; set; }
         [ForeignKey("Address")]        
-        public int AddressId { get; set; }        
+        public int AddressId { get; set; } 
+        public bool Mailing { get; set; } = false; 
+        public bool Primary { get; set; } = false;
         public User User { get; set; }
         public Address Address { get; set; }
     }

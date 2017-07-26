@@ -14,18 +14,16 @@ namespace Library.NCIPServer
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
-        }
-
-        public static IWebHost BuildWebHost(string[] args)
-        {
             var urls = new string[]{"http://localhost:5001", "http://localhost:6001"};
-
-            return WebHost.CreateDefaultBuilder(args)
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseUrls(urls)
-                .UseSetting("DesignTime", "true")
                 .Build();
+
+            host.Run();
         }
     }
 }

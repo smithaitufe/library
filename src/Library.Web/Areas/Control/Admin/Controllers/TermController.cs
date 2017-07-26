@@ -145,8 +145,8 @@ namespace Library.Web.Areas.Control.Admin.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            ViewBag.FlashMessage = "Term Edited Successfully";
-            return RedirectToAction(nameof(TermController.Create),new{id = id});
+            TempData["FlashMessage"] = "Term Edited Successfully";
+            return RedirectToAction(nameof(TermController.Index),new{id = id});
         }
 
         [HttpGet("{id:int}/Delete")]

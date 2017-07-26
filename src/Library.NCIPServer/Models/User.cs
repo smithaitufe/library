@@ -17,6 +17,8 @@ namespace Library.NCIPServer.Models
     {
         [XmlAttribute]
         public string Scheme { get; set; }
+        [XmlText]
+        public string Value { get; set; }
     }
     public class UserElementType 
     {
@@ -38,6 +40,8 @@ namespace Library.NCIPServer.Models
     {
         [XmlAttribute]
         public string Scheme { get; set; }
+        [XmlText]
+        public string Value { get; set; }
     }
     public class UnstructuredAddress
     {
@@ -91,9 +95,9 @@ namespace Library.NCIPServer.Models
         [XmlElement]
         public NameInformation NameInformation { get; set; }
         [XmlElement]
-        public DateTime DateOfBirth { get; set; }
+        public Nullable<DateTime> DateOfBirth { get; set; }
         [XmlElement]
-        public UserAddressInformation UserAddressInformation { get; set; }
+        public UserAddressInformation[] UserAddressInformation { get; set; }
         [XmlElement]
         public UserPrivilege UserPrivilege { get; set; }
         [XmlElement]

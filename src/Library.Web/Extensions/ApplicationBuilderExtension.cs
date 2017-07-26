@@ -15,7 +15,17 @@ namespace Library.Web.Extensions
     {
         public static IApplicationBuilder UseCustomizedIdentity(this IApplicationBuilder app)
         {
-            app.UseAuthentication();
+            app.UseIdentity();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions 
+            { 
+                AuthenticationScheme = "Cookies",
+                LoginPath = new PathString("/"),
+                AccessDeniedPath = new PathString("/Account/AccessDenied"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true 
+            }); 
+            
             return app;
         }
 

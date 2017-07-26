@@ -416,11 +416,11 @@ namespace Library.Web.Areas.Control.Admin.Controllers
         //     return RedirectToAction(nameof(BookController.BookLocations));
         // }
 
-        [HttpGet("{id:int}/Types/{typeId:int}/Prices")]
-        public async Task<IActionResult> BookPrices(int typeId)
-        {
-            return View();
-        }
+        // [HttpGet("{id:int}/Types/{typeId:int}/Prices")]
+        // public async Task<IActionResult> BookPrices(int typeId)
+        // {
+        //     return View();
+        // }
 
         [HttpGet("{id:int}/Authors")]
         public IActionResult BookAuthors(int id)

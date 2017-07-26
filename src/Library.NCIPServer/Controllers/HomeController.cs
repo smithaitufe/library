@@ -1,3 +1,10 @@
+using Library.Core.Models;
+using Library.NCIPServer.Models;
+using Library.Repo;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
 using System.IO;
 using System.Linq;
@@ -5,12 +12,12 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.XPath;
-using Library.Core.Models;
-using Library.NCIPServer.Models;
-using Library.Repo;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+using Library.NCIPServer.Constants;
+using System.Collections.Generic;
+using Library.NCIPServer.Helpers;
+using Newtonsoft.Json;
+
 
 namespace Library.NCIPServer.Controllers
 {
@@ -28,172 +35,207 @@ namespace Library.NCIPServer.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
+        [HttpPost]
         public async Task<IActionResult> Index()
         {
+
+            var xml = await ReadXmlFromRequestAsync(Request.Body);
+            var filter = @"<!DOCTYPE.+?>";
+            xml = Regex.Replace(xml, filter, "");
+            var document = new XmlDocument();
+            document.LoadXml(xml);
+
+            var request = document.DocumentElement.ChildNodes[0];
+            var requestType = request.Name.ToUpper();
+            var requestBody = request.OuterXml;
+            var nav = document.CreateNavigator();
+            var path = string.Empty;
+
+            switch (requestType)
+            {
+                case RequestConstants.LOOKUPITEM:
+                    path = "/NCIPMessage/LookupItem/ItemId/ItemIdentifierValue/text()";
+                    var itemIdentifierValue = nav.SelectSingleNode(path).Value;
+
+                    var item = await _context.VariantCopies
+                    .Include(variantCopy => variantCopy.Variant).ThenInclude(variant => variant.Book).ThenInclude(book => book.BookAuthors).ThenInclude(bookAuthors => bookAuthors.Author)
+                    .Include(variantCopy => variantCopy.Variant).ThenInclude(variant => variant.Book).ThenInclude(book => book.Publisher)
+                    .Include(variantCopy => variantCopy.Variant).ThenInclude(variant => variant.Format)
+                    .Include(variantCopy => variantCopy.Variant).ThenInclude(variant => variant.VariantCopies)
+                    .Include(variantCopy => variantCopy.Availability)
+                    .Include(variantCopy => variantCopy.Shelf)
+                    .Include(variantCopy => variantCopy.Location)
+                    .Where(variantCopy => variantCopy.SerialNo.ToLower().Equals(itemIdentifierValue.ToLower()))
+                    .SingleOrDefaultAsync();
+
+                    var response = new LookupItemResponse
+                    {
+                        ItemOptionalFields = new ItemOptionalFields
+                        {
+                            BibliographicDescription = new BibliographicDescription
+                            {
+                                Author = String.Join(", ", item.Variant.Book.BookAuthors.Select(ba => $"{ba.Author.LastName}, {ba.Author.FirstName}")),
+                                Edition = item.Variant.Edition,
+                                Publisher = item.Variant.Book.Publisher.Name,
+                                Title = item.Variant.Book.Title,
+                                BibliographicLevel = new BibliographicLevel
+                                {
+                                    Scheme = "",
+                                    Value = item.Variant.Book.Series ? "Serial" : "Monograph"
+                                },
+                                MediumType = item.Variant.Format.Name,
+                            },
+                            CirculationStatus = item.Availability.Name,
+                            ItemDescription = new ItemDescription
+                            {
+                                CallNumber = item.Variant.CallNumber ?? "N/A",
+                                CopyNumber = (item.Variant.VariantCopies.OrderBy(vc => vc.InsertedAt).ToList().FindIndex(vc => vc.Id == item.Id) + 1).ToString()
+                            },
+                            HoldQueueLength = 0,
+                        }
+
+                    };
+                    xml = XmlObjectConverter.GetXMLFromObject(response);
+                    return Ok(xml);
+
+                case RequestConstants.LOOKUPUSER:
+                
+                    var member = (LookupUser)XmlObjectConverter.GetObjectFromXML(requestBody, typeof(LookupUser));
+                    var userId = member.UserId.UserIdentifierValue.ToLower();
+
+                    var user = await _context.Users
+                    .Include(u=>u.Roles)
+                    .Include(u => u.UserAddresses)
+                    .ThenInclude(ua => ua.Address)
+                    .Where(u => u.LibraryNo.ToLower().Equals(userId) || u.UserName.ToLower().Equals(userId))
+                    .SingleOrDefaultAsync();
+
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    var userAddress = user.UserAddresses.Where(ua => ua.Primary).FirstOrDefault();
+                    PhysicalAddress physicalAddress;
+                    if (userAddress != null)
+                    {
+                        physicalAddress = new PhysicalAddress
+                        {
+                            UnstructuredAddress = new UnstructuredAddress
+                            {
+                                UnstructuredAddressType = new UnstructuredAddressType { Value = null },
+                                UnstructuredAddressData = $"{userAddress.Address.Line}, {userAddress.Address.City}"
+                            }
+                        };
+                    }
+                    else
+                    {
+                        physicalAddress = new PhysicalAddress();
+                    }
+
+                    var lookupUserResponse = new LookupUserResponse
+                    {
+                        
+                        ResponseHeader = new ResponseHeader { },
+                        UserId = member.UserId,
+                        UserOptionalFields = new UserOptionalFields
+                        {
+                            NameInformation = new NameInformation
+                            {
+                                PersonalNameInformation = new PersonalNameInformation
+                                {
+                                    UnstructuredPersonalUserName = user.FullName
+                                }
+                            },
+                            DateOfBirth = user.BirthDate,
+                            UserAddressInformation = new UserAddressInformation[]{
+                                new UserAddressInformation {
+                                    UserAddressRoleType = (userAddress != null ? (userAddress.Primary && userAddress.Mailing ? "Mailing Address" : null) : null),
+                                    PhysicalAddress = physicalAddress
+                                },
+                                new UserAddressInformation {
+                                    UserAddressRoleType = "Phone",
+                                    ElectronicAddress = new ElectronicAddress {
+                                        ElectronicAddressType = "Phone",
+                                        ElectronicAddressData = user.PhoneNumber
+                                    }
+                                },
+                                new UserAddressInformation {
+                                    UserAddressRoleType = "Email",
+                                    ElectronicAddress = new ElectronicAddress {
+                                        ElectronicAddressType = "Email",
+                                        ElectronicAddressData = user.Email
+                                    }
+                                }
+                            },
+                            UserPrivilege = new UserPrivilege {
+                                AgencyUserPrivilegeType = roles.Aggregate((p,c)=>string.Join(",", c)),
+                                ValidFromDate = user.InsertedAt,
+                                ValidToDate = DateTime.Now
+                            }
+                        }
+                    };
+                    xml = XmlObjectConverter.GetXMLFromObject(lookupUserResponse);
+                    return Ok(xml);
+                case RequestConstants.LOOKUPAGENCY:
+                    var agency = (LookupAgency)XmlObjectConverter.GetObjectFromXML(requestBody, typeof(LookupAgency));
+                    var agencyResponse = new LookupAgencyResponse {
+                        ResponseHeader = new ResponseHeader(),
+                        AgencyId = new AgencyId{
+                            Scheme = "",
+                            Value = ""
+                        },
+                        OrganizationNameInformation = new OrganizationNameInformation {
+                            OrganizationName = "Delta State eLibrary",
+                            OrganizationNameType = "BranchName"
+                        }
+                    };
+                    xml = XmlObjectConverter.GetXMLFromObject(agencyResponse);
+                    return Ok(xml);
+                case RequestConstants.CHECKINITEM:
+                    var checkin = (CheckInItem)XmlObjectConverter.GetObjectFromXML(requestBody, typeof(CheckInItem));
+
+                    var result = await _context.CheckOuts
+                    .Include(x=>x.CheckOutStates).ThenInclude(x=>x.Status)
+                    .Include(x=>x.Patron)
+                    .OrderByDescending(x=>x.Id)
+                    .Where(x=>x.VariantCopy.SerialNo.ToLower().Equals(checkin.ItemId.ItemIdentifierValue))                    
+                    .SingleOrDefaultAsync();
+
+                    DateTimeOffset returnDate = DateTimeOffset.Now;
+
+
+                    var checkinResponse = new CheckInItemResponse{};
+
+                    return Ok(xml);
+                case RequestConstants.CHECKOUTITEM:
+                    break;
+                default:
+                    return Content("No matching request found. Try again");
+            }
+
+            return Content("");
+        }
+        private async Task<string> ReadXmlFromRequestAsync(Stream request)
+        {
             var m = new MemoryStream();
-            Request.Body.CopyTo(m);
+            await request.CopyToAsync(m);
             var contentLength = m.Length;
-            var b = System.Text.Encoding.UTF8.GetString(m.ToArray());
+            return System.Text.Encoding.UTF8.GetString(m.ToArray());
+        }
+        private object LoadXml(string xml)
+        {
+            string filter = @"<!DOCTYPE.+?>";
+            xml = Regex.Replace(xml, filter, "");
 
             var document = new XmlDocument();
-            document.LoadXml(b);
-            var item = document.DocumentElement.ChildNodes[0];
-            var xml = item.OuterXml;
-
-
-            LookupItem lookupItem;
-            LookupAgency lookupAgency;
-            LookupUser lookupUser;
-            CheckInItem checkinItem;
-            CheckOutItem checkoutItem;
-
-
-
-            switch (item.Name.ToLower())
+            document.LoadXml(xml);
+            var request = document.DocumentElement.ChildNodes[0];
+            var requestType = request.Name.ToUpper();
+            object result = new
             {
-                case "lookupitem":
-                    lookupItem = (LookupItem)GetObjectFromXML(xml, typeof(LookupItem));
-                    //pick the agencyId and the itemId ItemIdentifierValue. The itemId is the most relevant information
-
-                    xml = GetXMLFromObject(lookupItem);
-
-                    var variant = await _context.Variants
-                    .Include(v => v.Book)
-                    .Where(e => e.Id == int.Parse(lookupItem.ItemId.ItemIdentifierValue))
-                    .SingleOrDefaultAsync();
-                    return Ok(document);
-
-                case "lookupuser":
-                    lookupUser = (LookupUser)GetObjectFromXML(xml, typeof(LookupUser));
-
-                    return Ok(lookupUser);
-                case "lookupagency":
-                    lookupAgency = (LookupAgency)GetObjectFromXML(xml, typeof(LookupAgency));
-                    return Ok(lookupAgency);
-                case "checkinitem":
-                    checkinItem = (CheckInItem)GetObjectFromXML(xml, typeof(CheckInItem));
-                    return Ok(checkinItem);
-                case "checkoutitem":
-                    checkoutItem = (CheckOutItem)GetObjectFromXML(xml, typeof(CheckOutItem));
-                    return Ok(checkoutItem);
-                default:
-                    break;
-            }
-            return Content(xml);
-        }
-
-        public static Object GetObjectFromXML(string xml, Type objectType)
-        {
-            StringReader strReader = null;
-            XmlSerializer serializer = null;
-            XmlTextReader xmlReader = null;
-            Object obj = null;
-            try
-            {
-                strReader = new StringReader(xml);
-                serializer = new XmlSerializer(objectType);
-                xmlReader = new XmlTextReader(strReader);
-                obj = serializer.Deserialize(xmlReader);
-            }
-            catch (Exception ex)
-            {
-                //Handle Exception Code
-
-            }
-            finally
-            {
-                if (xmlReader != null)
-                {
-                    xmlReader.Close();
-                }
-                if (strReader != null)
-                {
-                    strReader.Close();
-                }
-            }
-            return obj;
-        }
-        public static string GetXMLFromObject(object o)
-        {
-            StringWriter sw = new StringWriter();
-            XmlTextWriter tw = null;
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(o.GetType());
-                tw = new XmlTextWriter(sw);
-                serializer.Serialize(tw, o);
-            }
-            catch (Exception ex)
-            {
-                //Handle Exception Code
-            }
-            finally
-            {
-                sw.Close();
-                if (tw != null)
-                {
-                    tw.Close();
-                }
-            }
-            return FormatXml(sw.ToString());
-        }
-        public static string GetXMLFromObject(object o, string rootName)
-        {
-            StringWriter sw = new StringWriter();
-            XmlTextWriter tw = null;
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(o.GetType(), new XmlRootAttribute { ElementName = rootName });
-                tw = new XmlTextWriter(sw);
-                serializer.Serialize(tw, o);
-            }
-            catch (Exception ex)
-            {
-                //Handle Exception Code
-            }
-            finally
-            {
-                sw.Close();
-                if (tw != null)
-                {
-                    tw.Close();
-                }
-            }
-            return FormatXml(sw.ToString());
-        }
-        private static string FormatXml(string xml)
-        {
-            string result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-            result += "<NCIPMessage version=\"2.0.0\">";
-            result += xml;
-            result += "</NCIPMessage>";
+                RequestType = requestType,
+                RequestBody = request.InnerXml,
+                Nav = document.CreateNavigator()
+            };
             return result;
-        }
-
-        private void XpathFinder()
-        {
-            var path = @"
-                <Cell>          
-                    <CellContent>
-                        <Para>                               
-                            <ParaLine>                      
-                                <String>ABCabcABC abcABC abc ABCABCABC.</string> 
-                            </ParaLine>                      
-                        </Para>     
-                    </CellContent>
-                </Cell>
-            ";
-
-            XPathNavigator nav;
-            XPathDocument docNav;
-            string xPath;
-
-            docNav = new XPathDocument("c:\\books.xml");
-            docNav = new XPathDocument(path);
-            nav = docNav.CreateNavigator();
-            xPath = "/Cell/CellContent/Para/ParaLine/String/text()";
-
-            string value = nav.SelectSingleNode(xPath).Value;
         }
     }
 }

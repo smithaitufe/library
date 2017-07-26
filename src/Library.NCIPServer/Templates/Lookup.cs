@@ -1,13 +1,8 @@
 namespace Library.NCIPServer.Templates
 {
-    public static class LookupTemplate
+    public class LookupItemResponse
     {
-        public static string UserRequest = @"
-
-        ";
-
-        public static string UserResponse = @"
-        
-        ";
+        public string FromSystemIdScheme { get; set; }
+        public string FromAgencyIdScheme { get; set; }
     }
 }

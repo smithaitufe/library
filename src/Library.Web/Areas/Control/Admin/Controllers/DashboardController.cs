@@ -42,8 +42,8 @@ namespace Library.Web.Areas.Control.Admin.Controllers
 
             
 
-            model.TotalPendingUserRegistrations = _context.Users.Where(u => u.Approved == false && u.Roles.Where(r=>r.Role.Name.ToLower().Equals("member")).Any()).Count();
-            model.TotalUsers = _context.Users.Where(u => u.Approved == true && u.Roles.Where(r=>r.Role.Name.ToLower().Equals("member")).Any()).Count();
+            //model.TotalPendingUserRegistrations = _context.Users.Where(u => u.Approved == false && u.Roles.Where(r=>r.Role.Name.ToLower().Equals("member")).Any()).Count();
+            //model.TotalUsers = _context.Users.Where(u => u.Approved == true && u.Roles.Where(r=>r.Role.Name.ToLower().Equals("member")).Any()).Count();
             return View(model);
         }
 

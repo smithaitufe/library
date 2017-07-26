@@ -8,9 +8,10 @@ using Library.Repo;
 namespace Library.Web.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170725150616_AddMailingandPrimaryAddressOptionsToUserAddress")]
+    partial class AddMailingandPrimaryAddressOptionsToUserAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)

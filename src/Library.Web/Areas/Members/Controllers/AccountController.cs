@@ -33,7 +33,7 @@ namespace Library.Web.Areas.Members.Controllers
             var user = _userManager.Users
             .Include(u => u.Posts)
             .Include(u => u.Comments)
-            .Include(u=>u.AddressesLink)
+            .Include(u=>u.UserAddresses)
             .ThenInclude(al=>al.Address)
             .ThenInclude(a => a.State)
             .Where(u => u.Id == userId).SingleOrDefault();
@@ -41,7 +41,7 @@ namespace Library.Web.Areas.Members.Controllers
             profile.Name = $"{user.LastName} {user.FirstName}";
             profile.PhoneNumber = user.PhoneNumber;
             profile.Roles = await _userManager.GetRolesAsync(user);
-            profile.Address = user.AddressesLink.Select(al => al.Address).FirstOrDefault();
+            profile.Address = user.UserAddresses.Select(al => al.Address).FirstOrDefault();
             profile.NumberOfPosts = user.Posts.Count();
             profile.NumberOfComments = user.Comments.Count();
             profile.LibraryNo = user.LibraryNo;
@@ -55,7 +55,7 @@ namespace Library.Web.Areas.Members.Controllers
             var user = _userManager.Users
             .Include(u => u.Posts)
             .Include(u => u.Comments)
-            .Include(u=>u.AddressesLink)
+            .Include(u=>u.UserAddresses)
             .ThenInclude(al=>al.Address)
             .ThenInclude(a => a.State)
             .Where(u => u.Id == userId).SingleOrDefault();
@@ -64,7 +64,7 @@ namespace Library.Web.Areas.Members.Controllers
             profile.LastName = user.LastName;
             profile.PhoneNumber = user.PhoneNumber;
 
-            var address = user.AddressesLink.Select(al => al.Address).SingleOrDefault();
+            var address = user.UserAddresses.Select(al => al.Address).SingleOrDefault();
             if(address != null){
                 profile.Address.Line = address.Line;
                 profile.Address.City = address.City;

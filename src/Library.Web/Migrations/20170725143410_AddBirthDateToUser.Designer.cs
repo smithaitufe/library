@@ -8,9 +8,10 @@ using Library.Repo;
 namespace Library.Web.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170725143410_AddBirthDateToUser")]
+    partial class AddBirthDateToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
@@ -817,10 +818,6 @@ namespace Library.Web.Migrations
 
                     b.Property<int>("AddressId");
 
-                    b.Property<bool>("Mailing");
-
-                    b.Property<bool>("Primary");
-
                     b.HasKey("UserId", "AddressId");
 
                     b.HasIndex("AddressId");
@@ -1330,7 +1327,7 @@ namespace Library.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Library.Core.Models.User", "User")
-                        .WithMany("UserAddresses")
+                        .WithMany("AddressesLink")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

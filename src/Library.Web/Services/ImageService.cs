@@ -18,6 +18,7 @@ namespace Library.Web.Services
         LibraryDbContext _context;
         IHostingEnvironment _environment;
         ImageUploadSettings _imageUploadSettings;
+
         public ImageService(LibraryDbContext context){
             _context = context;
         }
@@ -41,7 +42,8 @@ namespace Library.Web.Services
             var folder = _imageUploadSettings.BookLocation;            
             var path = Path.Combine(folder, file.FileName); 
             var uploads = Path.Combine(_environment.WebRootPath, folder.Substring(1));
-            if(!Directory.Exists(uploads)){
+            if(!Directory.Exists(uploads))
+            {
                 Directory.CreateDirectory(uploads);
             }
 
@@ -50,14 +52,12 @@ namespace Library.Web.Services
                 var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                 using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
                 {
-                    await file.CopyToAsync(fileStream);    
-                    fileStream.Close();
-                    // await fileStream.WriteAsync(file.OpenReadStream(), 0, (int)file.Length);
+                    await file.CopyToAsync(fileStream);  
+                    MemoryStream ms = new MemoryStream();
+                    fileStream.CopyTo(ms);
 
-                                       
-                    image = new Image { Path = path, Extension = Path.GetExtension(file.FileName), ContentType = file.ContentType };
-                    // _context.Images.Add(image);
-                    // await _context.SaveChangesAsync();
+                    string base64String = System.Convert.ToBase64String(ms.ToArray());
+                    image = new Image { Path = path, Extension = Path.GetExtension(file.FileName), ContentType = file.ContentType, Base64 = base64String };
                     return image;
                 }
             }

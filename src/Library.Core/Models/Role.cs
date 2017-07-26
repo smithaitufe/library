@@ -1,12 +1,10 @@
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
-using Library.Core.Infrastructure;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Library.Core.Models
 {
     // public class Role : IdentityRole<long, UserRole, IdentityRoleClaim<long>>
     public class Role : IdentityRole<long>
     {
-        public IList<UserRole> Users { get; set; } = new List<UserRole>();
+        // public IList<UserRole> Users { get; set; } = new List<UserRole>();
     }
 }

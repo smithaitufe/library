@@ -39,7 +39,8 @@ namespace Library.Repo
                     new TermSet { Name = "post-category"},
                     new TermSet { Name = "announcement-category"},
                     new TermSet { Name = "checkout-status"},
-                    new TermSet { Name = "book-reservation-reason"}
+                    new TermSet { Name = "book-reservation-reason"},
+                    new TermSet { Name = "address-type"},
                 };
                 termSets.ToList().ForEach(ts => _context.TermSets.Add(ts));
                 _context.SaveChanges();
@@ -109,6 +110,13 @@ namespace Library.Repo
             terms = new Term[] {
                     new Term { Name ="On Shelf", TermSetId = availabilty.Id },
                     new Term { Name ="Off Shelf", TermSetId = availabilty.Id }
+                };
+            await SaveTermsAsync(terms);
+
+            var addressType = await _context.TermSets.Where(ts => ts.Name.Equals("address-type")).FirstOrDefaultAsync();
+            terms = new Term[]{
+                    new Term{ Name="Mailing Address", TermSetId = addressType.Id},
+                    new Term{ Name="Residential", TermSetId = addressType.Id}
                 };
             await SaveTermsAsync(terms);
 

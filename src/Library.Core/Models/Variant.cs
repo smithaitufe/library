@@ -39,7 +39,8 @@ namespace Library.Core.Models
         [ForeignKey("CollectionMode")]
         public int CollectionModeId { get; set; }
         [ForeignKey("Fine")]
-        public int FineId { get; set; }        
+        public int FineId { get; set; }
+        public string CallNumber { get; set; }        
         // Navigation Properties
         public Term Language { get; set; }
         public Term DaysAllowed { get; set; }               

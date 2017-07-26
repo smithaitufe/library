@@ -28,9 +28,9 @@ namespace Library.NCIPServer.Models
         [XmlElement]
         public ItemId ItemId { get; set; }
         [XmlElement]
-        public DateTime DateRecalled { get; set; }
+        public Nullable<DateTime> DateRecalled { get; set; }
         [XmlElement]
-        public DateTime HoldPickupDate { get; set; }
+        public Nullable<DateTime> HoldPickupDate { get; set; }
         [XmlElement]
         public ItemOptionalFields ItemOptionalFields { get; set; }
 
@@ -80,14 +80,5 @@ namespace Library.NCIPServer.Models
         public UserOptionalFields UserOptionalFields { get; set; }
         [XmlElement]
         public UserFiscalAccount UserFiscalAccount { get; set; }
-
-        public LookupUserResponse(){}
-        public LookupUserResponse(User user, Address address)
-        {
-            UserId = new UserId {
-                
-            };
-        }
-
     }
 }

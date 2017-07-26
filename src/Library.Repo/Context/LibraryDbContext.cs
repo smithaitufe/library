@@ -1,20 +1,19 @@
-using System;
-using System.Reflection;
+using Library.Core.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Library.Core.Models;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using System.Reflection;
 
 namespace Library.Repo
 {
-    // public class LibraryDbContext: IdentityDbContext<User,Role,long, IdentityUserClaim<long>, IdentityUserRole<long>, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>
     public class LibraryDbContext: IdentityDbContext<User, Role,long>
     {
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options): base(options)
-        {            
-        }
+        {}
 
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<TermSet> TermSets { get; set; }
@@ -68,7 +67,7 @@ namespace Library.Repo
             builder.Entity<IdentityUserRole<long>>(i =>
             {
                 i.ToTable("UserRoles");
-                i.HasKey(x => new { x.RoleId, x.UserId });
+                // i.HasKey(x => new { x.RoleId, x.UserId });
             });
             builder.Entity<IdentityUserLogin<long>>(i =>
             {

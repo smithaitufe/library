@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 using Library.Web.Code;
 using Library.Web.Extensions;
@@ -25,12 +26,30 @@ namespace Library.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        // public Startup(IConfiguration configuration)
+        // {
+        //     Configuration = configuration;
+        // }
+
+        // public IConfiguration Configuration { get; }
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets<Startup>();
+            }
+
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -39,15 +58,16 @@ namespace Library.Web
             services.AddCustomizedIdentity();
             services.AddCustomizedIdentityAuthentication();
             services.AddCustomizedIdentityAuthorization();
-                       
-            var mapperConfig = new AutoMapper.MapperConfiguration(cfg => {
+
+            var mapperConfig = new AutoMapper.MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<LocationEditorViewModel, Location>();
                 cfg.CreateMap<Location, LocationEditorViewModel>();
                 cfg.CreateMap<StateEditorViewModel, State>();
-                cfg.CreateMap<State, StateEditorViewModel>();                   
-                cfg.CreateMap<VariantCopy, BookLocationEditorViewModel>();             
+                cfg.CreateMap<State, StateEditorViewModel>();
+                cfg.CreateMap<VariantCopy, BookLocationEditorViewModel>();
                 cfg.CreateMap<BookLocationEditorViewModel, VariantCopy>();
-                cfg.CreateMap<VariantCopy, BookLocationEditorViewModel>();             
+                cfg.CreateMap<VariantCopy, BookLocationEditorViewModel>();
                 cfg.CreateMap<BookLocationEditorViewModel, VariantCopy>();
                 cfg.CreateMap<Variant, BookTypeEditorViewModel>();
                 cfg.CreateMap<BookTypeEditorViewModel, Variant>();
@@ -58,24 +78,26 @@ namespace Library.Web
                 cfg.CreateMap<Shelf, ShelfEditorViewModel>();
             });
             var mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper); 
-            
-            services.AddMvc(config => {
+            services.AddSingleton(mapper);
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.AddMvc(config =>
+            {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
-            });            
-           
-            services.Configure<RazorViewEngineOptions>(options => {
+            });
+
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
                 options.AreaViewLocationFormats.Clear();
                 options.AreaViewLocationFormats.Add("/Areas/Control/{2}/Views/{1}/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/Areas/Control/{2}/Views/Shared/{0}.cshtml");                
+                options.AreaViewLocationFormats.Add("/Areas/Control/{2}/Views/Shared/{0}.cshtml");
                 options.AreaViewLocationFormats.Add("/Areas/Control/Views/Shared/{0}.cshtml");
                 options.AreaViewLocationFormats.Add("/Areas/Control/Views/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/Areas/Members/Views/{1}/{0}.cshtml"); 
-                options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");               
+                options.AreaViewLocationFormats.Add("/Areas/Members/Views/{1}/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
 
             });
-            services.Configure<ImageUploadSettings>(Configuration.GetSection("ImageUploadSettings"));            
+            services.Configure<ImageUploadSettings>(Configuration.GetSection("ImageUploadSettings"));
             services.Configure<SitePageSettingsViewModel>(options => Configuration.GetSection("Library").Bind(options));
         }
 
@@ -90,13 +112,13 @@ namespace Library.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseStatusCodePagesWithReExecute("/Error/{0}");                
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
-            
+
             app.UseStaticFiles();
-            app.UseAuthentication();
+            app.UseCustomizedIdentity();
             app.UseCustomizedMvc();
-            
+
         }
     }
 }

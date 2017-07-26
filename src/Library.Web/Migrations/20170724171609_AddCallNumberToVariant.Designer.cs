@@ -8,9 +8,10 @@ using Library.Repo;
 namespace Library.Web.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170724171609_AddCallNumberToVariant")]
+    partial class AddCallNumberToVariant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
@@ -744,8 +745,6 @@ namespace Library.Web.Migrations
 
                     b.Property<bool>("Approved");
 
-                    b.Property<DateTime?>("BirthDate");
-
                     b.Property<bool>("ChangePasswordFirstTimeLogin");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -816,10 +815,6 @@ namespace Library.Web.Migrations
                     b.Property<long>("UserId");
 
                     b.Property<int>("AddressId");
-
-                    b.Property<bool>("Mailing");
-
-                    b.Property<bool>("Primary");
 
                     b.HasKey("UserId", "AddressId");
 
@@ -1330,7 +1325,7 @@ namespace Library.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Library.Core.Models.User", "User")
-                        .WithMany("UserAddresses")
+                        .WithMany("AddressesLink")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

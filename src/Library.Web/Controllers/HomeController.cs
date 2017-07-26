@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Authentication;
 
 namespace Library.Web.Controllers
 {
@@ -34,7 +35,7 @@ namespace Library.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string returnUrl = null)
         {
-            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.Authentication.SignOutAsync("Cookies");
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -70,7 +71,7 @@ namespace Library.Web.Controllers
                             claims = GetTokenClaims(user).Union(claims).ToList();
                             var id = new ClaimsIdentity(claims.ToList(), "Password");
                             var principal = new ClaimsPrincipal(id);
-                            await HttpContext.SignInAsync("Cookies", principal, new AuthenticationProperties
+                            await HttpContext.Authentication.SignInAsync("Cookies", principal, new AuthenticationProperties
                             {
                                 IsPersistent = model.RememberMe,
                                 ExpiresUtc = System.DateTime.UtcNow.AddMinutes(20),
@@ -144,8 +145,7 @@ namespace Library.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            //await _signInManager.SignOutAsync();
-            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.Authentication.SignOutAsync("Cookies");
             _logger.LogInformation(4, "User logged out.");
             return RedirectToAction(nameof(HomeController.Index));
         }
